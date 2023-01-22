@@ -1,3 +1,10 @@
+.content
+    @apply bg-gray flex-auto p-4
+    &__title
+        @apply mb-4
+        &::first-letter
+            text-transform: uppercase
+
 .table
     margin: -10px 0
     border-spacing: 0 10px
@@ -14,7 +21,7 @@
 
 .bodyTable
     &__col
-        @apply bg-white p-4 text-center
+        @apply bg-white p-4
         &:first-child
             @apply rounded-tl rounded-bl
         &:last-child

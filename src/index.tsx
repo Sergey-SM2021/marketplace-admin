@@ -2,10 +2,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import ReactDOM from "react-dom/client"
 import "./index.css"
 import { StrictMode } from "react"
-import { App } from "./pages/App"
+import { App } from "./App"
 import reportWebVitals from "./reportWebVitals"
-import { ErrorPage } from "./components/ErrorPage"
+import { ErrorPage } from "./pages/ErrorPage"
 import { Categories } from "pages/Categories"
+import { Items } from "pages/Items"
 
 const router = createBrowserRouter([
   {
@@ -18,8 +19,8 @@ const router = createBrowserRouter([
         element: <Categories />,
       },
       {
-        path: "/categories",
-        element: <div>items</div>,
+        path: "/categories/:categoryId",
+        element: <Items />,
       },
     ],
   },

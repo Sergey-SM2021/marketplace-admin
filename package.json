@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.10",
     "axios": "^1.2.3",
     "classnames": "^2.3.2",
+    "openapi-typescript-codegen": "^0.23.0",
     "prettier": "^2.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate": "openapi --input http://shopshop.somee.com/swagger/v1/swagger.json --output ./src/entity"
   },
   "eslintConfig": {
     "extends": [

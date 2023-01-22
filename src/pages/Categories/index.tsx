@@ -1,81 +1,71 @@
 import style from "./index.module.sass"
 import cn from "classnames"
-import { Link } from "react-router-dom"
-
-const headerTableCol = [
-  "id",
-  "name",
-  "categoryId",
-  "category",
-  "features",
-  "info",
-  "price",
-  "rating",
-]
-
-const item0 = [
-  "01",
-  "Бластер 'НЁРФ'",
-  "89",
-  "Игрушки",
-  `бластер работает на батарейках и обеспечивает автоматический огонь дополнительными патронами, чтобы в пылу битвы не остаться безоружным. `,
-  "info",
-  "price",
-  "rating",
-]
-
-const item1 = [
-  "02",
-  "Бластер 'НЁРФ'",
-  "89",
-  "Игрушки",
-  `Пушкой наперевес? группы противников в одиночку. 
-  Нерф патронами, чтобы в пылу битвы не остаться безоружным. `,
-  "info",
-  "price",
-  "rating",
-]
-
-const item2 = [
-  "03",
-  "Бластер 'НЁРФ'",
-  "89",
-  "Игрушки",
-  `Мечтал один боец. Однако не забывайте запастись дополнительными патронами, чтобы в пылу битвы не остаться безоружным. `,
-  "info",
-  "price",
-  "rating",
-]
-
-const bodyTableRow = [item0, item1, item2]
+import { useState } from "react"
+import { Category } from "entity/models/Category"
+import { useNavigate } from "react-router-dom"
 
 export const Categories = () => {
+  const [categories, setCategories] = useState<Array<Category>>([
+    {
+      id: 1,
+      name: "Смартфоны",
+      parentCategoryId: 90,
+      parentCategory: {
+        name: "Электроника",
+      },
+    },
+  ])
+
+  const rows = categories.map((el) => {
+    const { name, id, parentCategory } = el
+
+    return {
+      id,
+      name,
+      parentCategory: parentCategory?.name,
+      count: 897,
+      remove: <button >remove</button>,
+      edit: <button>edit</button>,
+    }
+  })
+
+  const headerTableCol = ["id", "name", "parentLink", "count", "action"]
+
+  const navigate = useNavigate()
+
+  const handlerRowClick = (categoryId: number) => {
+    navigate(`/categories/${categoryId}`)
+  }
+
   return (
     <div className="p-4">
       <h1 className={style.content__title}>Categories</h1>
       <table className={style.table}>
         <thead className={cn(style.table__header, style.headerTable)}>
           <tr className={style.headerTable__row}>
-            {headerTableCol.map((col) => (
-              <th className={style.headerTable__col}>{col}</th>
+            {headerTableCol.map((col, index) => (
+              <th
+                className={style.headerTable__col}
+                colSpan={index === headerTableCol.length - 1 ? 2 : 1}
+              >
+                {col}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody className={cn(style.table__body, style.bodyTable)}>
-          {bodyTableRow.map((row) => (
-            <tr className={style.bodyTable__row}>
-              {row.map((col, index) => {
-                if (index === 1) {
-                  return (
-                    <td className={style.bodyTable__col}>
-                      <Link to={`categories/${row[0]}`}>{col}</Link>
-                    </td>
-                  )
-                }
-                return <td className={style.bodyTable__col}>{col}</td>
-              })}
-            </tr>
-          ))}
+          {rows.map((category) => {
+            return (
+              <tr
+                onClick={() => handlerRowClick(category.id as number)}
+                className={style.bodyTable__row}
+              >
+                {Object.values(category).map((value) => {
+                  return <td className={style.bodyTable__col}>{value}</td>
+                })}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>
