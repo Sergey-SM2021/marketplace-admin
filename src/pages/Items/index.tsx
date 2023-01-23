@@ -1,83 +1,51 @@
 import style from "./index.module.sass"
-import cn from "classnames"
-
-const headerTableCol = [
-  "id",
-  "name",
-  "categoryId",
-  "category",
-  "features",
-  "info",
-  "price",
-  "rating",
-]
-
-const item0 = [
-  "01",
-  "Бластер 'НЁРФ'",
-  "89",
-  "Игрушки",
-  `бластер работает на батарейках и обеспечивает автоматический огонь дополнительными патронами, чтобы в пылу битвы не остаться безоружным. `,
-  "info",
-  "price",
-  "rating",
-]
-
-const item1 = [
-  "02",
-  "Бластер 'НЁРФ'",
-  "89",
-  "Игрушки",
-  `Пушкой наперевес? группы противников в одиночку. 
-  Нерф патронами, чтобы в пылу битвы не остаться безоружным. `,
-  "info",
-  "price",
-  "rating",
-]
-
-const item2 = [
-  "03",
-  "Бластер 'НЁРФ'",
-  "89",
-  "Игрушки",
-  `Мечтал один боец. Однако не забывайте запастись дополнительными патронами, чтобы в пылу битвы не остаться безоружным. `,
-  "info",
-  "price",
-  "rating",
-]
-
-const bodyTableRow = [item0, item1, item2]
+import { Table } from "ui/Table"
+import { useState } from "react"
+import { Product } from "entity/models/Product"
+import { Link } from "react-router-dom"
+import { Button } from "ui/Button/Button"
+const item: Product = {
+  category: {},
+  categoryId: 98,
+  features: [],
+  id: 686,
+  info: "info is hjsbcjhdsbcjd",
+  name: "name",
+  price: 67567,
+  rating: 5,
+}
 
 export const Items = () => {
+  const headerRow = [
+    "id",
+    "name",
+    "rating",
+    "price",
+    "info",
+    "category",
+    "action",
+  ]
+
+  const [RowsToMap, setBodyRows] = useState<Array<Product>>(
+    new Array(10).fill(item)
+  )
+
+  const BodyRows = RowsToMap.map((row) => {
+    const { category, categoryId, features, id, info, name, price, rating } =
+      row
+    return [id, name, rating, price, info, <Link to={"(category!.name)?.toString()"}>{"category?.name"}</Link>, <Button isDangerous={"dangerous"}>delete</Button>, <Button>edit</Button>]
+  })
+
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen">
       <h1 className={style.content__title}>Items</h1>
-      <table className={style.table}>
-        <thead className={cn(style.table__header, style.headerTable)}>
-          <tr className={style.headerTable__row}>
-            {headerTableCol.map((col) => (
-              <th className={style.headerTable__col}>{col}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className={cn(style.table__body, style.bodyTable)}>
-          {bodyTableRow.map((row) => (
-            <tr className={style.bodyTable__row}>
-              {row.map((col, index) => {
-                if (index === 1) {
-                  return (
-                    <td className={style.bodyTable__col}>
-                      {col}
-                    </td>
-                  )
-                }
-                return <td className={style.bodyTable__col}>{col}</td>
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        BodyTableRowClickHandler={(id) => {
+          console.log(id)
+        }}
+        BodyTableRows={BodyRows}
+        HeaderTableRow={headerRow}
+      />
     </div>
   )
 }
-
