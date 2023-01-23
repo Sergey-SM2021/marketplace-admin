@@ -4,27 +4,43 @@ import { Category } from "entity/models/Category"
 import { useNavigate } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Table } from "ui/Table"
+import { Modal } from "ui/Modal"
+
+const headerTableCol = ["id", "name", "parentLink", "count", "action"]
+
+const Category0 = {
+  id: 1,
+  name: "Смартфоны",
+  parentCategoryId: 90,
+  parentCategory: {
+    name: "Электроника",
+  },
+}
 
 export const Categories = () => {
-  const [categories, setCategories] = useState<Array<Category>>([
-    {
-      id: 1,
-      name: "Смартфоны",
-      parentCategoryId: 90,
-      parentCategory: {
-        name: "Электроника",
-      },
-    },
-  ])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const [categories, setCategories] = useState<Array<Category>>([Category0])
+
+  const navigate = useNavigate()
+
+  const handlerClose = () => {
+    setIsModalOpen(false)
+  }
 
   const handlerEditClick = (e: SyntheticEvent, id: number) => {
     e.stopPropagation()
     console.log(id)
-    alert("")
+    setIsModalOpen(true)
   }
 
   const handlerRemoveClick = (e: SyntheticEvent) => {
     e.stopPropagation()
+    setIsModalOpen(true)
+  }
+
+  const handlerRowClick = (categoryId: number) => {
+    navigate(`/categories/${categoryId}`)
   }
 
   const rows = categories.map((el) => {
@@ -45,16 +61,9 @@ export const Categories = () => {
     ]
   })
 
-  const headerTableCol = ["id", "name", "parentLink", "count", "action"]
-
-  const navigate = useNavigate()
-
-  const handlerRowClick = (categoryId: number) => {
-    navigate(`/categories/${categoryId}`)
-  }
-
   return (
     <div className="p-4 w-full min-h-screen">
+      <Modal handlerClose={handlerClose} isOpen={isModalOpen}></Modal>
       <h1 className={style.content__title}>Categories</h1>
       <Table
         BodyTableRowClickHandler={handlerRowClick}

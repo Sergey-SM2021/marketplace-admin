@@ -16,12 +16,17 @@ const item: Product = {
   price: 67567,
   rating: 5,
 }
-
 export const Items = () => {
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const [RowsToMap, setBodyRows] = useState<Array<Product>>(
     new Array(10).fill(item)
   )
+
+  const handlerClose = () => {
+    setIsModalOpen(true)
+  }
+
   const headerRow = [
     "id",
     "name",
@@ -42,14 +47,16 @@ export const Items = () => {
       price,
       info,
       <Link to={"(category!.name)?.toString()"}>{"category?.name"}</Link>,
-      <Button isDangerous={"dangerous"} onClick={()=>setIsModalOpen(true)}>delete</Button>,
-      <Button onClick={()=>setIsModalOpen(true)}>edit</Button>,
+      <Button isDangerous={"dangerous"} onClick={handlerClose}>
+        delete
+      </Button>,
+      <Button onClick={handlerClose}>edit</Button>,
     ]
   })
 
   return (
-    <div className="p-4 min-h-screen">
-      <Modal isOpen={isModalOpen} setIsOpen={() => setIsModalOpen(false)} />
+    <div className="p-4 w-full min-h-screen">
+      <Modal isOpen={isModalOpen} handlerClose={() => setIsModalOpen(false)} />
       <h1 className={style.content__title}>Items</h1>
       <Table
         BodyTableRowClickHandler={(id) => {
