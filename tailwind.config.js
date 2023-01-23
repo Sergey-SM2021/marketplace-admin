@@ -11,6 +11,9 @@ module.exports = {
         red: "#F53B49",
         purple: "#7c5ab8",
       },
+      maxHeight: {
+        '100': '48rem',
+      }
     },
   },
   plugins: [],

@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Product } from "entity/models/Product"
 import { Link } from "react-router-dom"
 import { Button } from "ui/Button/Button"
+import { Modal } from "ui/Modal"
+
 const item: Product = {
   category: {},
   categoryId: 98,
@@ -16,6 +18,10 @@ const item: Product = {
 }
 
 export const Items = () => {
+  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [RowsToMap, setBodyRows] = useState<Array<Product>>(
+    new Array(10).fill(item)
+  )
   const headerRow = [
     "id",
     "name",
@@ -26,18 +32,24 @@ export const Items = () => {
     "action",
   ]
 
-  const [RowsToMap, setBodyRows] = useState<Array<Product>>(
-    new Array(10).fill(item)
-  )
-
   const BodyRows = RowsToMap.map((row) => {
     const { category, categoryId, features, id, info, name, price, rating } =
       row
-    return [id, name, rating, price, info, <Link to={"(category!.name)?.toString()"}>{"category?.name"}</Link>, <Button isDangerous={"dangerous"}>delete</Button>, <Button>edit</Button>]
+    return [
+      id,
+      name,
+      rating,
+      price,
+      info,
+      <Link to={"(category!.name)?.toString()"}>{"category?.name"}</Link>,
+      <Button isDangerous={"dangerous"} onClick={()=>setIsModalOpen(true)}>delete</Button>,
+      <Button onClick={()=>setIsModalOpen(true)}>edit</Button>,
+    ]
   })
 
   return (
     <div className="p-4 min-h-screen">
+      <Modal isOpen={isModalOpen} setIsOpen={() => setIsModalOpen(false)} />
       <h1 className={style.content__title}>Items</h1>
       <Table
         BodyTableRowClickHandler={(id) => {
