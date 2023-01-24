@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { FC, memo, useEffect } from "react"
 import style from "./index.module.scss"
 import { ReactComponent as Accept } from "assets/accept.svg"
 import { ReactComponent as Cancel } from "assets/cancle.svg"
@@ -9,7 +9,7 @@ interface INote {
   onAccept: () => void
 }
 
-export const Note: FC<INote> = ({ message, unMount, onAccept }) => {
+export const Note: FC<INote> = memo(({ message, unMount, onAccept }) => {
   
   useEffect(() => {
     setTimeout(() => {
@@ -29,11 +29,11 @@ export const Note: FC<INote> = ({ message, unMount, onAccept }) => {
     <div className={style.note}>
       {message}
       <div className={style.note__accept} onClick={handlerAccept}>
-        <Accept />
+        <Accept className={style.note__icon}/>
       </div>
       <div className={style.note__cancel} onClick={handlerClose}>
-        <Cancel />
+        <Cancel className={style.note__icon}/>
       </div>
     </div>
   )
-}
+})

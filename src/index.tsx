@@ -5,8 +5,8 @@ import { StrictMode } from "react"
 import { App } from "./App"
 import reportWebVitals from "./reportWebVitals"
 import { ErrorPage } from "./pages/ErrorPage"
-import { Categories } from "pages/Categories"
-import { Items } from "pages/Items"
+import { CategoriesPage } from "pages/Categories"
+import { Items } from "modules/Items"
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Categories />,
+        element: <CategoriesPage />,
       },
       {
         path: "/categories/:categoryId",

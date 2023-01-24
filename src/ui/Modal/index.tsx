@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, SyntheticEvent } from "react"
-import { Close } from "ui/Close"
 import style from "./index.module.sass"
 
 interface IModal {
@@ -25,9 +24,8 @@ export const Modal: FC<PropsWithChildren & IModal> = ({
     <div className={style.modal} onClick={handlerClose}>
       <div onClick={handlerInnerClick} className={style.modal__content}>
         <header className={style.modal__header}>
-          <div className="flex">
+          <div className="flex items-center">
             <div className="flex-auto">header</div>
-            <button onClick={handlerClose}>X</button>
           </div>
         </header>
         <main className="p-4">{children}</main>
