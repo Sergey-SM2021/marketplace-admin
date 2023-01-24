@@ -7,10 +7,15 @@ import { Modal } from "ui/Modal"
 import { Note } from "ui/Note"
 import { headerTableCol } from "./index.data"
 import { useStore } from "effector-react"
-import { $categories, $notifications, removeCategory } from "./store"
+import {
+  $categories,
+  $notifications,
+  addCategory,
+  removeCategory,
+} from "./store"
 import { addNotification, removeNotification } from "./store"
 import { ReactComponent as Add } from "assets/add.svg"
-import { CreateNewCategory } from "./ui/CreateNewCategory"
+import { CreateNewCategory } from "./components/CreateNewCategory"
 
 export const Categories = () => {
   const categories = useStore($categories)
@@ -75,13 +80,16 @@ export const Categories = () => {
       {notifications.map(note => (
         <Note {...note} />
       ))}
-      <Modal title="Создать новую категорию" handlerClose={handlerClose} isOpen={isModalOpen}>
-        <CreateNewCategory />
+      <Modal
+        title="Создать новую категорию"
+        handlerClose={handlerClose}
+        isOpen={isModalOpen}>
+        <CreateNewCategory handlerClose={handlerClose} createNewCategory={category => addCategory(category)} />
       </Modal>
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
         <div className="flex items-center justify-center w-10 h-10 bg-purple rounded">
-          <Add className="w-full h-full" onClick={handlerCreateNewCategory}/>
+          <Add className="w-full h-full" onClick={handlerCreateNewCategory} />
         </div>
       </div>
       {categories.length ? (

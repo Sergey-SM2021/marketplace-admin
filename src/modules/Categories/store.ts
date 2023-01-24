@@ -7,11 +7,14 @@ const categoriesDomain = createDomain()
 
 export const removeCategory = createEvent<number>()
 
+export const addCategory = createEvent<Category>()
+
 export const $categories = categoriesDomain
   .createStore<Category[]>([Category0, Category1, Category2, Category3])
   .on(removeCategory, (state, payload) =>
     state.filter(category => category.id !== payload)
   )
+  .on(addCategory, (state, payload) => [...state,payload])
 
 // #FIXME: Надо вынести сообщения в глобальный модуль!!!
 const notificationsDomain = createDomain()
