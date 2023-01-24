@@ -1,0 +1,1 @@
+export const generateId = () => Number(`${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}`)

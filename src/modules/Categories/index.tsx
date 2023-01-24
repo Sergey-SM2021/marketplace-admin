@@ -1,32 +1,20 @@
 import style from "./index.module.sass"
 import { SyntheticEvent, useState } from "react"
-import { Category } from "entity/models/Category"
 import { useNavigate } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Table } from "ui/Table"
 import { Modal } from "ui/Modal"
 import { Note } from "ui/Note"
-
-const headerTableCol = ["id", "name", "parentLink", "count", "action"]
-
-const Category0 = {
-  id: 1,
-  name: "Смартфоны",
-  parentCategoryId: 90,
-  parentCategory: {
-    name: "Электроника",
-  },
-}
+import { headerTableCol } from "./index.data"
+import { useStore } from "effector-react"
+import { $categories, $notifications, removeCategory } from "./store"
+import { addNotification, removeNotification } from "./store"
 
 export const Categories = () => {
-  const [notifications, setNotifications] = useState([
-    { id: 90, message: "hi" },
-    { id: 67, message: "каляка-моляка" },
-  ])
+  const categories = useStore($categories)
+  const notifications = useStore($notifications)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const [categories, setCategories] = useState<Array<Category>>([Category0])
 
   const navigate = useNavigate()
 
@@ -36,26 +24,28 @@ export const Categories = () => {
 
   const handlerEditClick = (e: SyntheticEvent, id: number) => {
     e.stopPropagation()
-    console.log(id)
     setIsModalOpen(true)
   }
 
-  const handlerRemoveClick = (e: SyntheticEvent) => {
+  // Обработчик удаления категории
+  const handlerRemoveClick = (e: SyntheticEvent, id: number) => {
     e.stopPropagation()
-    setNotifications((prev) => [
-      ...prev,
-      {
-        id: Math.random(),
-        message: "Вы уверенны, что хотите удалить данную категорию?",
+    addNotification({
+      onAccept: () => {
+        removeCategory(id)
       },
-    ])
+      text: "Вы уверенны, что хотите удалить данную категорию?",
+      unMount: (id: number) => {
+        removeNotification(id)
+      },
+    })
   }
 
   const handlerRowClick = (categoryId: number) => {
     navigate(`/categories/${categoryId}`)
   }
 
-  const rows = categories.map((el) => {
+  const rows = categories.map(el => {
     const { name, id, parentCategory } = el
 
     return [
@@ -63,11 +53,12 @@ export const Categories = () => {
       name,
       parentCategory?.name,
       896,
-      <Button onClick={handlerRemoveClick}>remove</Button>,
+      <Button onClick={e => handlerRemoveClick(e, id as number)}>
+        remove
+      </Button>,
       <Button
         isDangerous={"dangerous"}
-        onClick={(e) => handlerEditClick(e, id as number)}
-      >
+        onClick={e => handlerEditClick(e, id as number)}>
         edit
       </Button>,
     ]
@@ -75,28 +66,22 @@ export const Categories = () => {
 
   return (
     <div className="p-4 w-full min-h-screen">
-      {notifications.map((note) => (
-        <Note
-          onAccept={() => {
-            alert()
-          }}
-          message={note.message}
-          unMount={() => {
-            setNotifications((prev) =>
-              prev.filter((item) => item.id !== note.id)
-            )
-          }}
-        />
+      {notifications.map(note => (
+        <Note {...note} />
       ))}
-      <Modal handlerClose={handlerClose} isOpen={isModalOpen}>
-        
-      </Modal>
+      <Modal handlerClose={handlerClose} isOpen={isModalOpen}></Modal>
       <h1 className={style.content__title}>Categories</h1>
-      <Table
-        BodyTableRowClickHandler={handlerRowClick}
-        HeaderTableRow={headerTableCol}
-        BodyTableRows={rows}
-      />
+      {categories.length ? (
+        <Table
+          BodyTableRowClickHandler={handlerRowClick}
+          HeaderTableRow={headerTableCol}
+          BodyTableRows={rows}
+        />
+      ) : (
+        <div>
+          <div>Создайте категорию</div>
+        </div>
+      )}
     </div>
   )
 }
