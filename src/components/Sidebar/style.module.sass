@@ -3,4 +3,8 @@
     &__items
         @apply flex flex-col gap-4 flex-auto justify-end
     &__item
-        @apply text-white bg-purple flex justify-between gap-1 w-full box-border p-1 rounded
+        @apply text-white bg-purple flex justify-between gap-1 w-full box-border px-4 py-2 rounded items-center max-h-10 hover:bg-red transition hover:cursor-pointer
+    &__icon *
+        fill: #fff
+    &__icon
+        width: 30px

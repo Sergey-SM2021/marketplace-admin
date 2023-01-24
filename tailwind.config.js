@@ -10,6 +10,7 @@ module.exports = {
         gray: "#e9e9eb",
         red: "#F53B49",
         purple: "#7c5ab8",
+        "purple-transparent": `rgba("#7c5ab8", 0.1)`,
       },
       maxHeight: {
         '100': '48rem',
