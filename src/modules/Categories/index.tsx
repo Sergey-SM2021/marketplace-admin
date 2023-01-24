@@ -9,6 +9,8 @@ import { headerTableCol } from "./index.data"
 import { useStore } from "effector-react"
 import { $categories, $notifications, removeCategory } from "./store"
 import { addNotification, removeNotification } from "./store"
+import { ReactComponent as Add } from "assets/add.svg"
+import { CreateNewCategory } from "./ui/CreateNewCategory"
 
 export const Categories = () => {
   const categories = useStore($categories)
@@ -45,6 +47,10 @@ export const Categories = () => {
     navigate(`/categories/${categoryId}`)
   }
 
+  const handlerCreateNewCategory = () => {
+    setIsModalOpen(true)
+  }
+
   const rows = categories.map(el => {
     const { name, id, parentCategory } = el
 
@@ -69,8 +75,15 @@ export const Categories = () => {
       {notifications.map(note => (
         <Note {...note} />
       ))}
-      <Modal handlerClose={handlerClose} isOpen={isModalOpen}></Modal>
-      <h1 className={style.content__title}>Categories</h1>
+      <Modal title="Создать новую категорию" handlerClose={handlerClose} isOpen={isModalOpen}>
+        <CreateNewCategory />
+      </Modal>
+      <div className="flex gap-5 items-center mb-4">
+        <h1 className={style.content__title}>Categories</h1>
+        <div className="flex items-center justify-center w-10 h-10 bg-purple rounded">
+          <Add className="w-full h-full" onClick={handlerCreateNewCategory}/>
+        </div>
+      </div>
       {categories.length ? (
         <Table
           BodyTableRowClickHandler={handlerRowClick}

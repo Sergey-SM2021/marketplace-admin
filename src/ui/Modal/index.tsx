@@ -4,15 +4,16 @@ import style from "./index.module.sass"
 interface IModal {
   isOpen: boolean
   handlerClose: () => void
+  title: string
 }
 
 export const Modal: FC<PropsWithChildren & IModal> = ({
   children,
   isOpen,
   handlerClose,
+  title
 }) => {
-  
-  const handlerInnerClick = (e:SyntheticEvent<HTMLDivElement>) => {
+  const handlerInnerClick = (e: SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation()
   }
 
@@ -25,10 +26,10 @@ export const Modal: FC<PropsWithChildren & IModal> = ({
       <div onClick={handlerInnerClick} className={style.modal__content}>
         <header className={style.modal__header}>
           <div className="flex items-center">
-            <div className="flex-auto">header</div>
+            <div className="flex-auto">{title}</div>
           </div>
         </header>
-        <main className="p-4">{children}</main>
+        <main className="flex-auto p-4">{children}</main>
       </div>
     </div>
   )

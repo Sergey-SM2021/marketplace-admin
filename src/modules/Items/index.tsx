@@ -62,7 +62,7 @@ export const Items = () => {
 
   return (
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
-      <Modal isOpen={isModalOpen} handlerClose={() => setIsModalOpen(false)} />
+      <Modal title="title" isOpen={isModalOpen} handlerClose={() => setIsModalOpen(false)} />
       <div className="flex gap-4 flex-row-reverse items-center">
         <h1 className={style.content__title}>Items</h1>
         <Button onClick={handlerBackClick} isDangerous={"dangerous"}>
