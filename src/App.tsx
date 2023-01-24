@@ -4,7 +4,6 @@ import { Note } from "ui/Note"
 
 export const App = () => (
   <div className='flex min-h-screen h-full'>
-    <Note message="hi"/>
     <Sidebar />
     <div className="flex bg-gray flex-auto h-full">
       <Outlet />

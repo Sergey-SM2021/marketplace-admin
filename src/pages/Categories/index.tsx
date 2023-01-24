@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Table } from "ui/Table"
 import { Modal } from "ui/Modal"
+import { Note } from "ui/Note"
 
 const headerTableCol = ["id", "name", "parentLink", "count", "action"]
 
@@ -18,6 +19,11 @@ const Category0 = {
 }
 
 export const Categories = () => {
+  const [notifications, setNotifications] = useState([
+    { id: 90, message: "hi" },
+    { id: 67, message: "каляка-моляка" },
+  ])
+
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [categories, setCategories] = useState<Array<Category>>([Category0])
@@ -36,7 +42,13 @@ export const Categories = () => {
 
   const handlerRemoveClick = (e: SyntheticEvent) => {
     e.stopPropagation()
-    setIsModalOpen(true)
+    setNotifications((prev) => [
+      ...prev,
+      {
+        id: Math.random(),
+        message: "Вы уверенны, что хотите удалить данную категорию?",
+      },
+    ])
   }
 
   const handlerRowClick = (categoryId: number) => {
@@ -63,6 +75,17 @@ export const Categories = () => {
 
   return (
     <div className="p-4 w-full min-h-screen">
+      {notifications.map((note) => (
+        <Note
+          onAccept={() => {alert()}}
+          message={note.message}
+          unMount={() => {
+            setNotifications((prev) =>
+              prev.filter((item) => item.id !== note.id)
+            )
+          }}
+        />
+      ))}
       <Modal handlerClose={handlerClose} isOpen={isModalOpen}></Modal>
       <h1 className={style.content__title}>Categories</h1>
       <Table

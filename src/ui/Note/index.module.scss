@@ -1,0 +1,23 @@
+.note {
+    @apply absolute bottom-4 text-white right-4 bg-red p-4 px-10 rounded flex gap-3 items-center;
+
+    &__accept {
+        &:hover {
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: rgba(#fff, 0.1);
+        }
+
+        fill: rgb(255, 255, 255);
+    }
+
+    &__cancel {
+        &:hover {
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: rgba(#fff, 0.1);
+        }
+
+        fill: rgb(255, 255, 255);
+    }
+}

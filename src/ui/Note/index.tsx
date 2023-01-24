@@ -1,19 +1,39 @@
-import { FC, useEffect, useState } from "react"
-import style from "./index.module.sass"
+import { FC, useEffect } from "react"
+import style from "./index.module.scss"
+import { ReactComponent as Accept } from "assets/accept.svg"
+import { ReactComponent as Cancel } from "assets/cancle.svg"
 
 interface INote {
   message: string
+  unMount: () => void
+  onAccept: () => void
 }
 
-export const Note: FC<INote> = ({ message }) => {
-  const [isVisible, setIsVisible] = useState(true)
+export const Note: FC<INote> = ({ message, unMount, onAccept }) => {
+  
   useEffect(() => {
     setTimeout(() => {
-      setIsVisible(false)
-    }, 1000)
+      unMount()
+    }, 3600)
   }, [])
-  if (!isVisible) {
-    return null
+
+  const handlerAccept = () => {
+    onAccept()
   }
-  return <div className={style.note}>{message}</div>
+
+  const handlerClose = () => {
+    unMount()
+  }
+  
+  return (
+    <div className={style.note}>
+      {message}
+      <div className={style.note__accept} onClick={handlerAccept}>
+        <Accept />
+      </div>
+      <div className={style.note__cancel} onClick={handlerClose}>
+        <Cancel />
+      </div>
+    </div>
+  )
 }
