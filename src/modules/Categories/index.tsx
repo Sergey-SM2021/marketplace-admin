@@ -100,7 +100,7 @@ export const Categories = () => {
             addCategory({
               payload: category,
               url: api.createCategory,
-            })
+            })  
           }
         />
       </Modal>

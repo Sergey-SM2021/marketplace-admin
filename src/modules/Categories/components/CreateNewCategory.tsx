@@ -13,15 +13,22 @@ interface ICreateNewCategory {
 
 interface IForm {
   categoryName: string
+  parentCategoryId: number
 }
 
 export const CreateNewCategory: FC<ICreateNewCategory> = ({
-  createNewCategory,handlerClose,getCategories
+  createNewCategory,
+  handlerClose,
+  getCategories,
 }) => {
   const { register, handleSubmit } = useForm<IForm>()
   const onSubmit = async (data: IForm) => {
-    if(data.categoryName){
-      await createNewCategory({ name: data.categoryName, id:generateId() })
+    if (data.categoryName) {
+      await createNewCategory({
+        name: data.categoryName,
+        parentCategoryId: data.parentCategoryId,
+        id: generateId(),
+      })
       await getCategories()
       handlerClose()
     } else {
@@ -37,6 +44,11 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
           {...register("categoryName")}
           title="Название категории"
           placeholder="samsung"
+        />
+        <Field
+          {...register("parentCategoryId")}
+          title="parentCategoryId"
+          placeholder="1754"
         />
       </div>
       <div className="flex">
