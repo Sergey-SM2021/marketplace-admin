@@ -43,10 +43,7 @@ export const Categories = () => {
       onAccept: () => {
         removeCategory(id)
       },
-      text: "Вы уверенны, что хотите удалить данную категорию?",
-      unMount: (id: number) => {
-        removeNotification(id)
-      },
+      text: "Вы уверенны, что хотите удалить данную категорию?"
     })
   }
 
