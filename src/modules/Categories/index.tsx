@@ -4,26 +4,23 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Table } from "ui/Table"
 import { Modal } from "ui/Modal"
-import { Note } from "ui/Note"
 import { headerTableCol } from "./index.data"
 import { useStore } from "effector-react"
 import {
   $categories,
-  $notifications,
   addCategory,
   getCategories,
   removeCategory,
 } from "./store"
-import { addNotification, removeNotification } from "./store"
 import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
+import { addNotification, Notifications, removeNotification} from "modules/Notifications"
 
 export const Categories = () => {
   useEffect(() => {
     getCategories("http://shopshop.somee.com/Shop/GetCategories")
   }, [])
   const categories = useStore($categories)
-  const notifications = useStore($notifications)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -81,9 +78,7 @@ export const Categories = () => {
 
   return (
     <div className="p-4 w-full min-h-screen">
-      {notifications.map(note => (
-        <Note {...note} />
-      ))}
+      <Notifications />
       <Modal
         title="Создать новую категорию"
         handlerClose={handlerClose}
