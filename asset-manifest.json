@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/marketplace-admin/static/css/main.b4fc8921.css",
+    "main.js": "/marketplace-admin/static/js/main.cf086497.js",
+    "static/js/787.242d948c.chunk.js": "/marketplace-admin/static/js/787.242d948c.chunk.js",
+    "static/media/settings.svg": "/marketplace-admin/static/media/settings.37dba971e4f3711a1c8b1b438052eb70.svg",
+    "index.html": "/marketplace-admin/index.html",
+    "static/media/add.svg": "/marketplace-admin/static/media/add.5fe22f706e27695e26dc41208b87c45e.svg",
+    "static/media/items.svg": "/marketplace-admin/static/media/items.546ce0e02681ade320aef24a1698dad8.svg",
+    "static/media/notes.svg": "/marketplace-admin/static/media/notes.3599296b8b936c021f74bfb52e0a6de6.svg",
+    "static/media/cancle.svg": "/marketplace-admin/static/media/cancle.88775032c7de841dd570d9a61a6bfa71.svg",
+    "static/media/accept.svg": "/marketplace-admin/static/media/accept.9bbe3db75183b9a9181695f6641571e7.svg",
+    "main.b4fc8921.css.map": "/marketplace-admin/static/css/main.b4fc8921.css.map",
+    "main.cf086497.js.map": "/marketplace-admin/static/js/main.cf086497.js.map",
+    "787.242d948c.chunk.js.map": "/marketplace-admin/static/js/787.242d948c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b4fc8921.css",
+    "static/js/main.cf086497.js"
+  ]
+}
