@@ -1,12 +1,10 @@
 import axios from "axios"
 import { createDomain } from "effector"
 import { Category } from "entity"
-import { INotification } from "modules/Notifications/ui/Note"
 import { Category0, Category1, Category2, Category3 } from "./index.data"
 
 const categoriesDomain = createDomain()
 
-// #FIXME - это общий эффект получается
 export const getCategories = categoriesDomain.createEffect<string,Array<Category>>(async (url) => {
   const response = await (await axios.get(url)).data
   return response

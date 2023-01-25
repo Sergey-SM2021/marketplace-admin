@@ -14,14 +14,18 @@ import {
 } from "./store"
 import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
-import { Notifications} from "modules/Notifications"
-import { addNotification, removeNotification } from "modules/Notifications/store"
+import { Notifications } from "modules/Notifications"
+import {
+  addNotification,
+} from "modules/Notifications/store"
 
 export const Categories = () => {
   useEffect(() => {
     getCategories("http://shopshop.somee.com/Shop/GetCategories")
   }, [])
+
   const categories = useStore($categories)
+  const isLoading = useStore(getCategories.pending)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -43,7 +47,7 @@ export const Categories = () => {
       onAccept: () => {
         removeCategory(id)
       },
-      text: "Вы уверенны, что хотите удалить данную категорию?"
+      text: "Вы уверенны, что хотите удалить данную категорию?",
     })
   }
 
@@ -74,6 +78,10 @@ export const Categories = () => {
     ]
   })
 
+  if(isLoading){
+    return <div>Loading</div>
+  }
+
   return (
     <div className="p-4 w-full min-h-screen">
       <Notifications />
@@ -82,7 +90,9 @@ export const Categories = () => {
         handlerClose={handlerClose}
         isOpen={isModalOpen}>
         <CreateNewCategory
-          getCategories={async () => getCategories("http://shopshop.somee.com/Shop/GetCategories")}
+          getCategories={async () =>
+            getCategories("http://shopshop.somee.com/Shop/GetCategories")
+          }
           handlerClose={handlerClose}
           createNewCategory={async category =>
             addCategory({
