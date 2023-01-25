@@ -54,7 +54,7 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
       <div className="flex">
         <div className="flex-auto justify-end gap-4 flex">
           <Button onClick={handlerClose}>Отмена</Button>
-          <Button isDangerous="dangerous">Создать</Button>
+          <Button isDangerous={true}>Создать</Button>
         </div>
       </div>
     </form>

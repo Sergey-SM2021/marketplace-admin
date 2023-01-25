@@ -73,7 +73,7 @@ export const Categories = () => {
         remove
       </Button>,
       <Button
-        isDangerous={"dangerous"}
+        isDangerous={true}
         onClick={e => handlerEditClick(e, id as number)}>
         edit
       </Button>,

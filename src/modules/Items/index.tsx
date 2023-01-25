@@ -49,7 +49,7 @@ export const Items = () => {
       price,
       info,
       <Link to={"(category!.name)?.toString()"}>{"category?.name"}</Link>,
-      <Button isDangerous={"dangerous"} onClick={handlerClose}>
+      <Button isDangerous={true} onClick={handlerClose}>
         delete
       </Button>,
       <Button onClick={handlerClose}>edit</Button>,
@@ -65,7 +65,7 @@ export const Items = () => {
       <Modal title="title" isOpen={isModalOpen} handlerClose={() => setIsModalOpen(false)} />
       <div className="flex gap-4 flex-row-reverse items-center">
         <h1 className={style.content__title}>Items</h1>
-        <Button onClick={handlerBackClick} isDangerous={"dangerous"}>
+        <Button onClick={handlerBackClick} isDangerous={true}>
           Back
         </Button>
       </div>

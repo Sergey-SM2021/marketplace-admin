@@ -10,7 +10,7 @@ export const Notifications = () => {
   return (
     <div>
       {notifications.map(note => (
-        <Note {...note} unMount={unMountHandler} />
+        <Note {...note} key={note.id} unMount={unMountHandler} />
       ))}
     </div>
   )
