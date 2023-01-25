@@ -16,10 +16,11 @@ import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
 import { Notifications } from "modules/Notifications"
 import { addNotification } from "modules/Notifications/store"
+import { api } from "./api"
 
 export const Categories = () => {
   useEffect(() => {
-    getCategories("http://shopshop.somee.com/Shop/GetCategories")
+    getCategories(api.getCategories)
   }, [])
 
   const categories = useStore($categories)
@@ -45,7 +46,7 @@ export const Categories = () => {
       onAccept: () => {
         removeCategoryById({
           id,
-          url: `http://shopshop.somee.com/AdminPanel/DeleteCategory/${id}`,
+          url: api.removeCategory(id),
         })
       },
       text: "Вы уверенны, что хотите удалить данную категорию?",
@@ -92,13 +93,13 @@ export const Categories = () => {
         isOpen={isModalOpen}>
         <CreateNewCategory
           getCategories={async () =>
-            getCategories("http://shopshop.somee.com/Shop/GetCategories")
+            getCategories(api.getCategories)
           }
           handlerClose={handlerClose}
           createNewCategory={async category =>
             addCategory({
               payload: category,
-              url: "http://shopshop.somee.com/AdminPanel/CreateCategory",
+              url: api.createCategory,
             })
           }
         />
