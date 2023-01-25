@@ -14,7 +14,8 @@ import {
 } from "./store"
 import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
-import { addNotification, Notifications, removeNotification} from "modules/Notifications"
+import { Notifications} from "modules/Notifications"
+import { addNotification, removeNotification } from "modules/Notifications/store"
 
 export const Categories = () => {
   useEffect(() => {
