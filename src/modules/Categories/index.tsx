@@ -10,14 +10,12 @@ import {
   $categories,
   addCategory,
   getCategories,
-  removeCategory,
+  removeCategoryById,
 } from "./store"
 import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
 import { Notifications } from "modules/Notifications"
-import {
-  addNotification,
-} from "modules/Notifications/store"
+import { addNotification } from "modules/Notifications/store"
 
 export const Categories = () => {
   useEffect(() => {
@@ -45,7 +43,10 @@ export const Categories = () => {
     e.stopPropagation()
     addNotification({
       onAccept: () => {
-        removeCategory(id)
+        removeCategoryById({
+          id,
+          url: `http://shopshop.somee.com/AdminPanel/DeleteCategory/${id}`,
+        })
       },
       text: "Вы уверенны, что хотите удалить данную категорию?",
     })
@@ -78,7 +79,7 @@ export const Categories = () => {
     ]
   })
 
-  if(isLoading){
+  if (isLoading) {
     return <div>Loading</div>
   }
 
