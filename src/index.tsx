@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import ReactDOM from "react-dom/client"
 import "./index.css"
-import { StrictMode } from "react"
+// import { StrictMode } from "react"
 import { App } from "./App"
 import reportWebVitals from "./reportWebVitals"
 import { ErrorPage } from "./pages/ErrorPage"
@@ -29,9 +29,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 
 root.render(
-  <StrictMode>
+  // <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  // </StrictMode>
 )
 
 reportWebVitals()

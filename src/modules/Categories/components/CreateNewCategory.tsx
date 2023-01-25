@@ -6,8 +6,9 @@ import { Field } from "ui/Field"
 import { generateId } from "utils/generateId"
 
 interface ICreateNewCategory {
-  createNewCategory: (category: Category) => void
+  createNewCategory: (category: Category) => Promise<number>
   handlerClose: () => void
+  getCategories: () => Promise<Array<Category>>
 }
 
 interface IForm {
@@ -15,12 +16,17 @@ interface IForm {
 }
 
 export const CreateNewCategory: FC<ICreateNewCategory> = ({
-  createNewCategory,handlerClose
+  createNewCategory,handlerClose,getCategories
 }) => {
   const { register, handleSubmit } = useForm<IForm>()
-  const onSubmit = (data: IForm) => {
-    createNewCategory({ name: data.categoryName, id:generateId() })
-    handlerClose()
+  const onSubmit = async (data: IForm) => {
+    if(data.categoryName){
+      await createNewCategory({ name: data.categoryName, id:generateId() })
+      await getCategories()
+      handlerClose()
+    } else {
+      alert("")
+    }
   }
   return (
     <form

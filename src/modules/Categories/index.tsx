@@ -1,5 +1,5 @@
 import style from "./index.module.sass"
-import { SyntheticEvent, useState } from "react"
+import { SyntheticEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Table } from "ui/Table"
@@ -11,6 +11,7 @@ import {
   $categories,
   $notifications,
   addCategory,
+  getCategories,
   removeCategory,
 } from "./store"
 import { addNotification, removeNotification } from "./store"
@@ -18,6 +19,9 @@ import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
 
 export const Categories = () => {
+  useEffect(() => {
+    getCategories("http://shopshop.somee.com/Shop/GetCategories")
+  }, [])
   const categories = useStore($categories)
   const notifications = useStore($notifications)
 
@@ -63,7 +67,7 @@ export const Categories = () => {
       id,
       name,
       parentCategory?.name,
-      896,
+      el.products?.length,
       <Button onClick={e => handlerRemoveClick(e, id as number)}>
         remove
       </Button>,
@@ -84,7 +88,16 @@ export const Categories = () => {
         title="Создать новую категорию"
         handlerClose={handlerClose}
         isOpen={isModalOpen}>
-        <CreateNewCategory handlerClose={handlerClose} createNewCategory={category => addCategory(category)} />
+        <CreateNewCategory
+          getCategories={async () => getCategories("http://shopshop.somee.com/Shop/GetCategories")}
+          handlerClose={handlerClose}
+          createNewCategory={async category =>
+            addCategory({
+              payload: category,
+              url: "http://shopshop.somee.com/AdminPanel/CreateCategory",
+            })
+          }
+        />
       </Modal>
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
