@@ -1,15 +1,17 @@
 import { Table } from "ui/Table"
 import { FC, memo, useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Modal } from "ui/Modal"
 import { useStore } from "effector-react"
-import { $products, createProduct, getProducts } from "./store"
+import { $products, createProduct, getProducts, removeProduct } from "./store"
 import { api } from "./api"
 import { Add } from "ui/Add"
 import { Title } from "ui/Title"
 import { CreateNewItem } from "./components/CreateNewItem"
 import { Product } from "entity"
+import { addNotification } from "modules/Notifications/store"
+import { Notifications } from "modules/Notifications"
 
 export const Items: FC = memo(() => {
   const { categoryId } = useParams()
@@ -35,18 +37,14 @@ export const Items: FC = memo(() => {
     setIsModalOpen(true)
   }
 
-  const headerRow = [
-    "id",
-    "name",
-    "rating",
-    "price",
-    "info",
-    "category",
-    "action",
-  ]
+  const handlerRemoveProduct = (id: number) => {        
+    removeProduct(api.removeProduct(id))
+  }
 
-  const handlerCreateProduct = (product:Product) => {
-    createProduct({url:api.createProduct,payload:product})
+  const headerRow = ["id", "name", "rating", "price", "info", "action"]
+
+  const handlerCreateProduct = (product: Product) => {
+    createProduct({ url: api.createProduct, payload: product })
   }
 
   const BodyRows = products.map(row => {
@@ -58,8 +56,14 @@ export const Items: FC = memo(() => {
       rating,
       price,
       info,
-      <Link to={"(category!.name)?.toString()"}>{"category?.name"}</Link>,
-      <Button isDangerous={true} onClick={handlerModalOpen}>
+      <Button
+        isDangerous={true}
+        onClick={() =>
+          addNotification({
+            text: `вы действительно хотите удалить продукт #${id}?`,
+            onAccept: () => handlerRemoveProduct(Number(id)),
+          })
+        }>
         delete
       </Button>,
       <Button onClick={handlerModalOpen}>edit</Button>,
@@ -68,11 +72,13 @@ export const Items: FC = memo(() => {
 
   return (
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
+      <Notifications />
       <Modal
         title="Создать новый товар"
         isOpen={isModalOpen}
         handlerClose={() => setIsModalOpen(false)}>
         <CreateNewItem
+          categoryId={Number(categoryId)}
           handlerCreateProduct={handlerCreateProduct}
           handlerClose={handlerModalClose}
         />
@@ -88,7 +94,7 @@ export const Items: FC = memo(() => {
       </div>
       <Table
         BodyTableRowClickHandler={id => {
-          console.log(id)
+
         }}
         HeaderTableRow={headerRow}
         BodyTableRows={BodyRows}

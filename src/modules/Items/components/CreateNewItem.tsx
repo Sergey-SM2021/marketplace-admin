@@ -5,6 +5,7 @@ import { Button } from "ui/Button/Button"
 import { Field } from "ui/Field"
 
 interface ICreateNewItem {
+  categoryId: number
   handlerClose: () => void
   handlerCreateProduct: (product: Product) => void
 }
@@ -17,10 +18,12 @@ type TCreateNewItem = Omit<
 export const CreateNewItem: FC<ICreateNewItem> = ({
   handlerClose,
   handlerCreateProduct,
+  categoryId,
 }) => {
   const { register, handleSubmit } = useForm<TCreateNewItem>()
-  const onSubmit = (data: TCreateNewItem) => {
-    handlerCreateProduct(data)
+  const onSubmit = async (data: TCreateNewItem) => {
+    await handlerCreateProduct({ ...data, categoryId })
+    handlerClose()
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
