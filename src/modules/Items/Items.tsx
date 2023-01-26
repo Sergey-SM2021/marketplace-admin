@@ -37,14 +37,14 @@ export const Items: FC = memo(() => {
     setIsModalOpen(true)
   }
 
-  const handlerRemoveProduct = (id: number) => {        
+  const handlerRemoveProduct = (id: number) => {
     removeProduct(api.removeProduct(id))
   }
 
   const headerRow = ["id", "name", "rating", "price", "info", "action"]
 
   const handlerCreateProduct = (product: Product) => {
-    createProduct({ url: api.createProduct(), payload: product })
+    createProduct(product)
   }
 
   const BodyRows = products.map(row => {
@@ -93,9 +93,7 @@ export const Items: FC = memo(() => {
         </Button>
       </div>
       <Table
-        BodyTableRowClickHandler={id => {
-
-        }}
+        BodyTableRowClickHandler={id => {}}
         HeaderTableRow={headerRow}
         BodyTableRows={BodyRows}
       />
