@@ -5,7 +5,7 @@ import { Button } from "ui/Button/Button"
 import { Modal } from "ui/Modal"
 import { useStore } from "effector-react"
 import { $products, createProduct, getProducts, removeProduct } from "./store"
-import { api } from "./api"
+import { api } from "./api/api"
 import { Add } from "ui/Add"
 import { Title } from "ui/Title"
 import { CreateNewItem } from "./components/CreateNewItem"
@@ -20,7 +20,7 @@ export const Items: FC = memo(() => {
     nav(-1)
   }
   useEffect(() => {
-    getProducts(api.getProducts)
+    getProducts(api.getProducts())
   }, [])
   const { categoryName, products } = useStore($products)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,7 +44,7 @@ export const Items: FC = memo(() => {
   const headerRow = ["id", "name", "rating", "price", "info", "action"]
 
   const handlerCreateProduct = (product: Product) => {
-    createProduct({ url: api.createProduct, payload: product })
+    createProduct({ url: api.createProduct(), payload: product })
   }
 
   const BodyRows = products.map(row => {
