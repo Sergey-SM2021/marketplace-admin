@@ -1,9 +1,8 @@
-import { FC } from "react"
+import { FC, PropsWithChildren } from "react"
 
 interface IProps {
-    title:string
 }
 
-export const Title:FC<IProps> = ({title}) => {
-    return <h2>{title}</h2>
+export const Title:FC<IProps & PropsWithChildren> = ({children}) => {
+    return <h1 className="text-2xl font-bold">{children}</h1>
 }

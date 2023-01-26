@@ -1,29 +1,22 @@
 import style from "./index.module.sass"
 import { Table } from "ui/Table"
-import { useState } from "react"
-import { Product } from "entity/models/Product"
-import { Link, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Modal } from "ui/Modal"
-
-const item: Product = {
-  category: {},
-  categoryId: 98,
-  features: [],
-  id: 686,
-  info: "info is hjsbcjhdsbcjd",
-  name: "name",
-  price: 67567,
-  rating: 5,
-}
+import { Title } from "ui/Title"
+import { useStore } from "effector-react"
+import { $products, getProducts } from "./store"
 
 export const Items = () => {
+  const {categoryId} = useParams()
+  
+  useEffect(()=>{
+    getProducts(`http://shopshop.somee.com/Shop/GetProductById?Id=12`)
+  },[])
+  const RowsToMap = useStore($products)
   const nav = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const [RowsToMap, setBodyRows] = useState<Array<Product>>(
-    new Array(10).fill(item)
-  )
 
   const handlerClose = () => {
     setIsModalOpen(true)
@@ -64,7 +57,7 @@ export const Items = () => {
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
       <Modal title="title" isOpen={isModalOpen} handlerClose={() => setIsModalOpen(false)} />
       <div className="flex gap-4 flex-row-reverse items-center">
-        <h1 className={style.content__title}>Items</h1>
+       <Title>Products</Title>
         <Button onClick={handlerBackClick} isDangerous={true}>
           Back
         </Button>
