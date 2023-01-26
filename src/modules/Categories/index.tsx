@@ -12,11 +12,11 @@ import {
   getCategories,
   removeCategoryById,
 } from "./store"
-import { ReactComponent as Add } from "assets/add.svg"
 import { CreateNewCategory } from "./components/CreateNewCategory"
 import { Notifications } from "modules/Notifications"
 import { addNotification } from "modules/Notifications/store"
 import { api } from "./api"
+import { Add } from "ui/Add"
 
 export const Categories = () => {
   useEffect(() => {
@@ -106,9 +106,7 @@ export const Categories = () => {
       </Modal>
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
-        <div className="flex items-center justify-center w-10 h-10 bg-purple rounded">
-          <Add className="w-full h-full" onClick={handlerCreateNewCategory} />
-        </div>
+        <Add handlerAdd={handlerCreateNewCategory} />
       </div>
       {categories.length ? (
         <Table
