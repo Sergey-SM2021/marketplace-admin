@@ -20,7 +20,7 @@ export const Items: FC = memo(() => {
     nav(-1)
   }
   useEffect(() => {
-    getProducts(api.getProducts())
+    getProducts()
   }, [])
   const { categoryName, products } = useStore($products)
   const [isModalOpen, setIsModalOpen] = useState(false)

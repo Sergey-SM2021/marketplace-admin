@@ -1,15 +1,14 @@
 import { Product } from "entity/models/Product"
 import { createDomain } from "effector"
-import axios from "axios"
 import { ProductResponseDTO } from "entity"
+import { api } from "./api/api"
+import axios from "axios"
 
 type TProducts = Array<Product>
 
 export const ProductsDomain = createDomain()
 
-export const getProducts = ProductsDomain.createEffect<string, TProducts>(
-  async url => await (await axios.get(url)).data
-)
+export const getProducts = ProductsDomain.createEffect(api.getProducts)
 
 export const createProduct = ProductsDomain.createEffect<
   { url: string; payload: Product },
@@ -27,11 +26,11 @@ export const $products = ProductsDomain.createStore<{
   products: [],
   categoryName: "Игрушки",
 })
-  .on(getProducts.doneData, (state, payload) => ({
-    ...state,
-    products: payload,
-  }))
   .on(createProduct.doneData, (state, payload) => ({
     ...state,
     products: [...state.products, payload],
+  }))
+  .on(getProducts.doneData, (state, payload) => ({
+    ...state,
+    products: payload,
   }))

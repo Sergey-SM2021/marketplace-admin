@@ -1,6 +1,9 @@
+import { ProductResponseDTO } from 'entity';
+import axios from "axios"
+
 export const api = {
-  getProducts() {
-    return "http://shopshop.somee.com/Shop/GetProducts"
+  async getProducts() {
+    return (await axios.get<ProductResponseDTO[]>("http://shopshop.somee.com/Shop/GetProducts")).data
   },
   createProduct(){
     return "http://shopshop.somee.com/AdminPanel/CreateProduct" 
