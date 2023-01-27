@@ -13,8 +13,11 @@ module.exports = {
         "purple-transparent": `rgba("#7c5ab8", 0.1)`,
       },
       maxHeight: {
-        '100': '48rem',
-      }
+        100: "48rem",
+      },
+      translate: {
+        'center': '50%rem',
+      },
     },
   },
   plugins: [],
