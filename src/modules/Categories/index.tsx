@@ -1,7 +1,7 @@
 import style from "./index.module.sass"
 import { SyntheticEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button } from "ui/Button/Button"
+import { Button } from "ui/Button"
 import { Table } from "ui/Table"
 import { Modal } from "ui/Modal"
 import { headerTableCol } from "./index.data"

@@ -1,17 +1,12 @@
-import { Table } from "ui/Table"
 import { FC, memo, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { Button } from "ui/Button/Button"
-import { Modal } from "ui/Modal"
 import { useStore } from "effector-react"
 import { $products, createProduct, getProductById, getProducts, removeProduct } from "./store"
-import { api } from "./api/api"
-import { Add } from "ui/Add"
-import { Title } from "ui/Title"
 import { CreateNewItem } from "./components/CreateNewItem"
 import { Product } from "entity"
 import { addNotification } from "modules/Notifications/store"
 import { Notifications } from "modules/Notifications"
+import { Add, Button, Modal, Table, Title } from "ui"
 
 export const Items: FC = memo(() => {
   const { categoryId } = useParams()

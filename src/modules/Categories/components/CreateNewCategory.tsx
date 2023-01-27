@@ -1,7 +1,7 @@
 import { Category } from "entity"
 import { FC } from "react"
 import { useForm } from "react-hook-form"
-import { Button } from "ui/Button/Button"
+import { Button } from "ui/Button"
 import { Field } from "ui/Field"
 import { generateId } from "utils/generateId"
 
