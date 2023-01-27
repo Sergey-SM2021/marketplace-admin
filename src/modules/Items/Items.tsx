@@ -1,12 +1,23 @@
+import { Product } from "entity"
+
+import { Notifications } from "modules/Notifications"
+import { addNotification } from "modules/Notifications/store"
+
+import { CreateNewItem } from "./components/CreateNewItem"
+
+import { Add, Button, Modal, Table, Title } from "ui"
+
+import {
+  $products,
+  createProduct,
+  getProductById,
+  getProducts,
+  removeProduct,
+} from "./store"
+
+import { useStore } from "effector-react"
 import { FC, memo, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useStore } from "effector-react"
-import { $products, createProduct, getProductById, getProducts, removeProduct } from "./store"
-import { CreateNewItem } from "./components/CreateNewItem"
-import { Product } from "entity"
-import { addNotification } from "modules/Notifications/store"
-import { Notifications } from "modules/Notifications"
-import { Add, Button, Modal, Table, Title } from "ui"
 
 export const Items: FC = memo(() => {
   const { categoryId } = useParams()

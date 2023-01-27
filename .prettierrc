@@ -1,5 +1,18 @@
 {
-    "semi": false,
-    "bracketSameLine": true,
-    "arrowParens": "avoid"
+  "semi": false,
+  "bracketSameLine": true,
+  "arrowParens": "avoid",
+  "importOrderSeparation": true,
+  "importOrder": [
+    "entity",
+    "store",
+    "api",
+    "pages",
+    "modules",
+    "components",
+    "ui",
+    "^./",
+    "^../",
+    "<THIRD_PARTY_MODULES>"
+  ]
 }

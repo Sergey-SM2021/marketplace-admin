@@ -1,22 +1,28 @@
-import style from "./index.module.sass"
-import { SyntheticEvent, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { Button } from "ui/Button"
-import { Table } from "ui/Table"
-import { Modal } from "ui/Modal"
-import { headerTableCol } from "./index.data"
-import { useStore } from "effector-react"
 import {
   $categories,
   addCategory,
   getCategories,
   removeCategoryById,
 } from "./store"
-import { CreateNewCategory } from "./components/CreateNewCategory"
-import { Notifications } from "modules/Notifications"
 import { addNotification } from "modules/Notifications/store"
+
 import { api } from "./api"
+
+import { Notifications } from "modules/Notifications"
+
+import { CreateNewCategory } from "./components/CreateNewCategory"
+
 import { Add } from "ui/Add"
+import { Button } from "ui/Button"
+import { Modal } from "ui/Modal"
+import { Table } from "ui/Table"
+
+import { headerTableCol } from "./index.data"
+import style from "./index.module.sass"
+
+import { useStore } from "effector-react"
+import { SyntheticEvent, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const Categories = () => {
   useEffect(() => {
@@ -91,15 +97,13 @@ export const Categories = () => {
         handlerClose={handlerClose}
         isOpen={isModalOpen}>
         <CreateNewCategory
-          getCategories={async () =>
-            getCategories(api.getCategories)
-          }
+          getCategories={async () => getCategories(api.getCategories)}
           handlerClose={handlerClose}
           createNewCategory={async category =>
             addCategory({
               payload: category,
               url: api.createCategory,
-            })  
+            })
           }
         />
       </Modal>
