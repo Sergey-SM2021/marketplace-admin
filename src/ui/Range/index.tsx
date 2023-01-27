@@ -1,3 +1,3 @@
 export const Range = () => {
-    return (<input type={"range"}/>)
+    return (<input type={"range"} className="w-full"/>)
 }
