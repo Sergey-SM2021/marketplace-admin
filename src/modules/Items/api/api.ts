@@ -10,16 +10,16 @@ export const api = {
       )
     ).data
   },
-  createProduct(payload: Product) {
-    return axios.post<number>(
+  async createProduct(payload: Product) {
+    return (await axios.post<number>(
       "http://shopshop.somee.com/AdminPanel/CreateProduct",
       payload
-    )
+    )).data
   },
   removeProduct(id: number) {
     return `http://shopshop.somee.com/AdminPanel/DeleteProduct/${id}`
   },
-  // removeProduct(id: number){
-  //   return `http://shopshop.somee.com/AdminPanel/DeleteProduct/${id}`
-  // },
+  async getProductById(id:number){
+    return (await axios.get(`http://shopshop.somee.com/Shop/GetProductById?Id=${id}`)).data
+  }
 }

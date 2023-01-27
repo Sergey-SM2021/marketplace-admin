@@ -9,6 +9,8 @@ export const ProductsDomain = createDomain()
 
 export const getProducts = ProductsDomain.createEffect(api.getProducts)
 
+export const getProductById = ProductsDomain.createEffect(api.getProductById)
+
 export const createProduct = ProductsDomain.createEffect(api.createProduct)
 
 export const removeProduct = ProductsDomain.createEffect<string, any>(
@@ -24,4 +26,7 @@ export const $products = ProductsDomain.createStore<{
 }).on(getProducts.doneData, (state, payload) => ({
   ...state,
   products: payload,
+})).on(getProductById.doneData, (state,payload) => ({
+  ...state,
+  products:[...state.products,payload]  
 }))

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "ui/Button/Button"
 import { Modal } from "ui/Modal"
 import { useStore } from "effector-react"
-import { $products, createProduct, getProducts, removeProduct } from "./store"
+import { $products, createProduct, getProductById, getProducts, removeProduct } from "./store"
 import { api } from "./api/api"
 import { Add } from "ui/Add"
 import { Title } from "ui/Title"
@@ -43,8 +43,9 @@ export const Items: FC = memo(() => {
 
   const headerRow = ["id", "name", "rating", "price", "info", "action"]
 
-  const handlerCreateProduct = (product: Product) => {
-    createProduct(product)
+  const handlerCreateProduct = async (product: Product) => {
+    const id = await createProduct(product)
+    await getProductById(id)
   }
 
   const BodyRows = products.map(row => {
