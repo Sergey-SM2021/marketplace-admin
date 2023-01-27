@@ -7,8 +7,6 @@ export const App = () => (
   <div className={style.app}>
     <Header />
     <Sidebar />
-    <div className="">
-      <Outlet />
-    </div>
+    <Outlet />
   </div>
 )
