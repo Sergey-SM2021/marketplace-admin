@@ -3,6 +3,7 @@ import { ProductResponseDTO } from "entity"
 import axios from "axios"
 
 export const api = {
+  
   async getProducts() {
     return (
       await axios.get<ProductResponseDTO[]>(
@@ -10,16 +11,20 @@ export const api = {
       )
     ).data
   },
+  
   async createProduct(payload: Product) {
     return (await axios.post<number>(
       "http://shopshop.somee.com/AdminPanel/CreateProduct",
       payload
     )).data
   },
-  removeProduct(id: number) {
-    return `http://shopshop.somee.com/AdminPanel/DeleteProduct/${id}`
+
+  async removeProduct(id: number) {
+    return (await axios.delete<string>(`http://shopshop.somee.com/AdminPanel/DeleteProduct/${id}`)).data
   },
+
   async getProductById(id:number){
     return (await axios.get(`http://shopshop.somee.com/Shop/GetProductById?Id=${id}`)).data
   }
+
 }

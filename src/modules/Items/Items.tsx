@@ -38,7 +38,7 @@ export const Items: FC = memo(() => {
   }
 
   const handlerRemoveProduct = (id: number) => {
-    removeProduct(api.removeProduct(id))
+    removeProduct(id)
   }
 
   const headerRow = ["id", "name", "rating", "price", "info", "action"]
