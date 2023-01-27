@@ -1,9 +1,10 @@
 import { Category } from "entity"
-import { FC } from "react"
+import { FC, MouseEvent } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "ui/Button"
 import { Field } from "ui/Field"
 import { generateId } from "utils/generateId"
+import { Chips } from "./Chips"
 
 interface ICreateNewCategory {
   createNewCategory: (category: Category) => Promise<number>
@@ -32,24 +33,28 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
       await getCategories()
       handlerClose()
     } else {
-      alert("")
+      alert("suuubmit")
     }
+  }
+  const handlerAddChip = (e:MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
   }
   return (
     <form
       className="flex flex-col h-full rounded-b"
       onSubmit={handleSubmit(onSubmit)}>
       <div className="flex-auto grid grid-cols-2 gap-4 grid-rows-6">
-        <Field
-          {...register("categoryName")}
-          title="Название категории"
-          placeholder="samsung"
-        />
-        <Field
-          {...register("parentCategoryId")}
-          title="parentCategoryId"
-          placeholder="1754"
-        />
+        <div className="flex flex-col gap-2">
+          <div>Название категории</div>
+          <Field {...register("categoryName")} placeholder="samsung" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div>parentCategoryId</div>
+          <Field {...register("parentCategoryId")} placeholder="1754" />
+        </div>
+        <div className="col-span-2">
+          <Chips />
+        </div>
       </div>
       <div className="flex">
         <div className="flex-auto justify-end gap-4 flex">
