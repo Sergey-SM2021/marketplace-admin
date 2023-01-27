@@ -1,6 +1,6 @@
 import { generateId } from "utils/generateId"
 
-export const headerTableCol = ["id", "name", "parentLink", "count", "action"]
+export const headerTableCol = ["id", "name", "count", "action"]
 
 export const Category0 = {
   id: generateId(),

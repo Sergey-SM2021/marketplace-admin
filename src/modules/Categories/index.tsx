@@ -62,12 +62,11 @@ export const Categories = () => {
   }
 
   const rows = categories.map(el => {
-    const { name, id, parentCategory } = el
+    const { name, id } = el
 
     return [
       id,
       name,
-      parentCategory?.name,
       el.products?.length,
       <Button onClick={e => handlerRemoveClick(e, id as number)}>
         remove
