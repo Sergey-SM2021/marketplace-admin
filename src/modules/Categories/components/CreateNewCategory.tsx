@@ -1,10 +1,9 @@
 import { Category } from "entity"
-import { FC } from "react"
 import { useForm } from "react-hook-form"
-import { Button } from "ui/Button"
-import { Field } from "ui/Field"
-import { generateId } from "utils/generateId"
+import { Field, Button } from "ui"
 import { Chips } from "./Chips"
+import { FC } from "react"
+import { generateId } from "utils/generateId"
 
 interface ICreateNewCategory {
   createNewCategory: (category: Category) => Promise<number>
@@ -22,19 +21,19 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
   handlerClose,
   getCategories,
 }) => {
-  const { register, handleSubmit } = useForm<IForm>()
-  const onSubmit = async (data: IForm) => {
-    if (data.categoryName) {
-      await createNewCategory({
-        name: data.categoryName,
-        parentCategoryId: data.parentCategoryId,
-        id: generateId(),
-      })
-      await getCategories()
-      handlerClose()
-    } else {
-      alert("suuubmit")
+  const { register, handleSubmit,formState: {dirtyFields} } = useForm<IForm>({
+    defaultValues:{
+      categoryName:""
     }
+  })
+  const onSubmit = async (data: IForm) => {
+    await createNewCategory({
+      name: data.categoryName,
+      parentCategoryId: data.parentCategoryId,
+      id: generateId(),
+    })
+    await getCategories()
+    handlerClose()
   }
   return (
     <form
@@ -56,7 +55,9 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
       <div className="flex">
         <div className="flex-auto justify-end gap-4 flex">
           <Button onClick={handlerClose}>Отмена</Button>
-          <Button isDangerous={true}>Создать</Button>
+          <Button isDangerous={true} disabled={!dirtyFields.categoryName}>
+            Создать
+          </Button>
         </div>
       </div>
     </form>
