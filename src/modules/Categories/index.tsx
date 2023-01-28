@@ -90,7 +90,7 @@ export const Categories = () => {
   }
 
   return (
-    <div className="p-4 w-full min-h-screen">
+    <div className="p-4 w-full">
       <Notifications />
       <Modal
         title="Создать новую категорию"
