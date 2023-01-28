@@ -1,5 +1,5 @@
-import { FormEvent, useState } from "react"
-import { Field } from "ui"
+import { FormEvent, memo, useState } from "react"
+import { Add, Field } from "ui"
 import { generateId } from "utils/generateId"
 
 interface IChip {
@@ -7,7 +7,7 @@ interface IChip {
   id: number
 }
 
-export const Chips = () => {
+export const Chips = memo(() => {
   const [value, setValue] = useState<string>()
   const [chips, setChips] = useState<Array<IChip>>([])
   const handlerAddChip = () => {
@@ -24,27 +24,27 @@ export const Chips = () => {
   }
   return (
     <>
-      <div className="flex flex-col gap-2 mb-4">
-        <div>Добавить Атрибут</div>
-        <div className="flex gap-4">
+      <div className="flex gap-2 mb-4 items-end">
+        <div className="flex-auto">
+          <div className="mb-4">Добавить Атрибут</div>
           <Field
             value={value}
             onChange={handlerChangeValue}
             placeholder="Есть в наличии"
           />
-          <button type="button" onClick={handlerAddChip}>
-            +
-          </button>
         </div>
+        <Add handlerAdd={handlerAddChip} />
       </div>
       <ul className="gap-4 grid grid-cols-4 pb-4">
-        {chips.map(({id,text}) => (
+        {chips.map(({ id, text }) => (
           <li key={id} className="flex gap-2 bg-purple py-1 px-2 rounded">
             <div className="flex-auto">{text}</div>
-            <button type="button" onClick={()=>handlerRemoveChip(id)}>x</button>
+            <button type="button" onClick={() => handlerRemoveChip(id)}>
+              x
+            </button>
           </li>
         ))}
       </ul>
     </>
   )
-}
+})

@@ -7,10 +7,9 @@ interface IAdd {
 
 export const Add: FC<IAdd> = ({handlerAdd}) => {
   return (
-    <div className="flex items-center justify-center w-10 h-10 bg-purple rounded hover:cursor-pointer">
+    <div className="flex items-center justify-center w-10 h-10 bg-purple rounded hover:cursor-pointer" onClick={handlerAdd}>
       <AddIcon
         className="w-full h-full"   
-        onClick={handlerAdd}
       />
     </div>
   )
