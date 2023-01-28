@@ -1,5 +1,5 @@
 import { Category } from "entity"
-import { FC, MouseEvent } from "react"
+import { FC } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "ui/Button"
 import { Field } from "ui/Field"
@@ -36,14 +36,11 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
       alert("suuubmit")
     }
   }
-  const handlerAddChip = (e:MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-  }
   return (
     <form
       className="flex flex-col h-full rounded-b"
       onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex-auto grid grid-cols-2 gap-4 grid-rows-6">
+      <div className="flex-auto grid grid-cols-2 grid-rows-3 gap-4">
         <div className="flex flex-col gap-2">
           <div>Название категории</div>
           <Field {...register("categoryName")} placeholder="samsung" />
@@ -52,7 +49,7 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
           <div>parentCategoryId</div>
           <Field {...register("parentCategoryId")} placeholder="1754" />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-2 row-span-2">
           <Chips />
         </div>
       </div>

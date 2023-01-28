@@ -1,11 +1,11 @@
-import {forwardRef, HTMLAttributes } from "react"
+import {forwardRef, HTMLProps } from "react"
 
 interface IField {
 }
 
 export const Field = forwardRef<
   HTMLInputElement,
-  IField & HTMLAttributes<HTMLInputElement>
+  IField & HTMLProps<HTMLInputElement>
 >(({ ...rest }, ref) => {
   return (
     <div>
