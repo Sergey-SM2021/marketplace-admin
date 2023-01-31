@@ -1,24 +1,24 @@
-import { Category } from "entity"
 import { useFieldArray, useForm } from "react-hook-form"
 import { Field, Button } from "ui"
 import { Chips } from "./Chips"
 import { FC, memo } from "react"
-import { generateId } from "utils/generateId"
-
-interface ICreateNewCategory {
-  createNewCategory: (category: Category) => Promise<number>
-  handlerClose: () => void
-  getCategories: () => Promise<Category[]>
-}
+import { CreateCategoryCommand, EditCategoryCommand } from "entity"
 
 interface IForm {
   categoryName: string
   parentCategoryId: number
-  attributes: {text:string}[]
+  attributes: { text: string }[]
+}
+
+interface ICreateNewCategory {
+  handlerSave: (
+    data: CreateCategoryCommand | EditCategoryCommand
+  ) => Promise<void>
+  handlerClose: () => void
 }
 
 export const CreateNewCategory: FC<ICreateNewCategory> = memo(
-  ({ createNewCategory, handlerClose, getCategories }) => {
+  ({ handlerSave, handlerClose }) => {
     const {
       register,
       handleSubmit,
@@ -27,7 +27,7 @@ export const CreateNewCategory: FC<ICreateNewCategory> = memo(
     } = useForm<IForm>({
       defaultValues: {
         categoryName: "",
-        attributes: [{text:"hi, hi, hi"}],
+        attributes: [{ text: "hi, hi, hi" }],
       },
     })
     const { append, remove, fields } = useFieldArray({
@@ -35,14 +35,11 @@ export const CreateNewCategory: FC<ICreateNewCategory> = memo(
       control,
     })
     const onSubmit = async (data: IForm) => {
-      await createNewCategory({
+      await handlerSave({
+        features: data.attributes.map(attr => attr.text),
         name: data.categoryName,
         parentCategoryId: data.parentCategoryId,
-        id: generateId(),
-        features: [],
       })
-      await getCategories()
-
       handlerClose()
     }
     return (

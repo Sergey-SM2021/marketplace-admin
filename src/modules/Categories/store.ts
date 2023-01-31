@@ -1,5 +1,5 @@
 import { createDomain } from "effector"
-import { Category } from "entity"
+import { Category, CreateCategoryCommand } from "entity"
 import { api } from "./api"
 import { Category0, Category1, Category2, Category3 } from "./index.data"
 
@@ -14,7 +14,7 @@ export const removeCategoryById = categoriesDomain.createEffect<number, string>(
   api.removeCategory
 )
 
-export const addCategory = categoriesDomain.createEffect<Category, number>(
+export const addCategory = categoriesDomain.createEffect<CreateCategoryCommand, number>(
   api.createCategory
 )
 
