@@ -20,8 +20,7 @@ export const addCategory = categoriesDomain.createEffect<Category, number>(
 
 export const $categories = categoriesDomain
   .createStore<Category[]>([Category0, Category1, Category2, Category3])
-  .on(addCategory.doneData, () => {})
-  .on(getCategories.doneData, (state, payload) => payload)
+  .on(getCategories.doneData, (_, payload) => payload)
   .on(removeCategoryById.done, (state, { params }) =>
     state.filter(category => category.id !== params)
   )

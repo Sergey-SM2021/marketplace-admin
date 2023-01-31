@@ -6,8 +6,6 @@ import {
 } from "./store"
 import { addNotification } from "modules/Notifications/store"
 
-import { Notifications } from "modules/Notifications"
-
 import { CreateNewCategory } from "./components/CreateNewCategory"
 
 import { Add } from "ui/Add"
@@ -19,10 +17,10 @@ import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 
 import { useStore } from "effector-react"
-import { SyntheticEvent, useEffect, useState } from "react"
+import { memo, SyntheticEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-export const Categories = () => {
+export const Categories = memo(() => {
   useEffect(() => {
     getCategories()
   }, [])
@@ -86,7 +84,6 @@ export const Categories = () => {
 
   return (
     <div className="p-4 w-full">
-      <Notifications />
       <Modal
         title="Создать новую категорию"
         handlerClose={handlerClose}
@@ -94,7 +91,7 @@ export const Categories = () => {
         <CreateNewCategory
           handlerClose={handlerClose}
           createNewCategory={addCategory}
-          getCategories={() => {getCategories()}}
+          getCategories={getCategories}
         />
       </Modal>
       <div className="flex gap-5 items-center mb-4">
@@ -114,4 +111,4 @@ export const Categories = () => {
       )}
     </div>
   )
-}
+})

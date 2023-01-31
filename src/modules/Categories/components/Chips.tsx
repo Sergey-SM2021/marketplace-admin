@@ -1,18 +1,22 @@
-import { FormEvent, memo, useState } from "react"
+import { FC, FormEvent, memo, useState } from "react"
 import { Add, Field } from "ui"
-import { generateId } from "utils/generateId"
 
-interface IChip {
+interface IChips {
+  Chips: {text:string}[]
+  AddChip: (text:string) => void
+  RemoveChip: (id:number) => void
+}
+
+export interface IChip {
   text: string
   id: number
 }
 
-export const Chips = memo(() => {
+export const Chips: FC<IChips> = memo(({ Chips, AddChip, RemoveChip }) => {
   const [value, setValue] = useState<string>()
-  const [chips, setChips] = useState<Array<IChip>>([])
   const handlerAddChip = () => {
     if (value) {
-      setChips([...chips, { id: generateId(), text: value }])
+      AddChip(value)
     }
     setValue("")
   }
@@ -20,7 +24,7 @@ export const Chips = memo(() => {
     setValue(e.currentTarget.value)
   }
   const handlerRemoveChip = (id: number) => {
-    setChips(prev => prev.filter(chip => chip.id !== id))
+    RemoveChip(id)
   }
   return (
     <>
@@ -36,10 +40,10 @@ export const Chips = memo(() => {
         <Add handlerAdd={handlerAddChip} />
       </div>
       <ul className="gap-4 grid grid-cols-4 pb-4">
-        {chips.map(({ id, text }) => (
-          <li key={id} className="flex gap-2 bg-purple py-1 px-2 rounded">
+        {Chips.map(({text},index) => (
+          <li key={index} className="flex gap-2 bg-purple py-1 px-2 rounded">
             <div className="flex-auto">{text}</div>
-            <button type="button" onClick={() => handlerRemoveChip(id)}>
+            <button type="button" onClick={() => handlerRemoveChip(index)}>
               x
             </button>
           </li>
