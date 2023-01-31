@@ -7,6 +7,7 @@ import type { CreateCategoryFeaturesResponse } from '../models/CreateCategoryFea
 import type { CreateProductCommand } from '../models/CreateProductCommand';
 import type { EditCategoryCommand } from '../models/EditCategoryCommand';
 import type { EditProductCommand } from '../models/EditProductCommand';
+import type { Product } from '../models/Product';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -48,12 +49,12 @@ export class AdminPanelService {
 
     /**
      * @param requestBody
-     * @returns number Success
+     * @returns Product Success
      * @throws ApiError
      */
     public static postAdminPanelCreateProduct(
         requestBody?: CreateProductCommand,
-    ): CancelablePromise<number> {
+    ): CancelablePromise<Product> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/AdminPanel/CreateProduct',

@@ -6,8 +6,6 @@ import {
 } from "./store"
 import { addNotification } from "modules/Notifications/store"
 
-import { api } from "./api"
-
 import { Notifications } from "modules/Notifications"
 
 import { CreateNewCategory } from "./components/CreateNewCategory"
@@ -26,7 +24,7 @@ import { useNavigate } from "react-router-dom"
 
 export const Categories = () => {
   useEffect(() => {
-    getCategories(api.getCategories)
+    getCategories()
   }, [])
 
   const categories = useStore($categories)
@@ -50,10 +48,7 @@ export const Categories = () => {
     e.stopPropagation()
     addNotification({
       onAccept: () => {
-        removeCategoryById({
-          id,
-          url: api.removeCategory(id),
-        })
+        removeCategoryById(id)
       },
       text: "Вы уверенны, что хотите удалить данную категорию?",
     })
@@ -97,14 +92,9 @@ export const Categories = () => {
         handlerClose={handlerClose}
         isOpen={isModalOpen}>
         <CreateNewCategory
-          getCategories={async () => getCategories(api.getCategories)}
           handlerClose={handlerClose}
-          createNewCategory={async category =>
-            addCategory({
-              payload: category,
-              url: api.createCategory,
-            })
-          }
+          createNewCategory={addCategory}
+          getCategories={() => {getCategories()}}
         />
       </Modal>
       <div className="flex gap-5 items-center mb-4">

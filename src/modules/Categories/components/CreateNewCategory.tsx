@@ -8,7 +8,7 @@ import { generateId } from "utils/generateId"
 interface ICreateNewCategory {
   createNewCategory: (category: Category) => Promise<number>
   handlerClose: () => void
-  getCategories: () => Promise<Array<Category>>
+  getCategories: () => void
 }
 
 interface IForm {
@@ -19,7 +19,7 @@ interface IForm {
 export const CreateNewCategory: FC<ICreateNewCategory> = ({
   createNewCategory,
   handlerClose,
-  getCategories,
+  getCategories
 }) => {
   const { register, handleSubmit,formState: {dirtyFields} } = useForm<IForm>({
     defaultValues:{
@@ -31,8 +31,10 @@ export const CreateNewCategory: FC<ICreateNewCategory> = ({
       name: data.categoryName,
       parentCategoryId: data.parentCategoryId,
       id: generateId(),
+      features:[]
     })
     await getCategories()
+
     handlerClose()
   }
   return (

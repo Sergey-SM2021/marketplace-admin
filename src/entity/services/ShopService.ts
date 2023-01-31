@@ -90,4 +90,21 @@ export class ShopService {
         });
     }
 
+    /**
+     * @param id
+     * @returns ProductResponseDTO Success
+     * @throws ApiError
+     */
+    public static getShopGetProductsByCategory(
+        id: number,
+    ): CancelablePromise<Array<ProductResponseDTO>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/Shop/GetProductsByCategory/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
 }
