@@ -82,7 +82,6 @@ export const Items: FC = memo(() => {
       <Notifications />
       <Modal
         title="Создать новый товар"
-        isOpen={isModalOpen}
         handlerClose={() => setIsModalOpen(false)}>
         <CreateNewItem
           categoryId={Number(categoryId)}

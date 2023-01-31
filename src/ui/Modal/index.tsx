@@ -3,23 +3,17 @@ import style from "./index.module.sass"
 import {ReactComponent as Close} from "assets/cancle.svg"
 
 interface IModal {
-  isOpen: boolean
   handlerClose: () => void
   title: string
 }
 
 export const Modal: FC<PropsWithChildren & IModal> = ({
   children,
-  isOpen,
   handlerClose,
   title
 }) => {
   const handlerInnerClick = (e: SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation()
-  }
-
-  if (!isOpen) {
-    return null
   }
 
   return (

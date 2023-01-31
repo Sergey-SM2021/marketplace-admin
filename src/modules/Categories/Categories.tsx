@@ -10,14 +10,13 @@ import { CategoryModal } from "./components/CategoryModal"
 
 import { Add } from "ui/Add"
 import { Button } from "ui/Button"
-import { Modal } from "ui/Modal"
 import { Table } from "ui/Table"
 
 import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 
 import { useStore } from "effector-react"
-import { memo, SyntheticEvent, useEffect, useState } from "react"
+import { memo, SyntheticEvent, useEffect, useState, MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { CreateCategoryCommand, EditCategoryCommand } from "entity"
 
@@ -35,36 +34,27 @@ export const Categories = memo(() => {
   const handlerRowClick = (categoryId: number) => {
     navigate(`/categories/${categoryId}`)
   }
-  // Создать новую категорию
-  // ================================================================================================
-  const [isCreaterModalOpen, setIsCreaterModalOpen] = useState(false)
 
-  // callback для закрытия Модалки(Создание новой категории)
-  const handlerClose = () => {
-    setIsCreaterModalOpen(false)
+  const [modal, setModal] = useState<{
+    isOpen: boolean
+    state: EditCategoryCommand | null
+  }>({ isOpen: false, state: {} })
+
+  interface IHanleModalOpen {
+    e?: MouseEvent<HTMLButtonElement>
+    state?: EditCategoryCommand
   }
 
-  // Открытие модалки с созданием новой категории
-  const handlerCreateNewCategory = () => {
-    setIsCreaterModalOpen(true)
-  }
-  // ================================================================================================
-
-  // Редактировать категорию
-  // =================================================================================================
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-
-  // onEditClick --> открыть модалку создания
-  const handlerEditClick = (e: SyntheticEvent, id: number) => {
-    e.stopPropagation()
-    setIsEditModalOpen(true)
+  const hanleModalOpen = ({ e, state }: IHanleModalOpen) => {
+    if (e) {
+      e.stopPropagation()
+    }
+    setModal({ isOpen: true, state: state || null })
   }
 
-  // handlerClose --> закрыть модалка создания
-  const handlerCloseModalEditor = () => {
-    setIsEditModalOpen(false)
+  const handleModalClose = () => {
+    setModal({ isOpen: false, state: null })
   }
-  // =================================================================================================
 
   // Обработчик удаления категории
   const handlerRemoveClick = (e: SyntheticEvent, id: number) => {
@@ -97,7 +87,16 @@ export const Categories = memo(() => {
       </Button>,
       <Button
         isDangerous={true}
-        onClick={e => handlerEditClick(e, id as number)}>
+        onClick={e =>
+          hanleModalOpen({
+            e,
+            state: {
+              categoryId: id,
+              name: name,
+              parentCategoryId: el.parentCategoryId
+            },
+          })
+        }>
         edit
       </Button>,
     ]
@@ -109,27 +108,20 @@ export const Categories = memo(() => {
 
   return (
     <div className="p-4 w-full">
-      <Modal
-        title="Создать новую категорию"
-        handlerClose={handlerClose}
-        isOpen={isCreaterModalOpen}>
+      {modal.isOpen ? (
         <CategoryModal
+          category={modal.state}
           handlerSave={handlerSendNewCategory}
-          handlerClose={handlerClose}
+          handlerClose={handleModalClose}
         />
-      </Modal>
-      <Modal
-        title="Редактировать категорию"
-        handlerClose={handlerCloseModalEditor}
-        isOpen={isEditModalOpen}>
-        <CategoryModal
-          handlerSave={handlerSendNewCategory}
-          handlerClose={handlerCloseModalEditor}
-        />
-      </Modal>
+      ) : null}
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
-        <Add handlerAdd={handlerCreateNewCategory} />
+        <Add
+          handlerAdd={() => {
+            hanleModalOpen({})
+          }}
+        />
       </div>
       {categories.length ? (
         <Table
