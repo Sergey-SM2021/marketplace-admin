@@ -6,7 +6,7 @@ import {
 } from "./store"
 import { addNotification } from "modules/Notifications/store"
 
-import { CreateNewCategory } from "./components/CategoryModal"
+import { CategoryModal } from "./components/CategoryModal"
 
 import { Add } from "ui/Add"
 import { Button } from "ui/Button"
@@ -29,18 +29,42 @@ export const Categories = memo(() => {
   const categories = useStore($categories)
   const isLoading = useStore(getCategories.pending)
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const navigate = useNavigate()
 
+  // redirect на продукты
+  const handlerRowClick = (categoryId: number) => {
+    navigate(`/categories/${categoryId}`)
+  }
+  // Создать новую категорию
+  // ================================================================================================
+  const [isCreaterModalOpen, setIsCreaterModalOpen] = useState(false)
+
+  // callback для закрытия Модалки(Создание новой категории)
   const handlerClose = () => {
-    setIsModalOpen(false)
+    setIsCreaterModalOpen(false)
   }
 
+  // Открытие модалки с созданием новой категории
+  const handlerCreateNewCategory = () => {
+    setIsCreaterModalOpen(true)
+  }
+  // ================================================================================================
+
+  // Редактировать категорию
+  // =================================================================================================
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
+  // onEditClick --> открыть модалку создания
   const handlerEditClick = (e: SyntheticEvent, id: number) => {
     e.stopPropagation()
-    setIsModalOpen(true)
+    setIsEditModalOpen(true)
   }
+
+  // handlerClose --> закрыть модалка создания
+  const handlerCloseModalEditor = () => {
+    setIsEditModalOpen(false)
+  }
+  // =================================================================================================
 
   // Обработчик удаления категории
   const handlerRemoveClick = (e: SyntheticEvent, id: number) => {
@@ -53,17 +77,10 @@ export const Categories = memo(() => {
     })
   }
 
-  const handlerRowClick = (categoryId: number) => {
-    navigate(`/categories/${categoryId}`)
-  }
-
-  // Открытие модалки с созданием новой категории
-  const handlerCreateNewCategory = () => {
-    setIsModalOpen(true)
-  }
-
-  // обработчик создания новой категории in Modal
-  const handlerSendNewCategory = async (payload: CreateCategoryCommand|EditCategoryCommand) => {
+  // callback создания новой категории props for Modal
+  const handlerSendNewCategory = async (
+    payload: CreateCategoryCommand | EditCategoryCommand
+  ) => {
     await addCategory(payload)
     await getCategories()
   }
@@ -95,10 +112,19 @@ export const Categories = memo(() => {
       <Modal
         title="Создать новую категорию"
         handlerClose={handlerClose}
-        isOpen={isModalOpen}>
-        <CreateNewCategory
+        isOpen={isCreaterModalOpen}>
+        <CategoryModal
           handlerSave={handlerSendNewCategory}
           handlerClose={handlerClose}
+        />
+      </Modal>
+      <Modal
+        title="Редактировать категорию"
+        handlerClose={handlerCloseModalEditor}
+        isOpen={isEditModalOpen}>
+        <CategoryModal
+          handlerSave={handlerSendNewCategory}
+          handlerClose={handlerCloseModalEditor}
         />
       </Modal>
       <div className="flex gap-5 items-center mb-4">

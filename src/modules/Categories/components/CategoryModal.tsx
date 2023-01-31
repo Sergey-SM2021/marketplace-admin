@@ -17,7 +17,7 @@ interface ICreateNewCategory {
   handlerClose: () => void
 }
 
-export const CreateNewCategory: FC<ICreateNewCategory> = memo(
+export const CategoryModal: FC<ICreateNewCategory> = memo(
   ({ handlerSave, handlerClose }) => {
     const {
       register,
@@ -27,7 +27,7 @@ export const CreateNewCategory: FC<ICreateNewCategory> = memo(
     } = useForm<IForm>({
       defaultValues: {
         categoryName: "",
-        attributes: [{ text: "hi, hi, hi" }],
+        attributes: [],
       },
     })
     const { append, remove, fields } = useFieldArray({
