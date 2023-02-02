@@ -2,7 +2,8 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { Field, Button, Modal } from "ui"
 import { Chips } from "./Chips"
 import { FC, memo } from "react"
-import { CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { Dropdown } from "ui/Dropdown"
 
 interface IForm {
   categoryName: string
@@ -17,6 +18,16 @@ interface ICreateNewCategory {
   handlerClose: () => void
   category: EditCategoryCommand | null
 }
+
+const categories: Category[] = [
+  { name: "Планшеты", id: 3343 },
+  { name: "Настольные игры", id: 3112343 },
+  { name: "Обувь", id: 34346545 },
+  { name: "Телефоны", id: 2343 },
+  { name: "Компьютеры", id: 3121 },
+  { name: "Часы", id: 1112112 },
+  { name: "Лего", id: 31002230200076 },
+]
 
 export const CategoryModal: FC<ICreateNewCategory> = memo(
   ({ handlerSave, handlerClose, category }) => {
@@ -61,7 +72,13 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
             </div>
             <div className="flex flex-col gap-2">
               <div>parentCategoryId</div>
-              <Field {...register("parentCategoryId")} placeholder="1754" />
+              <Dropdown
+                list={categories.map(cat => ({
+                  key: cat.name as string,
+                  value: cat.id as number,
+                }))}
+                handlerChoose={() => {}}
+              />
             </div>
             <div className="col-span-2 row-span-2">
               <Chips
