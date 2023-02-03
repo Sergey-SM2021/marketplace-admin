@@ -2,7 +2,7 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { Field, Button, Modal } from "ui"
 import { Chips } from "./Chips"
 import { FC, memo } from "react"
-import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { CreateCategoryCommand, EditCategoryCommand } from "entity"
 import { Dropdown } from "ui/Dropdown"
 
 interface IForm {
@@ -17,20 +17,12 @@ interface ICreateNewCategory {
   ) => Promise<void>
   handlerClose: () => void
   category: EditCategoryCommand | null
+  // Array замапленных категорий для select { key: string; value: string | number }
+  categories: Array<{ key: string; value: string | number }>
 }
 
-const categories: Category[] = [
-  { name: "Планшеты", id: 3343 },
-  { name: "Настольные игры", id: 3112343 },
-  { name: "Обувь", id: 34346545 },
-  { name: "Телефоны", id: 2343 },
-  { name: "Компьютеры", id: 3121 },
-  { name: "Часы", id: 1112112 },
-  { name: "Лего", id: 31002230200076 },
-]
-
 export const CategoryModal: FC<ICreateNewCategory> = memo(
-  ({ handlerSave, handlerClose, category }) => {
+  ({ handlerSave, handlerClose, category, categories }) => {
     const {
       register,
       handleSubmit,
@@ -40,6 +32,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
       defaultValues: {
         categoryName: category?.name || "",
         attributes: [],
+        parentCategoryId: undefined
       },
     })
     const { append, remove, fields } = useFieldArray({
@@ -72,13 +65,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
             </div>
             <div className="flex flex-col gap-2">
               <div>parentCategoryId</div>
-              <Dropdown
-                list={categories.map(cat => ({
-                  key: cat.name as string,
-                  value: cat.id as number,
-                }))}
-                handlerChoose={() => {}}
-              />
+              <Dropdown list={categories} handlerChoose={(parentCategoryId) => {}} />
             </div>
             <div className="col-span-2 row-span-2">
               <Chips

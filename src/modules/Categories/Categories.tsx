@@ -93,7 +93,7 @@ export const Categories = memo(() => {
             state: {
               categoryId: id,
               name: name,
-              parentCategoryId: el.parentCategoryId
+              parentCategoryId: el.parentCategoryId,
             },
           })
         }>
@@ -110,6 +110,10 @@ export const Categories = memo(() => {
     <div className="p-4 w-full">
       {modal.isOpen ? (
         <CategoryModal
+          categories={categories.map(cat => ({
+            key: cat.name as string,
+            value: cat.id as number,
+          }))}
           category={modal.state}
           handlerSave={handlerSendNewCategory}
           handlerClose={handleModalClose}
