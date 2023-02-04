@@ -2,6 +2,9 @@ import { createDomain } from "effector"
 import { Category, CreateCategoryCommand } from "entity"
 import { api } from "./api"
 import { Category0, Category1, Category2, Category3 } from "./index.data"
+// @ts-ignore
+import { attachLogger } from 'effector-logger/attach'
+import 'effector-logger/inspector';
 
 const categoriesDomain = createDomain()
 
@@ -24,3 +27,5 @@ export const $categories = categoriesDomain
   .on(removeCategoryById.done, (state, { params }) =>
     state.filter(category => category.id !== params)
   )
+
+attachLogger(categoriesDomain)
