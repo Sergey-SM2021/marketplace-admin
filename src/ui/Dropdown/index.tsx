@@ -3,28 +3,22 @@ import classNames from "classnames"
 import { FC, memo, useState } from "react"
 
 interface IDropdown {
-  list: Array<{ key: string; value: string | number }>
-  handlerChoose: (value: string | number) => void
+  list: Array<{ key: string; value: number }>
+  name: string
+  onChange: (any: any) => void
 }
 
-export const Dropdown: FC<IDropdown> = memo(({ list, handlerChoose }) => {
+export const Dropdown: FC<IDropdown> = memo(({ list, onChange, name }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [visibleKey, setVisibleKey] = useState<string>("")
 
   const handlerClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
-  
-  const handlerItemChoose = ({key,value}: { key: string; value: string | number }) => {
-    setVisibleKey(key)
-    handlerChoose(value)
-    setIsDropdownOpen(false)
-  }
-  
+
   return (
     <div onClick={handlerClick} className="rounded h-auto max-h-2 relative">
       <input
-        value={visibleKey}
+        value={name}
         type="text"
         className="w-full h-auto p-1 rounded-t outline-none pr-11 pl-3"
       />
@@ -40,7 +34,11 @@ export const Dropdown: FC<IDropdown> = memo(({ list, handlerChoose }) => {
         <div className="bg-purple rounded absolute top-9 right-0 left-0">
           <ul>
             {list.map(item => (
-              <li className="p-1" onClick={() => handlerItemChoose(item)}>
+              <li
+                className="p-1"
+                onClick={() => {
+                  onChange(item)
+                }}>
                 {item.key}
               </li>
             ))}

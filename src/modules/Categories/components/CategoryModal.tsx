@@ -1,13 +1,14 @@
-import { useFieldArray, useForm } from "react-hook-form"
+import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { Field, Button, Modal } from "ui"
 import { Chips } from "./Chips"
 import { FC, memo } from "react"
 import { CreateCategoryCommand, EditCategoryCommand } from "entity"
 import { Dropdown } from "ui/Dropdown"
+import { DevTool } from "@hookform/devtools"
 
 interface IForm {
   categoryName: string
-  parentCategoryId: number
+  parentCategory: { key: string; value: number }
   attributes: { text: string }[]
 }
 
@@ -17,8 +18,7 @@ interface ICreateNewCategory {
   ) => Promise<void>
   handlerClose: () => void
   category: EditCategoryCommand | null
-  // Array замапленных категорий для select { key: string; value: string | number }
-  categories: Array<{ key: string; value: string | number }>
+  categories: Array<{ key: string; value: number }>
 }
 
 export const CategoryModal: FC<ICreateNewCategory> = memo(
@@ -32,7 +32,10 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
       defaultValues: {
         categoryName: category?.name || "",
         attributes: [],
-        parentCategoryId: undefined
+        parentCategory: {
+          key: "Не указана",
+          value: undefined,
+        },
       },
     })
     const { append, remove, fields } = useFieldArray({
@@ -40,10 +43,11 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
       control,
     })
     const onSubmit = async (data: IForm) => {
+      const { attributes, categoryName, parentCategory } = data
       await handlerSave({
-        features: data.attributes.map(attr => attr.text),
-        name: data.categoryName,
-        parentCategoryId: data.parentCategoryId,
+        features: attributes.map(attr => attr.text),
+        name: categoryName,
+        parentCategoryId: parentCategory.value,
       })
       handlerClose()
     }
@@ -64,8 +68,18 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
               <Field {...register("categoryName")} placeholder="samsung" />
             </div>
             <div className="flex flex-col gap-2">
-              <div>parentCategoryId</div>
-              <Dropdown list={categories} handlerChoose={(parentCategoryId) => {}} />
+              <div>parentCategory</div>
+              <Controller
+                control={control}
+                name="parentCategory"
+                render={({ field: { onChange, value } }) => (
+                  <Dropdown
+                    list={categories}
+                    name={value.key}
+                    onChange={onChange}
+                    />
+                )}
+              />
             </div>
             <div className="col-span-2 row-span-2">
               <Chips
@@ -87,6 +101,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
               </Button>
             </div>
           </div>
+          <DevTool control={control} />
         </form>
       </Modal>
     )
