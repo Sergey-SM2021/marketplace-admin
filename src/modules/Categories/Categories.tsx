@@ -1,13 +1,18 @@
+import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
+
 import {
   $categories,
   addCategory,
+  displayChildrenByIndex,
   getCategories,
   removeCategoryById,
+  ShowChilds,
 } from "./store"
 import { addNotification } from "modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
 
+import { WatchChild } from "./ui/WatchChild"
 import { Add } from "ui/Add"
 import { Button } from "ui/Button"
 import { Table } from "ui/Table"
@@ -16,9 +21,24 @@ import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 
 import { useStore } from "effector-react"
-import { memo, SyntheticEvent, useEffect, useState, MouseEvent } from "react"
+import React, {
+  memo,
+  SyntheticEvent,
+  useEffect,
+  useState,
+  MouseEvent,
+  FC,
+} from "react"
 import { useNavigate } from "react-router-dom"
-import { CreateCategoryCommand, EditCategoryCommand } from "entity"
+
+// export const Toggling: FC<{
+//   Enabled: React.ReactNode
+//   Disabled: React.ReactNode
+// }> = ({ Enabled, Disabled }) => {
+//   const [isEnabled, SetIsEnabled] = useState(false)
+
+//   return isEnabled ? Enabled : Disabled
+// }
 
 export const Categories = memo(() => {
   useEffect(() => {
@@ -75,10 +95,25 @@ export const Categories = memo(() => {
     await getCategories()
   }
 
-  const rows = categories.map(el => {
-    const { name, id } = el
+  const rows = categories.map((el, i) => {
+    const { name, id, childCategories } = el
 
-    return [
+    const row = [
+      el.childCategories?.length ? (
+        <Button
+          disabled={el.isOpen}
+          isDangerous={el.isOpen}
+          onClick={e => {
+            ShowChilds(el)
+            e.stopPropagation()
+            displayChildrenByIndex({
+              index: i + 1,
+              categories: childCategories!,
+            })
+          }}>
+          Смотреть
+        </Button>
+      ) : null,
       id,
       name,
       el.products?.length,
@@ -100,6 +135,8 @@ export const Categories = memo(() => {
         edit
       </Button>,
     ]
+
+    return row
   })
 
   if (isLoading) {
