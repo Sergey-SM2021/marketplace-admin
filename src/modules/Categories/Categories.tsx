@@ -5,6 +5,8 @@ import {
   addCategory,
   displayChildrenByIndex,
   getCategories,
+  HideChilds,
+  ILocalCategory,
   removeCategoryById,
   ShowChilds,
 } from "./store"
@@ -101,15 +103,19 @@ export const Categories = memo(() => {
     const row = [
       el.childCategories?.length ? (
         <Button
-          disabled={el.isOpen}
           isDangerous={el.isOpen}
           onClick={e => {
-            ShowChilds(el)
-            e.stopPropagation()
-            displayChildrenByIndex({
-              index: i + 1,
-              categories: childCategories!,
-            })
+            if (el.isOpen) {
+              e.stopPropagation()
+              HideChilds(el.childCategories as ILocalCategory[])
+            } else {
+              ShowChilds(el)
+              e.stopPropagation()
+              displayChildrenByIndex({
+                index: i + 1,
+                categories: childCategories!,
+              })
+            }
           }}>
           Смотреть
         </Button>

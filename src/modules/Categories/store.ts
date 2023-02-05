@@ -7,7 +7,7 @@ import { createDomain } from "effector"
 import { attachLogger } from "effector-logger/attach"
 import "effector-logger/inspector"
 
-interface ILocalCategory extends Category {
+export interface ILocalCategory extends Category {
   isOpen: boolean
 }
 
@@ -55,7 +55,9 @@ export const $categories = categoriesDomain
   .on(ShowChilds, (state, { id }) =>
     [...state].map(c => (c.id === id ? { ...c, isOpen: true } : c))
   )
-  .on(HideChilds, (state, childs:ILocalCategory[]) => [...state])
+  .on(HideChilds, (state, childs: ILocalCategory[]) =>
+    [...state].filter(c => !childs.map(({ id }) => id).includes(c.id))
+  ) 
 
 attachLogger(categoriesDomain, {
   reduxDevtools: "disabled",
