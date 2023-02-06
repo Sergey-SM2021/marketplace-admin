@@ -155,7 +155,7 @@ export const RenderRow: FC<ILocalCategory> = category => {
         onClick={e => {
           if (category.isOpen) {
             e.stopPropagation()
-            HideChilds(category.childCategories as ILocalCategory[])
+            HideChilds(id!)
           } else {
             ShowChilds(id!)
             e.stopPropagation()

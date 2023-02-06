@@ -45,7 +45,7 @@ export const addCategory = categoriesDomain.createEffect<
 
 // Change state у category.isOpen
 export const ShowChilds = categoriesDomain.createEvent<number>()
-export const HideChilds = categoriesDomain.createEvent<ILocalCategory[]>()
+export const HideChilds = categoriesDomain.createEvent<number>()
 
 export const $categories = categoriesDomain
   .createStore<ILocalCategory[]>([])
@@ -58,11 +58,12 @@ export const $categories = categoriesDomain
   // FIXME: id, category, mode - в один объект и один тип вынеси блядь
   .on(ShowChilds, (state, payload) => {
     state.forEach(el => setIsOpenMode(el, payload, true))
-    return [...state] 
+    return [...state]
   })
-  .on(HideChilds, (state, childs: ILocalCategory[]) =>
-    [...state].filter(c => !childs.map(({ id }) => id).includes(c.id))
-  )
+  .on(HideChilds, (state, payload) => {
+    state.forEach(el => setIsOpenMode(el, payload, false))
+    return [...state]
+  })
 
 attachLogger(categoriesDomain, {
   reduxDevtools: "disabled",
