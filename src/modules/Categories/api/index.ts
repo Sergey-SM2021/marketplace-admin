@@ -5,7 +5,7 @@ import {
   CreateCategoryCommand,
 } from "entity"
 
-import { ILocalCategory } from "../../store/store"
+import { ILocalCategory } from "../store/store"
 
 import axios from "axios"
 

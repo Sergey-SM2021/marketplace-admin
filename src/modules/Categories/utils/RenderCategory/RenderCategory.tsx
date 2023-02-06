@@ -1,4 +1,4 @@
-import { HideChilds, ILocalCategory, ShowChilds } from "modules/store/store"
+import { HideChilds, ILocalCategory, ShowChilds } from "modules/Categories/store/store"
 
 import { Button } from "ui"
 import { Row } from "ui/Table/Row"
@@ -51,7 +51,7 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       <div className="flex gap-3 justify-center">
         {category.features?.map(f => <Button>{f.name}</Button>)}
       </div>,
-      "",
+      "Здесь должно быть кол-во продуктов",
       <Button onClick={handlerRemove}>remove</Button>,
       <Button isDangerous={true} onClick={handlerEdit}>
         edit

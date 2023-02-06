@@ -5,7 +5,7 @@ import {
   addCategory,
   getCategories,
   removeCategoryById,
-} from "../store/store"
+} from "./store/store"
 import { addNotification } from "modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"

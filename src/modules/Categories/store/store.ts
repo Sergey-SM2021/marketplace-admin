@@ -1,7 +1,7 @@
 import { Category, CreateCategoryCommand } from "entity"
 
 // import { setIsOpenMode } from "./store.spec"
-import { api } from "../Categories/api"
+import { api } from "../api"
 
 import { createDomain } from "effector"
 // @ts-ignore
