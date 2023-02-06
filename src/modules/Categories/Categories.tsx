@@ -13,60 +13,33 @@ import { CategoryModal } from "./components/CategoryModal"
 import { Add } from "ui/Add"
 import { Header } from "ui/Table/Header"
 
+import { IHandlerEdit } from "./Categories.types"
+import { useModal } from "./hooks/useModal"
 import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
 
 import { useStore } from "effector-react"
-import {
-  memo,
-  SyntheticEvent,
-  useEffect,
-  useState,
-  MouseEvent,
-  FC,
-} from "react"
+import { memo, useEffect, FC } from "react"
 import { useNavigate } from "react-router-dom"
 
 export const Categories: FC = memo(() => {
+  const categories = useStore($categories)
+  const isLoading = useStore(getCategories.pending)
+  const navigate = useNavigate()
+  const modal = useModal()
+
   useEffect(() => {
     getCategories()
   }, [])
 
-  const categories = useStore($categories)
-  const isLoading = useStore(getCategories.pending)
-
-  const navigate = useNavigate()
-
-  // redirect на продукты
+  // redirect на products по нажатию на любой ряд
   const handlerRowClick = (categoryId: number) => {
     navigate(`/categories/${categoryId}`)
   }
 
-  const [modal, setModal] = useState<{
-    isOpen: boolean
-    state: EditCategoryCommand | null
-  }>({ isOpen: false, state: {} })
-
-  interface IHanleModalOpen {
-    e?: MouseEvent<HTMLButtonElement>
-    state?: EditCategoryCommand
-  }
-
-  const hanleModalOpen = ({ e, state }: IHanleModalOpen) => {
-    if (e) {
-      e.stopPropagation()
-    }
-    setModal({ isOpen: true, state: state || null })
-  }
-
-  const handleModalClose = () => {
-    setModal({ isOpen: false, state: null })
-  }
-
   // Обработчик удаления категории
-  const handlerRemoveClick = (e: SyntheticEvent, id: number) => {
-    e.stopPropagation()
+  const handlerRemoveClick = (id: number) => {
     addNotification({
       onAccept: () => {
         removeCategoryById(id)
@@ -75,13 +48,21 @@ export const Categories: FC = memo(() => {
     })
   }
 
-  // callback создания новой категории props for Modal
+  // callback который создаёт новую категорию. передать как props in Modal
   const handlerSendNewCategory = async (
     payload: CreateCategoryCommand | EditCategoryCommand
   ) => {
     await addCategory(payload)
     await getCategories()
   }
+
+  // onEdit
+  const handlerEdit = ({ id, name, parentCategoryId }: IHandlerEdit) =>
+    modal.hanlerOpen({
+      categoryId: id,
+      name: name,
+      parentCategoryId: parentCategoryId,
+    })
 
   if (isLoading) {
     return <div>Loading</div>
@@ -97,28 +78,29 @@ export const Categories: FC = memo(() => {
           }))}
           category={modal.state}
           handlerSave={handlerSendNewCategory}
-          handlerClose={handleModalClose}
+          handlerClose={modal.handlerClose}
         />
       ) : null}
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
-        <Add
-          handlerAdd={() => {
-            hanleModalOpen({})
-          }}
-        />
+        <Add handlerAdd={modal.hanlerOpen} />
       </div>
       {categories.length ? (
-        <table
-          style={{
-            margin: "-10px 0",
-            borderSpacing: "0 10px",
-            borderCollapse: "separate",
-            minWidth: "100%",
-          }}>
+        <table className="mx-[-10px] min-w-full border-separate my-0 border-spacing-x-0 border-spacing-y-10px">
           <Header row={headerTableCol} />
           {categories.map(cat => (
-            <RenderCategory category={cat} onClick={(id:number) => handlerRowClick(id)}/>
+            <RenderCategory
+              onEdit={() =>
+                handlerEdit({
+                  id: cat.id!,
+                  name: cat.name!,
+                  parentCategoryId: cat.parentCategoryId!,
+                })
+              }
+              onRemove={() => handlerRemoveClick(cat.id as number)}
+              category={cat}
+              onClick={(id: number) => handlerRowClick(id)}
+            />
           ))}
         </table>
       ) : (
@@ -129,48 +111,3 @@ export const Categories: FC = memo(() => {
     </div>
   )
 })
-
-// onClick={e => handlerRemoveClick(e, id as number)}
-
-// onClick={e =>
-//   hanleModalOpen({
-//     e,
-//     state: {
-//       categoryId: id,
-//       name: name,
-//       parentCategoryId: category.parentCategoryId,
-//     },
-//   })
-// }
-
-{
-  /* <table className={style.table}>
-<thead className={cn(style.table__header, style.headerTable)}>
-  <tr className={style.headerTable__row}>
-    {HeaderTableRow.map((col, index) => (
-      <th key={v4()}
-        className={style.headerTable__col}
-        colSpan={index === (HeaderTableRow.length - 1) ? 2 : 1}
-      >
-        {col  }
-      </th>
-    ))}
-  </tr>
-</thead>
-<tbody className={cn(style.table__body, style.bodyTable)}>
-  {BodyTableRows.map((category) => {
-    return (
-      <tr
-        key={v4()}
-        onClick={() => BodyTableRowClickHandler(category[0] as number)}
-        className={style.bodyTable__row}
-      >
-        {category.map((value) => {
-          return <td key={v4()} className={style.bodyTable__col}>{value}</td>
-        })}
-      </tr>
-    )
-  })}
-</tbody>
-</table> */
-}
