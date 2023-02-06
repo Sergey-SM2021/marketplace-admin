@@ -1,25 +1,19 @@
-import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { CreateCategoryCommand, EditCategoryCommand } from "entity"
 
 import {
   $categories,
   addCategory,
   getCategories,
-  HideChilds,
-  ILocalCategory,
   removeCategoryById,
-  ShowChilds,
 } from "../store/store"
 import { addNotification } from "modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
 
 import { Add } from "ui/Add"
-import { Button } from "ui/Button"
-import { Table } from "ui/Table"
-import { v4 } from "uuid"
 
-import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
+import { RenderRow } from "./utils/RenderRow/RenderRow"
 
 import { useStore } from "effector-react"
 import {
@@ -112,9 +106,13 @@ export const Categories: FC = memo(() => {
           }}
         />
       </div>
-      {categories.map(cat => (
-        <RenderRow {...cat} />
-      ))}
+      <table style={{width:"100%"}}>
+        <tbody>
+          {categories.map(cat => (
+            <RenderRow {...cat} />
+          ))}
+        </tbody>
+      </table>
       {/* {categories.length ? (
         <Table
           BodyTableRowClickHandler={handlerRowClick}
@@ -144,60 +142,6 @@ export const Categories: FC = memo(() => {
 // }
 
 // onClick={() => BodyTableRowClickHandler(category[0] as number)}
-
-export const RenderRow: FC<ILocalCategory> = category => {
-  const { name, id, childCategories, isOpen } = category
-
-  const row = [
-    category.childCategories?.length ? (
-      <Button
-        isDangerous={category.isOpen}
-        onClick={e => {
-          if (category.isOpen) {
-            e.stopPropagation()
-            HideChilds(id!)
-          } else {
-            ShowChilds(id!)
-            e.stopPropagation()
-          }
-        }}>
-        Смотреть
-      </Button>
-    ) : null,
-    id,
-    name,
-    category.products?.length,
-    <Button>remove</Button>,
-    <Button isDangerous={true}>edit</Button>,
-  ]
-
-  return (childCategories?.length && isOpen) ? (
-    <>
-      <tr key={v4()} className={style.bodyTable__row}>
-        {row.map(value => {
-          return (
-            <td key={v4()} className={style.bodyTable__col}>
-              {value}
-            </td>
-          )
-        })}
-      </tr>
-      {childCategories?.map(c => (
-        <RenderRow {...(c as ILocalCategory)} />
-      ))}
-    </>
-  ) : (
-    <tr key={v4()} className={style.bodyTable__row}>
-      {row.map(value => {
-        return (
-          <td key={v4()} className={style.bodyTable__col}>
-            {value}
-          </td>
-        )
-      })}
-    </tr>
-  )
-}
 
 {
   /* <table className={style.table}>
