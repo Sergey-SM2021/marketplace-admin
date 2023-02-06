@@ -1,19 +1,16 @@
 import { HideChilds, ILocalCategory, ShowChilds } from "modules/store/store"
 
 import { Button } from "ui"
-import { v4 } from "uuid"
+import { Row } from "ui/Table/Row"
 
-import style from "./index.module.sass"
+import { FC, memo } from "react"
 
-import { FC } from "react"
-
-interface IRenderRow {
+interface IRenderCategory {
   category: ILocalCategory
   onClick: (id: number) => void
 }
 
-// FIXME: rename to RenderCat
-export const RenderRow: FC<IRenderRow> = ({ category, onClick }) => {
+export const RenderCategory: FC<IRenderCategory> = memo(({ category, onClick }) => {
   const handlerClick = () => {
     onClick(category.id!)
   }
@@ -43,38 +40,20 @@ export const RenderRow: FC<IRenderRow> = ({ category, onClick }) => {
     <Button isDangerous={true}>edit</Button>,
   ]
 
-  // рекурсивный Render категорий with children, 
+  // рекурсивный Render категорий with children,
   // которые в открытом state
   if (childCategories?.length && isOpen) {
     return (
       <>
-        <tr key={v4()} className={style.bodyTable__row} onClick={handlerClick}>
-          {row.map(value => {
-            return (
-              <td key={v4()} className={style.bodyTable__col}>
-                {value}
-              </td>
-            )
-          })}
-        </tr>
+        <Row item={{ cols: row, id: category.id! }} onClick={handlerClick} />
         {childCategories?.map(c => (
-          <RenderRow category={c} onClick={handlerClick} />
+          <RenderCategory category={c} onClick={handlerClick} />
         ))}
       </>
     )
   }
 
-  // рекурсивный Render категорий with out children, 
+  // рекурсивный Render категорий with out children,
   // or в close state
-  return (
-    <tr key={v4()} className={style.bodyTable__row} onClick={handlerClick}>
-      {row.map(value => {
-        return (
-          <td key={v4()} className={style.bodyTable__col}>
-            {value}
-          </td>
-        )
-      })}
-    </tr>
-  )
-}
+  return <Row item={{ cols: row, id: category.id! }} onClick={handlerClick} />
+})

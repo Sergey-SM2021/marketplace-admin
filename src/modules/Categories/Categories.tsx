@@ -15,7 +15,7 @@ import { Header } from "ui/Table/Header"
 
 import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
-import { RenderRow } from "./utils/RenderRow/RenderRow"
+import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
 
 import { useStore } from "effector-react"
 import {
@@ -118,7 +118,7 @@ export const Categories: FC = memo(() => {
           }}>
           <Header row={headerTableCol} />
           {categories.map(cat => (
-            <RenderRow category={cat} onClick={(id:number) => handlerRowClick(id)}/>
+            <RenderCategory category={cat} onClick={(id:number) => handlerRowClick(id)}/>
           ))}
         </table>
       ) : (
