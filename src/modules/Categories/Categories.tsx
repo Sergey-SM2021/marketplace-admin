@@ -14,16 +14,16 @@ import { addNotification } from "modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
 
-import { WatchChild } from "./ui/WatchChild"
 import { Add } from "ui/Add"
 import { Button } from "ui/Button"
 import { Table } from "ui/Table"
+import { v4 } from "uuid"
 
 import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 
 import { useStore } from "effector-react"
-import React, {
+import {
   memo,
   SyntheticEvent,
   useEffect,
@@ -33,16 +33,7 @@ import React, {
 } from "react"
 import { useNavigate } from "react-router-dom"
 
-// export const Toggling: FC<{
-//   Enabled: React.ReactNode
-//   Disabled: React.ReactNode
-// }> = ({ Enabled, Disabled }) => {
-//   const [isEnabled, SetIsEnabled] = useState(false)
-
-//   return isEnabled ? Enabled : Disabled
-// }
-
-export const Categories = memo(() => {
+export const Categories: FC = memo(() => {
   useEffect(() => {
     getCategories()
   }, [])
@@ -97,54 +88,6 @@ export const Categories = memo(() => {
     await getCategories()
   }
 
-  const rows = categories.map((el, i) => {
-    const { name, id, childCategories } = el
-
-    const row = [
-      el.childCategories?.length ? (
-        <Button
-          isDangerous={el.isOpen}
-          onClick={e => {
-            if (el.isOpen) {
-              e.stopPropagation()
-              HideChilds(el.childCategories as ILocalCategory[])
-            } else {
-              ShowChilds(el)
-              e.stopPropagation()
-              displayChildrenByIndex({
-                index: i + 1,
-                categories: childCategories!,
-              })
-            }
-          }}>
-          Смотреть
-        </Button>
-      ) : null,
-      id,
-      name,
-      el.products?.length,
-      <Button onClick={e => handlerRemoveClick(e, id as number)}>
-        remove
-      </Button>,
-      <Button
-        isDangerous={true}
-        onClick={e =>
-          hanleModalOpen({
-            e,
-            state: {
-              categoryId: id,
-              name: name,
-              parentCategoryId: el.parentCategoryId,
-            },
-          })
-        }>
-        edit
-      </Button>,
-    ]
-
-    return row
-  })
-
   if (isLoading) {
     return <div>Loading</div>
   }
@@ -170,7 +113,10 @@ export const Categories = memo(() => {
           }}
         />
       </div>
-      {categories.length ? (
+      {categories.map(cat => (
+        <RenderRow {...cat} />
+      ))}
+      {/* {categories.length ? (
         <Table
           BodyTableRowClickHandler={handlerRowClick}
           HeaderTableRow={headerTableCol}
@@ -180,7 +126,113 @@ export const Categories = memo(() => {
         <div>
           <div>Создайте категорию</div>
         </div>
-      )}
+      )} */}
     </div>
   )
 })
+
+// category.childCategories?.length ? (
+//   <Button
+//     isDangerous={category.isOpen}
+//     onClick={e => {
+//       if (category.isOpen) {
+//         e.stopPropagation()
+//         HideChilds(category.childCategories as ILocalCategory[])
+//       } else {
+//         ShowChilds(category)
+//         e.stopPropagation()
+//         displayChildrenByIndex({
+//           index: i + 1,
+//           categories: childCategories!,
+//         })
+//       }
+//     }}>
+//     Смотреть
+//   </Button>
+// ) : null,
+
+// onClick={e => handlerRemoveClick(e, id as number)}
+
+// onClick={e =>
+//   hanleModalOpen({
+//     e,
+//     state: {
+//       categoryId: id,
+//       name: name,
+//       parentCategoryId: category.parentCategoryId,
+//     },
+//   })
+// }
+
+// onClick={() => BodyTableRowClickHandler(category[0] as number)}
+
+export const RenderRow: FC<ILocalCategory> = category => {
+  const { name, id, childCategories, isOpen } = category
+
+  const row = [
+    id,
+    name,
+    category.products?.length,
+    <Button>remove</Button>,
+    <Button isDangerous={true}>edit</Button>,
+  ]
+
+  return category.childCategories?.length ? (
+    <>
+      <tr key={v4()} className={style.bodyTable__row}>
+        {row.map(value => {
+          return (
+            <td key={v4()} className={style.bodyTable__col}>
+              {value}
+            </td>
+          )
+        })}
+      </tr>
+      {childCategories?.map(c => (
+        <RenderRow {...c as ILocalCategory} />
+      ))}
+    </>
+  ) : (
+    <tr key={v4()} className={style.bodyTable__row}>
+      {row.map(value => {
+        return (
+          <td key={v4()} className={style.bodyTable__col}>
+            {value}
+          </td>
+        )
+      })}
+    </tr>
+  )
+}
+
+{
+  /* <table className={style.table}>
+<thead className={cn(style.table__header, style.headerTable)}>
+  <tr className={style.headerTable__row}>
+    {HeaderTableRow.map((col, index) => (
+      <th key={v4()}
+        className={style.headerTable__col}
+        colSpan={index === (HeaderTableRow.length - 1) ? 2 : 1}
+      >
+        {col  }
+      </th>
+    ))}
+  </tr>
+</thead>
+<tbody className={cn(style.table__body, style.bodyTable)}>
+  {BodyTableRows.map((category) => {
+    return (
+      <tr
+        key={v4()}
+        onClick={() => BodyTableRowClickHandler(category[0] as number)}
+        className={style.bodyTable__row}
+      >
+        {category.map((value) => {
+          return <td key={v4()} className={style.bodyTable__col}>{value}</td>
+        })}
+      </tr>
+    )
+  })}
+</tbody>
+</table> */
+}
