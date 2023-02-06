@@ -9,13 +9,23 @@ interface IRenderCategory {
   category: ILocalCategory
   onClick: (id: number) => void
   onRemove: () => void
-  onEdit: (e:SyntheticEvent) => void
+  onEdit: () => void
 }
 
 export const RenderCategory: FC<IRenderCategory> = memo(
   ({ category, onClick, onEdit, onRemove }) => {
     const handlerRowClick = () => {
       onClick(category.id!)
+    }
+
+    const handlerRemove = (e: SyntheticEvent) => {
+      e.stopPropagation()
+      onRemove()
+    }
+
+    const handlerEdit = (e: SyntheticEvent) => {
+      e.stopPropagation()
+      onEdit()
     }
 
     const { name, id, childCategories, isOpen } = category
@@ -39,8 +49,10 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       id,
       name,
       category.products?.length,
-      <Button>remove</Button>,
-      <Button isDangerous={true}>edit</Button>,
+      <Button onClick={handlerRemove}>remove</Button>,
+      <Button isDangerous={true} onClick={handlerEdit}>
+        edit
+      </Button>,
     ]
 
     // рекурсивный Render категорий with children,
