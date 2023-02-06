@@ -1,10 +1,23 @@
 import { HideChilds, ILocalCategory, ShowChilds } from "modules/store/store"
-import { FC } from "react"
+
 import { Button } from "ui"
 import { v4 } from "uuid"
+
 import style from "./index.module.sass"
 
-export const RenderRow: FC<ILocalCategory> = category => {
+import { FC } from "react"
+
+interface IRenderRow {
+  category: ILocalCategory
+  handlerClick: (id: number) => void
+}
+
+// FIXME: rename to RenderCat
+export const RenderRow: FC<IRenderRow> = ({ category, handlerClick }) => {
+  const onClick = () => {
+    handlerClick(category.id!)
+  }
+
   const { name, id, childCategories, isOpen } = category
 
   const row = [
@@ -30,23 +43,31 @@ export const RenderRow: FC<ILocalCategory> = category => {
     <Button isDangerous={true}>edit</Button>,
   ]
 
-  return childCategories?.length && isOpen ? (
-    <>
-      <tr key={v4()} className={style.bodyTable__row}>
-        {row.map(value => {
-          return (
-            <td key={v4()} className={style.bodyTable__col}>
-              {value}
-            </td>
-          )
-        })}
-      </tr>
-      {childCategories?.map(c => (
-        <RenderRow {...(c as ILocalCategory)} />
-      ))}
-    </>
-  ) : (
-    <tr key={v4()} className={style.bodyTable__row}>
+  // рекурсивный Render категорий with children, 
+  // которые в открытом state
+  if (childCategories?.length && isOpen) {
+    return (
+      <>
+        <tr key={v4()} className={style.bodyTable__row} onClick={onClick}>
+          {row.map(value => {
+            return (
+              <td key={v4()} className={style.bodyTable__col}>
+                {value}
+              </td>
+            )
+          })}
+        </tr>
+        {childCategories?.map(c => (
+          <RenderRow category={c} handlerClick={handlerClick} />
+        ))}
+      </>
+    )
+  }
+
+  // рекурсивный Render категорий with out children, 
+  // or в close state
+  return (
+    <tr key={v4()} className={style.bodyTable__row} onClick={onClick}>
       {row.map(value => {
         return (
           <td key={v4()} className={style.bodyTable__col}>

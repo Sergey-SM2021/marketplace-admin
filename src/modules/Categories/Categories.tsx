@@ -11,7 +11,9 @@ import { addNotification } from "modules/Notifications/store"
 import { CategoryModal } from "./components/CategoryModal"
 
 import { Add } from "ui/Add"
+import { Header } from "ui/Table/Header"
 
+import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 import { RenderRow } from "./utils/RenderRow/RenderRow"
 
@@ -106,24 +108,24 @@ export const Categories: FC = memo(() => {
           }}
         />
       </div>
-      <table style={{width:"100%"}}>
-        <tbody>
+      {categories.length ? (
+        <table
+          style={{
+            margin: "-10px 0",
+            borderSpacing: "0 10px",
+            borderCollapse: "separate",
+            minWidth: "100%",
+          }}>
+          <Header row={headerTableCol} />
           {categories.map(cat => (
-            <RenderRow {...cat} />
+            <RenderRow category={cat} handlerClick={(id:number) => handlerRowClick(id)}/>
           ))}
-        </tbody>
-      </table>
-      {/* {categories.length ? (
-        <Table
-          BodyTableRowClickHandler={handlerRowClick}
-          HeaderTableRow={headerTableCol}
-          BodyTableRows={rows}
-        />
+        </table>
       ) : (
         <div>
           <div>Создайте категорию</div>
         </div>
-      )} */}
+      )}
     </div>
   )
 })
@@ -140,8 +142,6 @@ export const Categories: FC = memo(() => {
 //     },
 //   })
 // }
-
-// onClick={() => BodyTableRowClickHandler(category[0] as number)}
 
 {
   /* <table className={style.table}>
