@@ -48,7 +48,10 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       ) : null,
       id,
       name,
-      category.products?.length,
+      <div className="flex gap-3 justify-center">
+        {category.features?.map(f => <Button>{f.name}</Button>)}
+      </div>,
+      "",
       <Button onClick={handlerRemove}>remove</Button>,
       <Button isDangerous={true} onClick={handlerEdit}>
         edit

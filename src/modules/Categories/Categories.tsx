@@ -86,7 +86,13 @@ export const Categories: FC = memo(() => {
         <Add handlerAdd={modal.hanlerOpen} />
       </div>
       {categories.length ? (
-        <table className="mx-[-10px] min-w-full border-separate my-0 border-spacing-x-0 border-spacing-y-10px">
+        <table
+          style={{
+            margin: "-10px 0",
+            borderSpacing: "0 10px",
+            borderCollapse: "separate",
+            minWidth: "100%",
+          }}>
           <Header row={headerTableCol} />
           {categories.map(cat => (
             <RenderCategory
