@@ -131,26 +131,6 @@ export const Categories: FC = memo(() => {
   )
 })
 
-// category.childCategories?.length ? (
-//   <Button
-//     isDangerous={category.isOpen}
-//     onClick={e => {
-//       if (category.isOpen) {
-//         e.stopPropagation()
-//         HideChilds(category.childCategories as ILocalCategory[])
-//       } else {
-//         ShowChilds(category)
-//         e.stopPropagation()
-//         displayChildrenByIndex({
-//           index: i + 1,
-//           categories: childCategories!,
-//         })
-//       }
-//     }}>
-//     Смотреть
-//   </Button>
-// ) : null,
-
 // onClick={e => handlerRemoveClick(e, id as number)}
 
 // onClick={e =>
@@ -170,6 +150,26 @@ export const RenderRow: FC<ILocalCategory> = category => {
   const { name, id, childCategories, isOpen } = category
 
   const row = [
+    category.childCategories?.length ? (
+      <Button
+        isDangerous={category.isOpen}
+        onClick={e => {
+          if (category.isOpen) {
+            e.stopPropagation()
+            HideChilds(category.childCategories as ILocalCategory[])
+          } else {
+            ShowChilds(category)
+            e.stopPropagation()
+            displayChildrenByIndex({
+              // FIXME: i + 1 сюда надо вставить
+              index: 1,
+              categories: childCategories!,
+            })
+          }
+        }}>
+        Смотреть
+      </Button>
+    ) : null,
     id,
     name,
     category.products?.length,
@@ -177,7 +177,7 @@ export const RenderRow: FC<ILocalCategory> = category => {
     <Button isDangerous={true}>edit</Button>,
   ]
 
-  return category.childCategories?.length ? (
+  return (childCategories?.length && isOpen) ? (
     <>
       <tr key={v4()} className={style.bodyTable__row}>
         {row.map(value => {
@@ -189,7 +189,7 @@ export const RenderRow: FC<ILocalCategory> = category => {
         })}
       </tr>
       {childCategories?.map(c => (
-        <RenderRow {...c as ILocalCategory} />
+        <RenderRow {...(c as ILocalCategory)} />
       ))}
     </>
   ) : (
