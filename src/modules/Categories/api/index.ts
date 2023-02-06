@@ -1,17 +1,32 @@
 import {
   CancelablePromise,
+  Category,
   CategoryResponseDTO,
   CreateCategoryCommand,
 } from "entity"
+
+import { ILocalCategory } from "../store"
+
 import axios from "axios"
+
+const ConvertCatToCustomCat = (cat: Category): ILocalCategory => {
+  return {
+    ...cat,
+    isOpen: false,
+    childCategories: cat.childCategories?.map(chCat =>
+      ConvertCatToCustomCat(chCat)
+    ),
+  }
+}
 
 export const api = {
   async getCategories() {
-    return (
+    const data = (
       await axios.get<CancelablePromise<Array<CategoryResponseDTO>>>(
         "http://shopshop.somee.com/Shop/GetCategoriesTree"
       )
     ).data
+    return (await data).map(cat => ConvertCatToCustomCat(cat))
   },
   async createCategory(payload: CreateCategoryCommand) {
     return (

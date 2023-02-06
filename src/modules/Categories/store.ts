@@ -15,7 +15,7 @@ const categoriesDomain = createDomain()
 
 export const getCategories = categoriesDomain.createEffect<
   void,
-  Array<Category>
+  Array<ILocalCategory>
 >(api.getCategories)
 
 export const removeCategoryById = categoriesDomain.createEffect<number, string>(
