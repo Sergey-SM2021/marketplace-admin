@@ -1,6 +1,7 @@
 import { Category, CreateCategoryCommand } from "entity"
 
-import { api } from "./api"
+// import { setIsOpenMode } from "./store.spec"
+import { api } from "../Categories/api"
 
 import { createDomain } from "effector"
 // @ts-ignore
@@ -9,6 +10,21 @@ import "effector-logger/inspector"
 
 export interface ILocalCategory extends Category {
   isOpen: boolean
+  childCategories: Array<ILocalCategory>
+}
+
+// #FIXME: Уберите меня в utils!!!!!!!!
+export const setIsOpenMode = (
+  category: ILocalCategory,
+  id: number,
+  mode: boolean
+) => {
+  if (category.id === id) {
+    category.isOpen = mode
+  }
+  if (category.childCategories.length) {
+    category.childCategories.forEach(cat => setIsOpenMode(cat, id, mode))
+  }
 }
 
 const categoriesDomain = createDomain()
@@ -27,12 +43,8 @@ export const addCategory = categoriesDomain.createEffect<
   number
 >(api.createCategory)
 
-export const displayChildrenByIndex = categoriesDomain.createEvent<{
-  index: number
-  categories: Category[]
-}>()
 // Change state у category.isOpen
-export const ShowChilds = categoriesDomain.createEvent<ILocalCategory>()
+export const ShowChilds = categoriesDomain.createEvent<number>()
 export const HideChilds = categoriesDomain.createEvent<ILocalCategory[]>()
 
 export const $categories = categoriesDomain
@@ -43,24 +55,17 @@ export const $categories = categoriesDomain
   .on(removeCategoryById.done, (state, { params }) =>
     state.filter(category => category.id !== params)
   )
-  .on(displayChildrenByIndex, (state, { categories, index }) => {
-    const StateCopy = [...state]
-    StateCopy.splice(
-      index,
-      0,
-      ...categories.map(cat => ({ ...cat, isOpen: false }))
-    )
-    return StateCopy
+  // FIXME: id, category, mode - в один объект и один тип вынеси блядь
+  .on(ShowChilds, (state, payload) => {
+    state.forEach(el => setIsOpenMode(el, payload, true))
+    return [...state] 
   })
-  .on(ShowChilds, (state, { id }) =>
-    [...state].map(c => (c.id === id ? { ...c, isOpen: true } : c))
-  )
   .on(HideChilds, (state, childs: ILocalCategory[]) =>
     [...state].filter(c => !childs.map(({ id }) => id).includes(c.id))
-  ) 
+  )
 
 attachLogger(categoriesDomain, {
   reduxDevtools: "disabled",
   // inspector: "disabled",
-  console: "disabled",
+  // console: "disabled",
 })

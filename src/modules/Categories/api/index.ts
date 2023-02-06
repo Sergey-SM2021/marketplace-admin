@@ -5,7 +5,7 @@ import {
   CreateCategoryCommand,
 } from "entity"
 
-import { ILocalCategory } from "../store"
+import { ILocalCategory } from "../../store/store"
 
 import axios from "axios"
 
@@ -13,9 +13,9 @@ const ConvertCatToCustomCat = (cat: Category): ILocalCategory => {
   return {
     ...cat,
     isOpen: false,
-    childCategories: cat.childCategories?.map(chCat =>
+    childCategories: cat.childCategories? cat.childCategories.map(chCat =>
       ConvertCatToCustomCat(chCat)
-    ),
+    ) : [],
   }
 }
 

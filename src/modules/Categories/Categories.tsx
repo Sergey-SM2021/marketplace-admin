@@ -3,13 +3,12 @@ import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
 import {
   $categories,
   addCategory,
-  displayChildrenByIndex,
   getCategories,
   HideChilds,
   ILocalCategory,
   removeCategoryById,
   ShowChilds,
-} from "./store"
+} from "../store/store"
 import { addNotification } from "modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
@@ -158,13 +157,8 @@ export const RenderRow: FC<ILocalCategory> = category => {
             e.stopPropagation()
             HideChilds(category.childCategories as ILocalCategory[])
           } else {
-            ShowChilds(category)
+            ShowChilds(id!)
             e.stopPropagation()
-            displayChildrenByIndex({
-              // FIXME: i + 1 сюда надо вставить
-              index: 1,
-              categories: childCategories!,
-            })
           }
         }}>
         Смотреть
