@@ -9,13 +9,13 @@ import { FC } from "react"
 
 interface IRenderRow {
   category: ILocalCategory
-  handlerClick: (id: number) => void
+  onClick: (id: number) => void
 }
 
 // FIXME: rename to RenderCat
-export const RenderRow: FC<IRenderRow> = ({ category, handlerClick }) => {
-  const onClick = () => {
-    handlerClick(category.id!)
+export const RenderRow: FC<IRenderRow> = ({ category, onClick }) => {
+  const handlerClick = () => {
+    onClick(category.id!)
   }
 
   const { name, id, childCategories, isOpen } = category
@@ -48,7 +48,7 @@ export const RenderRow: FC<IRenderRow> = ({ category, handlerClick }) => {
   if (childCategories?.length && isOpen) {
     return (
       <>
-        <tr key={v4()} className={style.bodyTable__row} onClick={onClick}>
+        <tr key={v4()} className={style.bodyTable__row} onClick={handlerClick}>
           {row.map(value => {
             return (
               <td key={v4()} className={style.bodyTable__col}>
@@ -58,7 +58,7 @@ export const RenderRow: FC<IRenderRow> = ({ category, handlerClick }) => {
           })}
         </tr>
         {childCategories?.map(c => (
-          <RenderRow category={c} handlerClick={handlerClick} />
+          <RenderRow category={c} onClick={handlerClick} />
         ))}
       </>
     )
@@ -67,7 +67,7 @@ export const RenderRow: FC<IRenderRow> = ({ category, handlerClick }) => {
   // рекурсивный Render категорий with out children, 
   // or в close state
   return (
-    <tr key={v4()} className={style.bodyTable__row} onClick={onClick}>
+    <tr key={v4()} className={style.bodyTable__row} onClick={handlerClick}>
       {row.map(value => {
         return (
           <td key={v4()} className={style.bodyTable__col}>

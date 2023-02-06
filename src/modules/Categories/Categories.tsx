@@ -118,7 +118,7 @@ export const Categories: FC = memo(() => {
           }}>
           <Header row={headerTableCol} />
           {categories.map(cat => (
-            <RenderRow category={cat} handlerClick={(id:number) => handlerRowClick(id)}/>
+            <RenderRow category={cat} onClick={(id:number) => handlerRowClick(id)}/>
           ))}
         </table>
       ) : (
