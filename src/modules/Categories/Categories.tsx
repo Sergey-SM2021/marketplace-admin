@@ -1,4 +1,4 @@
-import { CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
 
 import {
   $categories,
@@ -57,9 +57,9 @@ export const Categories: FC = memo(() => {
   }
 
   // onEdit
-  const handlerEdit = ({ id, name, parentCategoryId }: IHandlerEdit) =>
+  const handlerEdit = ({ id, name, parentCategoryId, features }: Category) =>
     modal.hanlerOpen({
-      categoryId: id,
+      id,
       name: name,
       parentCategoryId: parentCategoryId,
     })

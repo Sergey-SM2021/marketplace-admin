@@ -1,10 +1,13 @@
-import { Controller, useFieldArray, useForm } from "react-hook-form"
-import { Field, Button, Modal } from "ui"
-import { Chips } from "./Chips"
-import { FC, memo } from "react"
 import { CreateCategoryCommand, EditCategoryCommand } from "entity"
+
+import { Field, Button, Modal } from "ui"
 import { Dropdown } from "ui/Dropdown"
+
+import { Chips } from "./Chips"
+
 import { DevTool } from "@hookform/devtools"
+import { FC, memo } from "react"
+import { Controller, useFieldArray, useForm } from "react-hook-form"
 
 interface IForm {
   categoryName: string
@@ -77,7 +80,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
                     list={categories}
                     name={value.key}
                     onChange={onChange}
-                    />
+                  />
                 )}
               />
             </div>
