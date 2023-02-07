@@ -1,4 +1,8 @@
-import { HideChilds, ILocalCategory, ShowChilds } from "modules/Categories/store/store"
+import {
+  HideChilds,
+  ILocalCategory,
+  ShowChilds,
+} from "modules/Categories/store/store"
 
 import { Button } from "ui"
 import { Row } from "ui/Table/Row"
@@ -10,10 +14,11 @@ interface IRenderCategory {
   onClick: (id: number) => void
   onRemove: () => void
   onEdit: () => void
+  onAddProduct: (id: number) => void
 }
 
 export const RenderCategory: FC<IRenderCategory> = memo(
-  ({ category, onClick, onEdit, onRemove }) => {
+  ({ category, onClick, onEdit, onRemove, onAddProduct }) => {
     const handlerRowClick = () => {
       onClick(category.id!)
     }
@@ -26,6 +31,11 @@ export const RenderCategory: FC<IRenderCategory> = memo(
     const handlerEdit = (e: SyntheticEvent) => {
       e.stopPropagation()
       onEdit()
+    }
+
+    const handlerAddProduct = (e: SyntheticEvent, id: number) => {
+      e.stopPropagation()
+      onAddProduct(id)
     }
 
     const { name, id, childCategories, isOpen } = category
@@ -49,12 +59,17 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       id,
       name,
       <div className="flex gap-3 justify-center">
-        {category.features?.map(f => <Button>{f.name}</Button>)}
+        {category.features?.map(f => (
+          <Button>{f.name}</Button>
+        ))}
       </div>,
       "Здесь должно быть кол-во продуктов",
       <Button onClick={handlerRemove}>remove</Button>,
       <Button isDangerous={true} onClick={handlerEdit}>
         edit
+      </Button>,
+      <Button isDangerous onClick={e => handlerAddProduct(e, id!)}>
+        Create Product
       </Button>,
     ]
 
@@ -73,6 +88,7 @@ export const RenderCategory: FC<IRenderCategory> = memo(
               onClick={handlerRowClick}
               onEdit={onEdit}
               onRemove={onRemove}
+              onAddProduct={onAddProduct}
             />
           ))}
         </>

@@ -8,8 +8,6 @@ import { useEffect } from "react"
 export const ProductsPage = () => {
   const products = useStore($ProductsPageStore)
 
-  console.log(products)
-
   useEffect(() => {
     getProducts()
   }, [])

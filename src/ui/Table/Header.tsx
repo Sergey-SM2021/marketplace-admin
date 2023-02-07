@@ -15,7 +15,7 @@ export const Header = ({row}: IHeader) => {
           <th
             key={v4()}
             className={style.headerTable__col}
-            colSpan={index === row.length - 1 ? 2 : 1}>
+            colSpan={index === row.length - 1 ? 3 : 1}>
             {col}
           </th>
         ))}

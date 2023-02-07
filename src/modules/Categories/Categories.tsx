@@ -3,6 +3,7 @@ import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
 import {
   $categories,
   addCategory,
+  createProduct,
   getCategories,
   removeCategoryById,
 } from "./store/store"
@@ -104,6 +105,7 @@ export const Categories: FC = memo(() => {
               onRemove={() => handlerRemoveClick(cat.id as number)}
               category={cat}
               onClick={(id: number) => handlerRowClick(id)}
+              onAddProduct={(id)=>{createProduct({categoryId:id,info:"lorem",name:"name-lorem",price:999,rating:10})}}
             />
           ))}
         </table>

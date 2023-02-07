@@ -1,3 +1,4 @@
+import { CreateProductCommand } from "./../../../entity/models/CreateProductCommand"
 import {
   CancelablePromise,
   Category,
@@ -54,6 +55,14 @@ export const api = {
       await axios.put(
         `http://shopshop.somee.com/AdminPanel/EditCategory`,
         category
+      )
+    ).data
+  },
+  async createProduct(payload: CreateProductCommand) {
+    return (
+      await axios.post(
+        "http://shopshop.somee.com/AdminPanel/CreateProduct",
+        payload
       )
     ).data
   },

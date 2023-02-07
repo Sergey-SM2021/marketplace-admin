@@ -1,4 +1,4 @@
-import { Category, CreateCategoryCommand } from "entity"
+import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
 
 // import { setIsOpenMode } from "./store.spec"
 import { api } from "../api"
@@ -43,6 +43,8 @@ export const addCategory = categoriesDomain.createEffect<
   Category
 >(api.createCategory)
 
+export const createProduct = categoriesDomain.createEffect<CreateProductCommand,void>(api.createProduct)
+
 // Change state у category.isOpen
 export const ShowChilds = categoriesDomain.createEvent<number>()
 export const HideChilds = categoriesDomain.createEvent<number>()
@@ -67,6 +69,7 @@ export const $categories = categoriesDomain
   .on(addCategory.doneData, (state,payload) => {
     return [...state, {...payload,isOpen:false, childCategories: []}]
   })
+  .on(createProduct.doneData, (state,payload)=>{alert(JSON.stringify(payload))})
 
 attachLogger(categoriesDomain, {
   reduxDevtools: "disabled",
