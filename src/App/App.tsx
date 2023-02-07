@@ -1,13 +1,18 @@
 import { Sidebar } from "../modules/Sidebar"
-import { Outlet } from "react-router-dom"
+
 import { Header } from "components/Header"
 
-export const App = () => (
-  <div className="flex bg-gray min-h-screen h-full">
-    <Sidebar />
-    <div className="flex-auto">
-      <Header />
-      <Outlet />
+import { Outlet, useLocation } from "react-router-dom"
+
+export const App = () => {
+  const {pathname} = useLocation()
+  return (
+    <div className="flex bg-gray min-h-screen h-full">
+      {pathname !== '/' ? <Sidebar /> : null}
+      <div className="flex-auto">
+        <Header />
+        <Outlet />
+      </div>
     </div>
-  </div>
-)
+  )
+}

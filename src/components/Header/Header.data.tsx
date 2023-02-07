@@ -10,7 +10,7 @@ export const navLinks = [
     icon: <Items className="w-5 h-5 fill-white" />,
     text: "Categories",
     id: v4(),
-    link: "/categories",
+    link: "/",
   },
   {
     icon: <Settings className="w-5 h-5 fill-white" />,
