@@ -13,10 +13,16 @@ const ConvertCatToCustomCat = (cat: Category): ILocalCategory => {
   return {
     ...cat,
     isOpen: false,
-    childCategories: cat.childCategories? cat.childCategories.map(chCat =>
-      ConvertCatToCustomCat(chCat)
-    ) : [],
+    childCategories: cat.childCategories
+      ? cat.childCategories.map(chCat => ConvertCatToCustomCat(chCat))
+      : [],
   }
+}
+
+interface IUpdateCategory {
+  categoryId: number
+  name: string
+  parentCategoryId: number
 }
 
 export const api = {
@@ -40,6 +46,14 @@ export const api = {
     return (
       await axios.delete<CancelablePromise<string>>(
         `http://shopshop.somee.com/AdminPanel/DeleteCategory/${id}`
+      )
+    ).data
+  },
+  async updateCategory(category: IUpdateCategory) {
+    return (
+      await axios.put(
+        `http://shopshop.somee.com/AdminPanel/EditCategory`,
+        category
       )
     ).data
   },

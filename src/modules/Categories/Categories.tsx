@@ -13,7 +13,6 @@ import { CategoryModal } from "./components/CategoryModal"
 import { Add } from "ui/Add"
 import { Header } from "ui/Table/Header"
 
-import { IHandlerEdit } from "./Categories.types"
 import { useModal } from "./hooks/useModal"
 import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
