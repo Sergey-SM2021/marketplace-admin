@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Category } from '../models/Category';
 import type { CreateCategoryCommand } from '../models/CreateCategoryCommand';
 import type { CreateCategoryFeaturesCommand } from '../models/CreateCategoryFeaturesCommand';
 import type { CreateCategoryFeaturesResponse } from '../models/CreateCategoryFeaturesResponse';
@@ -17,12 +18,12 @@ export class AdminPanelService {
 
     /**
      * @param requestBody
-     * @returns number Success
+     * @returns Category Success
      * @throws ApiError
      */
     public static postAdminPanelCreateCategory(
         requestBody?: CreateCategoryCommand,
-    ): CancelablePromise<number> {
+    ): CancelablePromise<Category> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/AdminPanel/CreateCategory',
