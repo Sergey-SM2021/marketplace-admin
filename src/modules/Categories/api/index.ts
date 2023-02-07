@@ -36,7 +36,7 @@ export const api = {
   },
   async createCategory(payload: CreateCategoryCommand) {
     return (
-      await axios.post<CancelablePromise<number>>(
+      await axios.post<CancelablePromise<Category>>(
         "http://shopshop.somee.com/AdminPanel/CreateCategory",
         payload
       )

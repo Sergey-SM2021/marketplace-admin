@@ -40,7 +40,7 @@ export const removeCategoryById = categoriesDomain.createEffect<number, string>(
 
 export const addCategory = categoriesDomain.createEffect<
   CreateCategoryCommand,
-  number
+  Category
 >(api.createCategory)
 
 // Change state у category.isOpen
@@ -63,6 +63,9 @@ export const $categories = categoriesDomain
   .on(HideChilds, (state, payload) => {
     state.forEach(el => setIsOpenMode(el, payload, false))
     return [...state]
+  })
+  .on(addCategory.doneData, (state,payload) => {
+    return [...state, {...payload,isOpen:false, childCategories: []}]
   })
 
 attachLogger(categoriesDomain, {

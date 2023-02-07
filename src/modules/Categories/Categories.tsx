@@ -49,10 +49,9 @@ export const Categories: FC = memo(() => {
 
   // callback который создаёт новую категорию. передать как props in Modal
   const handlerSendNewCategory = async (
-    payload: CreateCategoryCommand | EditCategoryCommand
+    payload: CreateCategoryCommand
   ) => {
     await addCategory(payload)
-    await getCategories()
   }
 
   // onEdit
