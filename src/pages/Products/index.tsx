@@ -1,9 +1,21 @@
-import { Products } from "modules/Products"
+import { $ProductsPageStore, getProducts } from "./store"
+
+import { Items } from "modules/Items"
+
+import { useStore } from "effector-react"
+import { useEffect } from "react"
 
 export const ProductsPage = () => {
+  const products = useStore($ProductsPageStore)
+
+  console.log(products)
+
+  useEffect(() => {
+    getProducts()
+  }, [])
   return (
     <div>
-      <Products />
+      <Items initProducts={products} />
     </div>
   )
 }

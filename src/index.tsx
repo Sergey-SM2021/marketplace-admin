@@ -6,8 +6,8 @@ import { App } from "./App/App"
 import reportWebVitals from "./reportWebVitals"
 import { ErrorPage } from "./pages/ErrorPage"
 import { CategoriesPage } from "pages/Categories"
-import { Items } from "modules/Items"
 import { ProductsPage } from "pages/Products"
+import { ItemsPage } from "pages/Items"
 
 const router = createBrowserRouter([
   {
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/categories/:categoryId",
-        element: <Items />,
+        element: <ItemsPage />,
       },
       {
         path: "/products",

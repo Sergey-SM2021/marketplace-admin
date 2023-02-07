@@ -1,33 +1,35 @@
 import { Product } from "entity"
 
-import { Notifications } from "modules/Notifications"
-import { addNotification } from "modules/Notifications/store"
-
-import { CreateNewItem } from "./components/CreateNewItem"
-
-import { Add, Button, Modal, Table, Title } from "ui"
-
 import {
   $products,
   createProduct,
   getProductById,
-  getProducts,
   removeProduct,
 } from "./store"
+import { setProducts } from "./store"
+import { addNotification } from "modules/Notifications/store"
+
+import { Notifications } from "modules/Notifications"
+
+import { Add, Button, Table, Title } from "ui"
 
 import { useStore } from "effector-react"
 import { FC, memo, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-export const Items: FC = memo(() => {
+interface IItems {
+  initProducts: Array<Product>
+}
+
+export const Items: FC<IItems> = memo(({ initProducts }) => {
+  useEffect(() => {
+    setProducts(initProducts)
+  }, [initProducts])
   const { categoryId } = useParams()
   const nav = useNavigate()
   const handlerBackClick = () => {
     nav(-1)
   }
-  useEffect(() => {
-    getProducts(Number(categoryId))
-  }, [])
   const { categoryName, products } = useStore($products)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
