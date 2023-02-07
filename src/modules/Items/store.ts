@@ -1,12 +1,13 @@
 import { Product } from "entity/models/Product"
 import { createDomain } from "effector"
 import { api } from "./api/api"
+import { ProductResponseDTO } from "entity"
 
 type TProducts = Array<Product>
 
 export const ProductsDomain = createDomain()
 
-export const getProducts = ProductsDomain.createEffect(api.getProducts)
+export const getProducts = ProductsDomain.createEffect<number,Array<ProductResponseDTO>>(api.getProducts)
 
 export const getProductById = ProductsDomain.createEffect(api.getProductById)
 

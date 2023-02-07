@@ -26,7 +26,7 @@ export const Items: FC = memo(() => {
     nav(-1)
   }
   useEffect(() => {
-    getProducts()
+    getProducts(Number(categoryId))
   }, [])
   const { categoryName, products } = useStore($products)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -80,7 +80,7 @@ export const Items: FC = memo(() => {
   return (
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
       <Notifications />
-      <Modal
+      {/* <Modal
         title="Создать новый товар"
         handlerClose={() => setIsModalOpen(false)}>
         <CreateNewItem
@@ -88,7 +88,7 @@ export const Items: FC = memo(() => {
           handlerCreateProduct={handlerCreateProduct}
           handlerClose={handlerModalClose}
         />
-      </Modal>
+      </Modal> */}
       <div className="flex gap-4 flex-row-reverse items-center">
         <Add handlerAdd={handlerAddItem} />
         <Title>

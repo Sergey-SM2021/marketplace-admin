@@ -1,6 +1,8 @@
-import { memo } from "react"
 import { navLinks } from "./Header.data"
+
 import { ReactComponent as Profile } from "assets/profile0.svg"
+import { memo } from "react"
+import { Link } from "react-router-dom"
 
 export const Header = memo(() => {
   return (
@@ -8,12 +10,14 @@ export const Header = memo(() => {
       <Profile className="fill-white" />
       <div className="flex gap-4">
         {navLinks.map(item => (
-          <button
-            key={item.id}
-            className="flex items-center border flex gap-2 border-white rounded px-2 py-1 hover:bg-purple transition">
-            {item.text}
-            {item.icon}
-          </button>
+          <Link to={item.link}>
+            <button
+              key={item.id}
+              className="flex items-center border flex gap-2 border-white rounded px-2 py-1 hover:bg-purple transition">
+              {item.text}
+              {item.icon}
+            </button>
+          </Link>
         ))}
       </div>
     </div>
