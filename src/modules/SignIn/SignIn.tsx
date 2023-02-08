@@ -1,6 +1,7 @@
 import { Button, Field, Modal } from "ui"
 
 import { NavLink, useNavigate } from "react-router-dom"
+import { makeAuth } from "modules/IsAuth/store"
 
 interface ISignIn {}
 
@@ -8,7 +9,7 @@ export const SignIn = () => {
   const nav = useNavigate()
 
   const handlerClick = () => {
-    nav('/categories')
+    makeAuth()
   }
   return (
     <Modal title="Войти">
