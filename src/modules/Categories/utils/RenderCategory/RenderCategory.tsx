@@ -33,9 +33,9 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       onEdit()
     }
 
-    const handlerAddProduct = (e: SyntheticEvent, id: number) => {
+    const handlerAddProduct = (e: SyntheticEvent) => {
       e.stopPropagation()
-      onAddProduct(id)
+      onAddProduct(category.id!)
     }
 
     const { name, id, childCategories, isOpen } = category
@@ -68,7 +68,7 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       <Button isDangerous={true} onClick={handlerEdit}>
         edit
       </Button>,
-      <Button isDangerous onClick={e => handlerAddProduct(e, id!)}>
+      <Button isDangerous onClick={e => handlerAddProduct(e)}>
         Create Product
       </Button>,
     ]

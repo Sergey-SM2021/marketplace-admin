@@ -1,18 +1,16 @@
-import { Category } from './../../../entity/models/Category';
 import { useState } from "react"
 
-export const useModal = () => {
+export function useModal<T>(initState: T | null) {
   const [isOpen, setIsOpen] = useState<Boolean>(false)
-  const [state, setState] = useState<Category | null>(null)
+  const [state, setState] = useState<T | null>(initState)
 
-  const hanlerOpen = (state?: Category) => {
+  const hanlerOpen = (state?: T) => {
     setIsOpen(true)
     setState(state ?? null)
   }
 
   const handlerClose = () => {
     setIsOpen(false)
-    setState(null)
   }
 
   return {

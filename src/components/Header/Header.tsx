@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 export const Header = memo(() => {
   return (
     <div className="bg-black flex flex-auto items-center h-16 px-4 text-white justify-between col-start-2 col-end-3">
-      <Profile className="fill-white" />
+      <Link to="profile"><Profile className="fill-white" /></Link>
       <div className="flex gap-4">
         {navLinks.map(item => (
           <Link to={item.link}>

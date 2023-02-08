@@ -1,4 +1,4 @@
-import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
 
 import {
   $categories,
@@ -10,7 +10,9 @@ import {
 import { addNotification } from "modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
+import { CreateProductModal } from "./components/CreateProductModal/CreateProductModal"
 
+import { Modal } from "ui"
 import { Add } from "ui/Add"
 import { Header } from "ui/Table/Header"
 
@@ -27,7 +29,8 @@ export const Categories: FC = memo(() => {
   const categories = useStore($categories)
   const isLoading = useStore(getCategories.pending)
   const navigate = useNavigate()
-  const modal = useModal()
+  const createCategoryModal = useModal<Category>(null)
+  const createProductModal = useModal<number>(null)
 
   useEffect(() => {
     getCategories()
@@ -49,19 +52,28 @@ export const Categories: FC = memo(() => {
   }
 
   // callback который создаёт новую категорию. передать как props in Modal
-  const handlerSendNewCategory = async (
-    payload: CreateCategoryCommand
-  ) => {
+  const handlerSendNewCategory = async (payload: CreateCategoryCommand) => {
     await addCategory(payload)
   }
 
   // onEdit
   const handlerEdit = ({ id, name, parentCategoryId, features }: Category) =>
-    modal.hanlerOpen({
+    createCategoryModal.hanlerOpen({
       id,
       name: name,
       parentCategoryId: parentCategoryId,
     })
+
+  // При нажатии на кнопку создать продукт
+  const handlerCreateProduct = (id: number) => {
+    createProductModal.hanlerOpen(id)
+  }
+
+  // Callback, который сработает при создании продукта в компоненте CreateProductModal
+  const onCreateProduct = async (product: CreateProductCommand) => {
+    await createProduct({ ...product, categoryId: createProductModal.state })
+    createProductModal.handlerClose()
+  }
 
   if (isLoading) {
     return <div>Loading</div>
@@ -69,20 +81,27 @@ export const Categories: FC = memo(() => {
 
   return (
     <div className="p-4 w-full">
-      {modal.isOpen ? (
+      {createCategoryModal.isOpen ? (
         <CategoryModal
           categories={categories.map(cat => ({
             key: cat.name as string,
             value: cat.id as number,
           }))}
-          category={modal.state}
+          category={createCategoryModal.state}
           handlerSave={handlerSendNewCategory}
-          handlerClose={modal.handlerClose}
+          handlerClose={createCategoryModal.handlerClose}
         />
+      ) : null}
+      {createProductModal.isOpen ? (
+        <Modal
+          handlerClose={createProductModal.handlerClose}
+          title="Создать продукт">
+          <CreateProductModal onCreateProduct={onCreateProduct} />
+        </Modal>
       ) : null}
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
-        <Add handlerAdd={modal.hanlerOpen} />
+        <Add handlerAdd={createCategoryModal.hanlerOpen} />
       </div>
       {categories.length ? (
         <table
@@ -105,7 +124,7 @@ export const Categories: FC = memo(() => {
               onRemove={() => handlerRemoveClick(cat.id as number)}
               category={cat}
               onClick={(id: number) => handlerRowClick(id)}
-              onAddProduct={(id)=>{createProduct({categoryId:id,info:"lorem",name:"name-lorem",price:999,rating:10})}}
+              onAddProduct={handlerCreateProduct}
             />
           ))}
         </table>
