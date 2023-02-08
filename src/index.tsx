@@ -8,6 +8,8 @@ import { ErrorPage } from "./pages/ErrorPage"
 import { CategoriesPage } from "pages/Categories"
 import { ProductsPage } from "pages/Products"
 import { ItemsPage } from "pages/Items"
+import { SignIn } from "modules/SignIn/SignIn"
+import { SignInPage } from "pages/SignIn"
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "/categories",
         element: <CategoriesPage />,
       },
       {
@@ -30,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element:<div>profile</div>
+      },
+      {
+        path: "/",
+        element:<SignInPage />
       },
     ],
   },
