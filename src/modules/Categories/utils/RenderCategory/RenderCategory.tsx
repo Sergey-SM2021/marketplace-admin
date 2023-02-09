@@ -7,6 +7,7 @@ import {
 import { Button } from "ui"
 import { Row } from "ui/Table/Row"
 
+import { ReactComponent as Collapse } from "assets/collapse.svg"
 import { FC, memo, SyntheticEvent } from "react"
 
 interface IRenderCategory {
@@ -42,8 +43,10 @@ export const RenderCategory: FC<IRenderCategory> = memo(
 
     const row = [
       category.childCategories?.length ? (
-        <Button
-          isDangerous={category.isOpen}
+        <Collapse
+          className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
+            category.isOpen ? "rotate-90" : "rotate-0"
+          }`}
           onClick={e => {
             if (category.isOpen) {
               e.stopPropagation()
@@ -52,9 +55,8 @@ export const RenderCategory: FC<IRenderCategory> = memo(
               ShowChilds(id!)
               e.stopPropagation()
             }
-          }}>
-          Смотреть
-        </Button>
+          }}
+        />
       ) : null,
       id,
       name,
