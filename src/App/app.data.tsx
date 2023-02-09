@@ -1,7 +1,8 @@
 import { ItemsPage } from "../pages/Items/index"
 import { ProductsPage } from "../pages/Products/index"
+import { AuthPage } from "pages/Auth"
 import { CategoriesPage } from "pages/Categories"
-import { SignInPage } from "pages/SignIn"
+
 import { Navigate } from "react-router-dom"
 
 export const $privateRoutes = [
@@ -21,12 +22,16 @@ export const $privateRoutes = [
     path: "/profile",
     element: <div>profile</div>,
   },
+  {
+    path: "*",
+    element: <Navigate to={"/"} />,
+  },
 ]
 
-export const $publicRoutes =[
+export const $publicRoutes = [
   {
     path: "/",
-    element: <SignInPage />,
+    element: <AuthPage />,
   },
   {
     path: "*",

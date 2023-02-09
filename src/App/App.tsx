@@ -1,4 +1,4 @@
-import { $auth } from "modules/IsAuth/store"
+import { $auth } from "modules/Auth/store/store"
 
 import { Sidebar } from "../modules/Sidebar"
 
