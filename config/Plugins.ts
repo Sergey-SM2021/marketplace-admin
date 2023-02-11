@@ -1,11 +1,12 @@
-import { IConfig } from './types';
+import { IPlugins } from "./types"
+
 import HtmlWebpackPlugin from "html-webpack-plugin"
 
-export function Plugins({ paths }: IConfig) {
-    const { html } = paths
-    return [
-      new HtmlWebpackPlugin({
-        template: html,
-      }),
-    ]
-  }
+export function Plugins({ paths }: IPlugins) {
+  const { html } = paths
+  return [
+    new HtmlWebpackPlugin({
+      template: html,
+    }),
+  ]
+}
