@@ -21,12 +21,13 @@
     "react-hook-form": "^7.42.1",
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
-    "sass": "^1.57.1",
     "uuid": "^9.0.0",
-    "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
   "scripts": {
+    "build:dev": "webpack --env MODE=development",
+    "build:prod": "webpack --env MODE=production",
+    "start": "webpack serve",
     "generate": "openapi --input http://shopshop.somee.com/swagger/v1/swagger.json --output ./src/entity"
   },
   "browserslist": {
@@ -45,15 +46,22 @@
     "@hookform/devtools": "^4.3.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/node": "^18.13.0",
+    "@types/progress-bar-webpack-plugin": "^2.1.2",
     "@types/uuid": "^9.0.0",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.7.2",
+    "css-loader": "^6.7.3",
     "effector-logger": "^0.13.6",
     "html-webpack-plugin": "^5.5.0",
+    "progress-bar-webpack-plugin": "^2.1.0",
+    "sass": "^1.58.0",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
     "tailwindcss": "^3.2.4",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
     "webpack-dev-server": "^4.11.1"
   }
 }

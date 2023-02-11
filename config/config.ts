@@ -4,6 +4,7 @@ import { IConfig } from "./types"
 
 import webpack from "webpack"
 import "webpack-dev-server"
+import { Module } from "./Module"
 
 export function Config({ paths, mode, port }: IConfig): webpack.Configuration {
   const { entry, output } = paths
@@ -16,15 +17,7 @@ export function Config({ paths, mode, port }: IConfig): webpack.Configuration {
       filename: "[name].[contenthash].bundle.js",
       clean: true,
     },
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          use: "ts-loader",
-          exclude: /node_modules/,
-        },
-      ],
-    },
+    module: Module(),
     plugins: Plugins({ paths }),
     resolve: {
       extensions: [".ts", ".js", ".tsx", ".jsx"],

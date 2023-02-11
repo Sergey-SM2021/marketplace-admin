@@ -4,7 +4,7 @@ export function DevServer({ mode, port }: IDevServer) {
   return mode === "development"
     ? {
         port: port,
-        open: true,
+        open: !!1,
       }
     : undefined
 }
