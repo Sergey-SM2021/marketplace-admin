@@ -16,7 +16,7 @@ export default function (env: IEnv) {
       output: path.resolve(__dirname, "build"),
     },
     mode: env.MODE || "development",
-    port: env.PORT || 3200,
+    port: env.PORT || 3201,
   }
   return Config(config)
 }
