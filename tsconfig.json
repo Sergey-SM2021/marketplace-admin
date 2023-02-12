@@ -15,5 +15,5 @@
       "module": "CommonJS"
     }
   },
-  "include": ["./config", "./testEnv"]
+  "include": ["./config", "./testEnv", "tailwind.config.cjs", "tailwind.config.cjs", "postcss.config.cjs", "postcss.config.cjs"]
 }

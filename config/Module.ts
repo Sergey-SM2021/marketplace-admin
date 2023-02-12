@@ -1,4 +1,4 @@
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
+// import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import webpack from "webpack"
 
 export function Module(): webpack.RuleSetRule[] {
@@ -10,16 +10,17 @@ export function Module(): webpack.RuleSetRule[] {
   const scss = {
     test: /\.(sa|sc|c)ss$/,
     use: [
-      MiniCssExtractPlugin.loader,
-      {
-        loader: "css-loader",
-        options: {
-          modules: {
-            auto: true,
-            localIdentName: "[local].[name].[contenthash]",
-          },
-        },
-      },
+      // MiniCssExtractPlugin.loader,
+      "style-loader","css-loader",
+      // {
+      //   loader: 
+      //   options: {
+      //     modules: {
+      //       auto: true,
+      //       localIdentName: "[local].[name].[contenthash]",
+      //     },
+      //   },
+      // },
       "sass-loader",
       "postcss-loader",
     ],

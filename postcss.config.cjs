@@ -2,5 +2,5 @@ import autoprefixer from "autoprefixer"
 import tailwindcss from "tailwindcss"
 
 module.exports = {
-  plugins: [tailwindcss("./tailwind.config.ts"), autoprefixer],
+  plugins: [tailwindcss("./tailwind.config.cjs"), autoprefixer],
 }
