@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.{jsx, tsx, sass, scss, css}"],
+  content: "./testEnv/**/*.{tsx}",
   theme: {
     extend: {
       colors: {
@@ -10,7 +10,7 @@ module.exports = {
         gray: "#e9e9eb",
         red: "#F53B49",
         purple: "#7c5ab8",
-        "purple-transparent": 'rgba(124, 90, 184, 0.1)',
+        "purple-transparent": "rgba(124, 90, 184, 0.1)",
       },
       maxHeight: {
         100: "48rem",
