@@ -1,6 +1,6 @@
 import { ReactComponent as DropdownIcon } from "admin/assets/dropdown.svg"
 import classNames from "classnames"
-import { FC, memo, useState } from "react"
+import { FC, memo, useEffect, useRef, useState } from "react"
 
 interface IDropdown {
   list: Array<{ key: string; value: number }>
@@ -10,13 +10,26 @@ interface IDropdown {
 
 export const Dropdown: FC<IDropdown> = memo(({ list, onChange, name }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    document.addEventListener("mousedown", (e: MouseEvent) => {
+      if (ref.current?.contains(e.target as Node)) {
+        return
+      }
+      setIsDropdownOpen(false)
+    })
+  }, [ref])
 
   const handlerClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
 
   return (
-    <div onClick={handlerClick} className="rounded h-auto max-h-2 relative">
+    <div
+      onClick={handlerClick}
+      ref={ref}
+      className="rounded h-auto max-h-2 relative">
       <input
         value={name}
         type="text"
