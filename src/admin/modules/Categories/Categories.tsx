@@ -1,10 +1,11 @@
 import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
 
 import {
-  $categories,
+  $categoriesTree,
   addCategory,
   createProduct,
   getCategories,
+  getCategoriesTree,
   removeCategoryById,
 } from "./store/store"
 import { addNotification } from "admin/modules/Notifications/store"
@@ -24,13 +25,19 @@ import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
 import { useStore } from "effector-react"
 import { memo, useEffect, FC } from "react"
 import { useNavigate } from "react-router-dom"
+import { $categories } from "./store/store"
 
 export const Categories: FC = memo(() => {
+  const categoriesTree = useStore($categoriesTree)
   const categories = useStore($categories)
-  const isLoading = useStore(getCategories.pending)
+  const isLoading = useStore(getCategoriesTree.pending)
   const navigate = useNavigate()
   const createCategoryModal = useModal<Category>(null)
   const createProductModal = useModal<number>(null)
+
+  useEffect(() => {
+    getCategoriesTree()
+  }, [])
 
   useEffect(() => {
     getCategories()
@@ -103,7 +110,7 @@ export const Categories: FC = memo(() => {
         <h1 className={style.content__title}>Categories</h1>
         <Add handlerAdd={createCategoryModal.hanlerOpen} />
       </div>
-      {categories.length ? (
+      {categoriesTree.length ? (
         <table
           style={{
             margin: "-10px 0",
@@ -112,7 +119,7 @@ export const Categories: FC = memo(() => {
             minWidth: "100%",
           }}>
           <Header row={headerTableCol} />
-          {categories.map(cat => (
+          {categoriesTree.map(cat => (
             <RenderCategory
               onEdit={() =>
                 handlerEdit({

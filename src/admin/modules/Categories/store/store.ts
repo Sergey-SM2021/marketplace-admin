@@ -1,3 +1,4 @@
+import { CategoryResponseDTO } from "./../../../../entity/models/CategoryResponseDTO"
 import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
 
 // import { setIsOpenMode } from "./store.spec"
@@ -29,10 +30,10 @@ export const setIsOpenMode = (
 
 const categoriesDomain = createDomain()
 
-export const getCategories = categoriesDomain.createEffect<
+export const getCategoriesTree = categoriesDomain.createEffect<
   void,
   Array<ILocalCategory>
->(api.getCategories)
+>(api.getCategoriesTree)
 
 export const removeCategoryById = categoriesDomain.createEffect<number, string>(
   api.removeCategory
@@ -43,15 +44,27 @@ export const addCategory = categoriesDomain.createEffect<
   Category
 >(api.createCategory)
 
-export const createProduct = categoriesDomain.createEffect<CreateProductCommand,void>(api.createProduct)
+export const createProduct = categoriesDomain.createEffect<
+  CreateProductCommand,
+  void
+>(api.createProduct)
+
+export const getCategories = categoriesDomain.createEffect<
+  void,
+  CategoryResponseDTO[]
+>(api.getCategories)
 
 // Change state у category.isOpen
 export const ShowChilds = categoriesDomain.createEvent<number>()
 export const HideChilds = categoriesDomain.createEvent<number>()
 
 export const $categories = categoriesDomain
+  .createStore<CategoryResponseDTO[]>([])
+  .on(getCategories.doneData, (_, payload) => payload)
+
+export const $categoriesTree = categoriesDomain
   .createStore<ILocalCategory[]>([])
-  .on(getCategories.doneData, (_, payload) =>
+  .on(getCategoriesTree.doneData, (_, payload) =>
     payload.map(category => ({ ...category, isOpen: false }))
   )
   .on(removeCategoryById.done, (state, { params }) =>
@@ -66,10 +79,12 @@ export const $categories = categoriesDomain
     state.forEach(el => setIsOpenMode(el, payload, false))
     return [...state]
   })
-  .on(addCategory.doneData, (state,payload) => {
-    return [...state, {...payload,isOpen:false, childCategories: []}]
+  .on(addCategory.doneData, (state, payload) => {
+    return [...state, { ...payload, isOpen: false, childCategories: [] }]
   })
-  .on(createProduct.doneData, (state,payload)=>{alert(JSON.stringify(payload))})
+  .on(createProduct.doneData, (state, payload) => {
+    alert(JSON.stringify(payload))
+  })
 
 attachLogger(categoriesDomain, {
   reduxDevtools: "disabled",

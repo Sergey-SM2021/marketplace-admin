@@ -1,10 +1,10 @@
-import { CreateProductCommand } from "entity/models/CreateProductCommand"
 import {
   CancelablePromise,
   Category,
   CategoryResponseDTO,
   CreateCategoryCommand,
 } from "entity"
+import { CreateProductCommand } from "entity/models/CreateProductCommand"
 
 import { ILocalCategory } from "../store/store"
 
@@ -27,7 +27,7 @@ interface IUpdateCategory {
 }
 
 export const api = {
-  async getCategories() {
+  async getCategoriesTree() {
     const data = (
       await axios.get<CancelablePromise<Array<CategoryResponseDTO>>>(
         "http://shopshop.somee.com/Shop/GetCategoriesTree"
@@ -65,5 +65,9 @@ export const api = {
         payload
       )
     ).data
+  },
+  async getCategories() {
+    return (await axios.get("http://shopshop.somee.com/Shop/GetCategories"))
+      .data
   },
 }
