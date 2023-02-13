@@ -1,8 +1,8 @@
 import { Product } from "entity"
 import { FC } from "react"
 import { useForm } from "react-hook-form"
-import { Button } from "ui/Button"
-import { Field } from "ui/Field"
+import { Button } from "admin/ui/Button"
+import { Field } from "admin/ui/Field"
 
 interface ICreateNewItem {
   categoryId: number

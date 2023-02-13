@@ -1,6 +1,6 @@
 import { Category } from "entity"
 
-import { Button } from "ui"
+import { Button } from "admin/ui"
 
 import { FC, memo, SyntheticEvent, useState } from "react"
 

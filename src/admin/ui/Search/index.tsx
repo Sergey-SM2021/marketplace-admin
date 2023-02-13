@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from "react"
-import { ReactComponent as SearchIcon } from "assets/search.svg"
+import { ReactComponent as SearchIcon } from "admin/assets/search.svg"
 
 interface ISearch {}
 

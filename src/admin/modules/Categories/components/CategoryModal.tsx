@@ -1,7 +1,7 @@
 import { CreateCategoryCommand, EditCategoryCommand } from "entity"
 
-import { Field, Button, Modal } from "ui"
-import { Dropdown } from "ui/Dropdown"
+import { Field, Button, Modal } from "admin/ui"
+import { Dropdown } from "admin/ui/Dropdown"
 
 import { Chips } from "./Chips"
 

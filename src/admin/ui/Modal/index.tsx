@@ -1,6 +1,6 @@
 import style from "./index.module.sass"
 
-import { ReactComponent as Close } from "assets/cancle.svg"
+import { ReactComponent as Close } from "admin/assets/cancle.svg"
 import { FC, PropsWithChildren, SyntheticEvent } from "react"
 
 interface IModal {

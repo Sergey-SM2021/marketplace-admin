@@ -1,9 +1,9 @@
 import { v4 } from "uuid"
 
-import { ReactComponent as Items } from "assets/items.svg"
-import { ReactComponent as Notes } from "assets/notes.svg"
-import { ReactComponent as Products } from "assets/products.svg"
-import { ReactComponent as Settings } from "assets/settings.svg"
+import { ReactComponent as Items } from "admin/assets/items.svg"
+import { ReactComponent as Notes } from "admin/assets/notes.svg"
+import { ReactComponent as Products } from "admin/assets/products.svg"
+import { ReactComponent as Settings } from "admin/assets/settings.svg"
 
 export const navLinks = [
   {

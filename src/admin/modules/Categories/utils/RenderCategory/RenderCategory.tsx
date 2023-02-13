@@ -4,10 +4,10 @@ import {
   ShowChilds,
 } from "admin/modules/Categories/store/store"
 
-import { Button } from "ui"
-import { Row } from "ui/Table/Row"
+import { Button } from "admin/ui"
+import { Row } from "admin/ui/Table/Row"
 
-import { ReactComponent as Collapse } from "assets/collapse.svg"
+import { ReactComponent as Collapse } from "admin/assets/collapse.svg"
 import { FC, memo, SyntheticEvent } from "react"
 
 interface IRenderCategory {

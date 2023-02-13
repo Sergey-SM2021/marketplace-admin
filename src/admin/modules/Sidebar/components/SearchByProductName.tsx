@@ -1,4 +1,4 @@
-import { Search, Subtitle } from "ui"
+import { Search, Subtitle } from "admin/ui"
 
 export const FilterByRegularName = () => {
   return (

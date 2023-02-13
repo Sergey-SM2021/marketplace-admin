@@ -1,4 +1,4 @@
-import { Button, Field, Modal } from "ui"
+import { Button, Field, Modal } from "admin/ui"
 
 import { FC, memo } from "react"
 

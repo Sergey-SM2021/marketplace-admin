@@ -1,6 +1,6 @@
 import { navLinks } from "./Header.data"
 
-import { ReactComponent as Profile } from "assets/profile0.svg"
+import { ReactComponent as Profile } from "admin/assets/profile0.svg"
 import { memo } from "react"
 import { Link } from "react-router-dom"
 

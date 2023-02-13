@@ -1,4 +1,4 @@
-import { ReactComponent as AddIcon } from "assets/add.svg"
+import { ReactComponent as AddIcon } from "admin/assets/add.svg"
 import { FC } from "react"
 
 interface IAdd {

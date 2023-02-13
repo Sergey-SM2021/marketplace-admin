@@ -1,4 +1,4 @@
-import { ReactComponent as DropdownIcon } from "assets/dropdown.svg"
+import { ReactComponent as DropdownIcon } from "admin/assets/dropdown.svg"
 import classNames from "classnames"
 import { FC, memo, useState } from "react"
 

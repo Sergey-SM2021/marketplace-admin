@@ -1,4 +1,4 @@
-import { ReactComponent as Star } from "assets/star.svg"
+import { ReactComponent as Star } from "admin/assets/star.svg"
 
 export const FilterByRating = () => {
   return (

@@ -12,9 +12,9 @@ import { addNotification } from "admin/modules/Notifications/store"
 import { CategoryModal } from "./components/CategoryModal"
 import { CreateProductModal } from "./components/CreateProductModal/CreateProductModal"
 
-import { Modal } from "ui"
-import { Add } from "ui/Add"
-import { Header } from "ui/Table/Header"
+import { Modal } from "admin/ui"
+import { Add } from "admin/ui/Add"
+import { Header } from "admin/ui/Table/Header"
 
 import { useModal } from "./hooks/useModal"
 import { headerTableCol } from "./index.data"

@@ -1,4 +1,4 @@
-import { Range, Subtitle } from "ui"
+import { Range, Subtitle } from "admin/ui"
 
 export const FilterByPrice = () => {
   return (

@@ -1,5 +1,5 @@
 import { FC, FormEvent, memo, useState } from "react"
-import { Add, Field } from "ui"
+import { Add, Field } from "admin/ui"
 
 interface IChips {
   Chips: {text:string}[]

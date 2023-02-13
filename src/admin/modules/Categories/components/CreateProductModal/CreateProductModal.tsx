@@ -1,4 +1,4 @@
-import { Button, Field } from "ui"
+import { Button, Field } from "admin/ui"
 
 import { ICreateProductModal, IForm } from "./CreateProductModal.types"
 

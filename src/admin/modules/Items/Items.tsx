@@ -11,7 +11,7 @@ import { addNotification } from "admin/modules/Notifications/store"
 
 import { Notifications } from "admin/modules/Notifications"
 
-import { Add, Button, Table, Title } from "ui"
+import { Add, Button, Table, Title } from "admin/ui"
 
 import { useStore } from "effector-react"
 import { FC, memo, useEffect, useState } from "react"

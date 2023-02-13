@@ -1,7 +1,7 @@
 import { FC, memo, useEffect } from "react"
 import style from "./index.module.scss"
-import { ReactComponent as Accept } from "assets/accept.svg"
-import { ReactComponent as Cancel } from "assets/cancle.svg"
+import { ReactComponent as Accept } from "admin/assets/accept.svg"
+import { ReactComponent as Cancel } from "admin/assets/cancle.svg"
 
 export interface INotification {
   id: number

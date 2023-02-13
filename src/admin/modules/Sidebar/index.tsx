@@ -1,6 +1,6 @@
-import { ReactComponent as Burger } from "assets/burger.svg"
+import { ReactComponent as Burger } from "admin/assets/burger.svg"
 import { FC, memo, useState } from "react"
-import { Button } from "ui"
+import { Button } from "admin/ui"
 import { FilterByRegularName } from "./components/SearchByProductName"
 import { FilterByRating } from "./components/FilterByRating"
 import { FilterByPrice } from "./components/FilterByPrice"
