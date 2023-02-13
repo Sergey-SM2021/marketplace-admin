@@ -1,5 +1,6 @@
 import { navLinks } from "./Header.data"
 
+import { ReactComponent as Shop } from "admin/assets/goShop.svg"
 import { ReactComponent as Profile } from "admin/assets/profile0.svg"
 import { memo } from "react"
 import { Link } from "react-router-dom"
@@ -7,7 +8,14 @@ import { Link } from "react-router-dom"
 export const Header = memo(() => {
   return (
     <div className="bg-black flex flex-auto items-center h-16 px-4 text-white justify-between col-start-2 col-end-3">
-      <Link to="/admin/profile"><Profile className="fill-white" /></Link>
+      <div className="flex gap-8">
+        <Link to="/admin/profile">
+          <Profile className="fill-white" />
+        </Link>
+        <Link to="/">
+          <Shop className="fill-white" />
+        </Link>
+      </div>
       <div className="flex gap-4">
         {navLinks.map(item => (
           <Link to={item.link}>
