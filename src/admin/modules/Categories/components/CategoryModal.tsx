@@ -1,4 +1,4 @@
-import { CreateCategoryCommand, EditCategoryCommand } from "entity"
+import { Category, CreateCategoryCommand, EditCategoryCommand } from "entity"
 
 import { Field, Button, Modal } from "admin/ui"
 import { Dropdown } from "admin/ui/Dropdown"
@@ -20,7 +20,7 @@ interface ICreateNewCategory {
     data: CreateCategoryCommand | EditCategoryCommand
   ) => Promise<void>
   handlerClose: () => void
-  category: EditCategoryCommand | null
+  category: Category | null
   categories: Array<{ key: string; value: number }>
 }
 
@@ -51,7 +51,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
         features: attributes.map(attr => attr.text),
         name: categoryName,
         parentCategoryId: parentCategory.value,
-        categoryId: category.id,
+        categoryId: category?.id,
       })
       handlerClose()
     }
