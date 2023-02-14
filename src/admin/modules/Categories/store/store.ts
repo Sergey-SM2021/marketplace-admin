@@ -34,7 +34,7 @@ export const appandCategoriesChild = (
 ) => {
   if (root.id === child.parentCategoryId) {
     root.childCategories.push({ ...child, isOpen: false, childCategories: [] })
-    return 
+    return
   }
   if (root.childCategories.length) {
     root.childCategories.forEach(childCat =>
@@ -69,6 +69,8 @@ export const getCategories = categoriesDomain.createEffect<
   CategoryResponseDTO[]
 >(api.getCategories)
 
+export const updateCategory = categoriesDomain.createEffect<Category, number>(api.editCategory)
+
 // Change state у category.isOpen
 export const ShowChilds = categoriesDomain.createEvent<number>()
 export const HideChilds = categoriesDomain.createEvent<number>()
@@ -102,6 +104,9 @@ export const $categoriesTree = categoriesDomain
   })
   .on(createProduct.doneData, (state, payload) => {
     alert(JSON.stringify(payload))
+  })
+  .on(updateCategory.doneData, (state, payload) => {
+    console.log("hihihy")
   })
 
 attachLogger(categoriesDomain, {

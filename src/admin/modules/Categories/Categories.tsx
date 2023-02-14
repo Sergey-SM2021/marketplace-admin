@@ -1,4 +1,4 @@
-import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
+import { Category, CreateCategoryCommand, CreateProductCommand, EditCategoryCommand } from "entity"
 
 import {
   $categoriesTree,
@@ -7,7 +7,9 @@ import {
   getCategories,
   getCategoriesTree,
   removeCategoryById,
+  updateCategory,
 } from "./store/store"
+import { $categories } from "./store/store"
 import { addNotification } from "admin/modules/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
@@ -25,7 +27,6 @@ import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
 import { useStore } from "effector-react"
 import { memo, useEffect, FC } from "react"
 import { useNavigate } from "react-router-dom"
-import { $categories } from "./store/store"
 
 export const Categories: FC = memo(() => {
   const categoriesTree = useStore($categoriesTree)
@@ -63,6 +64,10 @@ export const Categories: FC = memo(() => {
     await addCategory(payload)
   }
 
+  const handlerUpdateCategory = async (Category: EditCategoryCommand) => {
+    updateCategory(Category)
+  }
+
   // onEdit
   const handlerEdit = ({ id, name, parentCategoryId, features }: Category) =>
     createCategoryModal.hanlerOpen({
@@ -95,7 +100,11 @@ export const Categories: FC = memo(() => {
             value: cat.id as number,
           }))}
           category={createCategoryModal.state}
-          handlerSave={handlerSendNewCategory}
+          handlerSave={
+            createCategoryModal.state
+              ? handlerUpdateCategory
+              : handlerSendNewCategory
+          }
           handlerClose={createCategoryModal.handlerClose}
         />
       ) : null}
@@ -108,7 +117,7 @@ export const Categories: FC = memo(() => {
       ) : null}
       <div className="flex gap-5 items-center mb-4">
         <h1 className={style.content__title}>Categories</h1>
-        <Add handlerAdd={createCategoryModal.hanlerOpen} />
+        <Add handlerAdd={() => createCategoryModal.hanlerOpen()} />
       </div>
       {categoriesTree.length ? (
         <table

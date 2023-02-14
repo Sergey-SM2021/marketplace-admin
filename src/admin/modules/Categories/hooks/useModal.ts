@@ -4,13 +4,14 @@ export function useModal<T>(initState: T | null) {
   const [isOpen, setIsOpen] = useState<Boolean>(false)
   const [state, setState] = useState<T | null>(initState)
 
-  const hanlerOpen = (state?: T) => {
+  const hanlerOpen = (st?: T) => {
     setIsOpen(true)
-    setState(state ?? null)
+    setState(st ?? null)
   }
 
   const handlerClose = () => {
     setIsOpen(false)
+    setState(null)
   }
 
   return {

@@ -51,6 +51,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
         features: attributes.map(attr => attr.text),
         name: categoryName,
         parentCategoryId: parentCategory.value,
+        categoryId: category.id,
       })
       handlerClose()
     }

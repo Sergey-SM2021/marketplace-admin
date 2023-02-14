@@ -70,4 +70,12 @@ export const api = {
     return (await axios.get("http://shopshop.somee.com/Shop/GetCategories"))
       .data
   },
+  async editCategory(category: Category) {
+    return (
+      await axios.put<number>(
+        "http://shopshop.somee.com/AdminPanel/EditCategory",
+        category
+      )
+    ).data
+  },
 }
