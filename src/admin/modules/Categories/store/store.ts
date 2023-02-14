@@ -28,6 +28,21 @@ export const setIsOpenMode = (
   }
 }
 
+export const appandCategoriesChild = (
+  root: ILocalCategory,
+  child: Category
+) => {
+  if (root.id === child.parentCategoryId) {
+    root.childCategories.push({ ...child, isOpen: false, childCategories: [] })
+    return 
+  }
+  if (root.childCategories.length) {
+    root.childCategories.forEach(childCat =>
+      appandCategoriesChild(childCat, child)
+    )
+  }
+}
+
 const categoriesDomain = createDomain()
 
 export const getCategoriesTree = categoriesDomain.createEffect<
@@ -80,7 +95,10 @@ export const $categoriesTree = categoriesDomain
     return [...state]
   })
   .on(addCategory.doneData, (state, payload) => {
-    return [...state, { ...payload, isOpen: false, childCategories: [] }]
+    state.forEach(el => {
+      appandCategoriesChild(el, payload)
+    })
+    return [...state]
   })
   .on(createProduct.doneData, (state, payload) => {
     alert(JSON.stringify(payload))
@@ -88,6 +106,4 @@ export const $categoriesTree = categoriesDomain
 
 attachLogger(categoriesDomain, {
   reduxDevtools: "disabled",
-  // inspector: "disabled",
-  // console: "disabled",
 })
