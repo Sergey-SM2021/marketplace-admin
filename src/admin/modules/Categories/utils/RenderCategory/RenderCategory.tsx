@@ -16,10 +16,11 @@ interface IRenderCategory {
   onRemove: () => void
   onEdit: () => void
   onAddProduct: (id: number) => void
+  deep?: number
 }
 
 export const RenderCategory: FC<IRenderCategory> = memo(
-  ({ category, onClick, onEdit, onRemove, onAddProduct }) => {
+  ({ category, onClick, onEdit, onRemove, onAddProduct, deep = 0 }) => {
     const handlerRowClick = () => {
       onClick(category.id!)
     }
@@ -44,6 +45,7 @@ export const RenderCategory: FC<IRenderCategory> = memo(
     const row = [
       category.childCategories?.length ? (
         <Collapse
+          style={{ marginLeft: deep * 30 }}
           className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
             category.isOpen ? "rotate-90" : "rotate-0"
           }`}
@@ -70,9 +72,11 @@ export const RenderCategory: FC<IRenderCategory> = memo(
       <Button isDangerous={true} onClick={handlerEdit}>
         edit
       </Button>,
-      <Button isDangerous onClick={e => handlerAddProduct(e)}>
-        Create Product
-      </Button>,
+      !childCategories.length ? (
+        <Button isDangerous onClick={e => handlerAddProduct(e)}>
+          Create Product
+        </Button>
+      ) : null,
     ]
 
     // рекурсивный Render категорий with children,
@@ -86,6 +90,7 @@ export const RenderCategory: FC<IRenderCategory> = memo(
           />
           {childCategories?.map(c => (
             <RenderCategory
+              deep={deep + 1}
               category={c}
               onClick={handlerRowClick}
               onEdit={onEdit}

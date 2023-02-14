@@ -41,6 +41,7 @@ export const Dropdown: FC<IDropdown> = memo(({ listInit, onChange, name }) => {
       ref={ref}
       className="rounded h-auto max-h-2 relative">
       <input
+        placeholder="Техника"
         onChange={e => setText(e.currentTarget.value)}
         type="text"
         value={text}
