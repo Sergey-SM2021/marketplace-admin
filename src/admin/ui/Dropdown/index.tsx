@@ -3,14 +3,24 @@ import classNames from "classnames"
 import { FC, memo, useEffect, useRef, useState } from "react"
 
 interface IDropdown {
-  list: Array<{ key: string; value: number }>
   name: string
   onChange: (any: any) => void
+  listInit: Array<{ key: string; value: number }>
 }
 
-export const Dropdown: FC<IDropdown> = memo(({ list, onChange, name }) => {
+export const Dropdown: FC<IDropdown> = memo(({ listInit, onChange, name }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const [text, setText] = useState(name)
+  const [list, setList] = useState(listInit)
+
+  useEffect(() => {
+    setList(listInit.filter(el => el.key.includes(text)))
+  }, [text, listInit])
+
+  useEffect(() => {
+    setText(name)
+  }, [name])
 
   useEffect(() => {
     document.addEventListener("mousedown", (e: MouseEvent) => {
@@ -31,8 +41,9 @@ export const Dropdown: FC<IDropdown> = memo(({ list, onChange, name }) => {
       ref={ref}
       className="rounded h-auto max-h-2 relative">
       <input
-        value={name}
+        onChange={e => setText(e.currentTarget.value)}
         type="text"
+        value={text}
         className="w-full h-auto p-1 rounded-t outline-none pr-11 pl-3"
       />
       <div className="absolute right-1 top-0">

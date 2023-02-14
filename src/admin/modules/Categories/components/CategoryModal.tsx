@@ -36,7 +36,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
         categoryName: category?.name || "",
         attributes: [],
         parentCategory: {
-          key: "Не указана",
+          key: "",
           value: undefined,
         },
       },
@@ -77,7 +77,7 @@ export const CategoryModal: FC<ICreateNewCategory> = memo(
                 name="parentCategory"
                 render={({ field: { onChange, value } }) => (
                   <Dropdown
-                    list={categories}
+                    listInit={categories}
                     name={value.key}
                     onChange={onChange}
                   />
