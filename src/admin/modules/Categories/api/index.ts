@@ -23,56 +23,45 @@ interface IUpdateCategory {
   parentCategoryId: number
 }
 
-export const api = {
-  async getCategoriesTree() {
-    const data = (
-      await axios.get<CancelablePromise<Array<CategoryResponseDTO>>>(
-        "http://shopshop.somee.com/Shop/GetCategoriesTree"
-      )
-    ).data
-    return (await data).map(cat => ConvertCatToCustomCat(cat))
-  },
-  async createCategory(payload: CreateCategoryCommand) {
-    return (
-      await axios.post<CancelablePromise<Category>>(
-        "http://shopshop.somee.com/AdminPanel/CreateCategory",
-        payload
-      )
-    ).data
-  },
-  async removeCategory(id: number) {
-    return (
-      await axios.delete<CancelablePromise<string>>(
-        `http://shopshop.somee.com/AdminPanel/DeleteCategory/${id}`
-      )
-    ).data
-  },
-  async updateCategory(category: IUpdateCategory) {
-    return (
-      await axios.put(
-        `http://shopshop.somee.com/AdminPanel/EditCategory`,
-        category
-      )
-    ).data
-  },
-  async createProduct(payload: CreateProductCommand) {
-    return (
-      await axios.post(
-        "http://shopshop.somee.com/AdminPanel/CreateProduct",
-        payload
-      )
-    ).data
-  },
-  async getCategories() {
-    return (await axios.get("http://shopshop.somee.com/Shop/GetCategories"))
-      .data
-  },
-  async editCategory(category: Category) {
-    return (
-      await axios.put<Category>(
-        "http://shopshop.somee.com/AdminPanel/EditCategory",
-        category
-      )
-    ).data
-  },
+const instance = axios.create({
+  baseURL: "http://shopshop.somee.com/",
+})
+
+export const getCategoriesTree = async () => {
+  const data = (
+    await instance.get<CancelablePromise<Array<CategoryResponseDTO>>>(
+      "Shop/GetCategoriesTree"
+    )
+  ).data
+  return (await data).map(cat => ConvertCatToCustomCat(cat))
+}
+
+export const createCategory = async (payload: CreateCategoryCommand) => {
+  return (
+    await instance.post<CancelablePromise<Category>>(
+      "AdminPanel/CreateCategory",
+      payload
+    )
+  ).data
+}
+
+export const removeCategory = async (id: number) => {
+  return (
+    await instance.delete<CancelablePromise<string>>(
+      `AdminPanel/DeleteCategory/${id}`
+    )
+  ).data
+}
+export const updateCategory = async (category: IUpdateCategory) => {
+  return (await instance.put(`AdminPanel/EditCategory`, category)).data
+}
+export const createProduct = async (payload: CreateProductCommand) => {
+  return (await instance.post("AdminPanel/CreateProduct", payload)).data
+}
+export const getCategories = async () => {
+  return (await instance.get("Shop/GetCategories")).data
+}
+export const editCategory = async (category: Category) => {
+  return (await instance.put<Category>("AdminPanel/EditCategory", category))
+    .data
 }

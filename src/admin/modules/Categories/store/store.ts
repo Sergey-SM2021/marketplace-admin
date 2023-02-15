@@ -2,7 +2,7 @@ import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
 import { CategoryResponseDTO } from "entity/models/CategoryResponseDTO"
 
 // import { setIsOpenMode } from "./store.spec"
-import { api } from "../api"
+import * as api from "../api"
 
 import { createDomain } from "effector"
 // @ts-ignore
