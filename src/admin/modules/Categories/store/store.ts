@@ -9,34 +9,12 @@ import { createDomain } from "effector"
 import { attachLogger } from "effector-logger/attach"
 import "effector-logger/inspector"
 
-export interface ILocalCategory extends Category {
-  isOpen: boolean
-  childCategories: Array<ILocalCategory>
-}
-
-// #FIXME: Уберите меня в utils!!!!!!!!
-export const setIsOpenMode = (
-  category: ILocalCategory,
-  id: number,
-  mode: boolean
-) => {
-  if (category.id === id) {
-    category.isOpen = mode
-  }
-  if (category.childCategories.length) {
-    category.childCategories.forEach(cat => setIsOpenMode(cat, id, mode))
-  }
-}
-
-export const appandCategoriesChild = (
-  root: ILocalCategory,
-  child: Category
-) => {
-  if (root.id === child.parentCategoryId) {
-    root.childCategories.push({ ...child, isOpen: false, childCategories: [] })
+export const appandCategoriesChild = (root: Category, child: Category) => {
+  if (root.childCategories && root.id === child.parentCategoryId) {
+    root.childCategories.push({ ...child, childCategories: [] })
     return
   }
-  if (root.childCategories.length) {
+  if (root.childCategories && root.childCategories.length) {
     root.childCategories.forEach(childCat =>
       appandCategoriesChild(childCat, child)
     )
@@ -47,7 +25,7 @@ const categoriesDomain = createDomain()
 
 export const getCategoriesTree = categoriesDomain.createEffect<
   void,
-  Array<ILocalCategory>
+  Array<Category>
 >(api.getCategoriesTree)
 
 export const removeCategoryById = categoriesDomain.createEffect<number, string>(
@@ -82,22 +60,13 @@ export const $categories = categoriesDomain
   .on(getCategories.doneData, (_, payload) => payload)
 
 export const $categoriesTree = categoriesDomain
-  .createStore<ILocalCategory[]>([])
+  .createStore<Category[]>([])
   .on(getCategoriesTree.doneData, (_, payload) =>
     payload.map(category => ({ ...category, isOpen: false }))
   )
   .on(removeCategoryById.done, (state, { params }) =>
     state.filter(category => category.id !== params)
   )
-  // FIXME: id, category, mode - в один объект и один тип вынеси
-  .on(ShowChilds, (state, payload) => {
-    state.forEach(el => setIsOpenMode(el, payload, true))
-    return [...state]
-  })
-  .on(HideChilds, (state, payload) => {
-    state.forEach(el => setIsOpenMode(el, payload, false))
-    return [...state]
-  })
   .on(addCategory.doneData, (state, payload) => {
     state.forEach(el => {
       appandCategoriesChild(el, payload)
@@ -108,7 +77,7 @@ export const $categoriesTree = categoriesDomain
     alert(JSON.stringify(payload))
   })
   .on(updateCategory.done, (state, { params, result }) => {
-    function rec(cat: ILocalCategory) {
+    function rec(cat: Category) {
       if (cat.childCategories?.length) {
         cat.childCategories.forEach(element => {
           rec(element)
@@ -116,7 +85,7 @@ export const $categoriesTree = categoriesDomain
       }
       return cat.id === result.id
         ? { ...result, isOpen: false, childCategories: [] }
-        : cat 
+        : cat
     }
     const res = state.map(el => rec(el))
     return res

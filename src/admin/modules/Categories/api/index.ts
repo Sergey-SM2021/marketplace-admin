@@ -6,14 +6,11 @@ import {
 } from "entity"
 import { CreateProductCommand } from "entity/models/CreateProductCommand"
 
-import { ILocalCategory } from "../store/store"
-
 import axios from "axios"
 
-const ConvertCatToCustomCat = (cat: Category): ILocalCategory => {
+const ConvertCatToCustomCat = (cat: Category): Category => {
   return {
     ...cat,
-    isOpen: false,
     childCategories: cat.childCategories
       ? cat.childCategories.map(chCat => ConvertCatToCustomCat(chCat))
       : [],
