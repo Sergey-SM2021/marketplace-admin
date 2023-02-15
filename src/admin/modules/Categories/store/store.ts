@@ -54,6 +54,7 @@ export const updateCategory = categoriesDomain.createEffect<Category, Category>(
 export const $categories = categoriesDomain
   .createStore<CategoryResponseDTO[]>([])
   .on(getCategories.doneData, (_, payload) => payload)
+  .on(addCategory.doneData, (state, payload) => [...state, payload])
 
 export const $categoriesTree = categoriesDomain
   .createStore<Category[]>([])
@@ -71,7 +72,7 @@ export const $categoriesTree = categoriesDomain
       if (category.childCategories?.length) {
         category.childCategories.forEach(c => rec(c, forAdd))
       }
-      if(category.id === forAdd.parentCategoryId){
+      if (category.id === forAdd.parentCategoryId) {
         category = forAdd
       }
       return category
