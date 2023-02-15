@@ -51,10 +51,6 @@ export const updateCategory = categoriesDomain.createEffect<Category, Category>(
   api.editCategory
 )
 
-// Change state у category.isOpen
-export const ShowChilds = categoriesDomain.createEvent<number>()
-export const HideChilds = categoriesDomain.createEvent<number>()
-
 export const $categories = categoriesDomain
   .createStore<CategoryResponseDTO[]>([])
   .on(getCategories.doneData, (_, payload) => payload)
@@ -68,10 +64,19 @@ export const $categoriesTree = categoriesDomain
     state.filter(category => category.id !== params)
   )
   .on(addCategory.doneData, (state, payload) => {
-    state.forEach(el => {
-      appandCategoriesChild(el, payload)
-    })
-    return [...state]
+    if (payload.parentCategoryId === null) {
+      return [...state, { ...payload, childCategories: [] }]
+    }
+    function rec(category: Category, forAdd: Category) {
+      if (category.childCategories?.length) {
+        category.childCategories.forEach(c => rec(c, forAdd))
+      }
+      if(category.id === forAdd.parentCategoryId){
+        category = forAdd
+      }
+      return category
+    }
+    return state.map(el => rec(el, payload))
   })
   .on(createProduct.doneData, (state, payload) => {
     alert(JSON.stringify(payload))
