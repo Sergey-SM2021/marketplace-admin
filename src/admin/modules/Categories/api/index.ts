@@ -72,7 +72,7 @@ export const api = {
   },
   async editCategory(category: Category) {
     return (
-      await axios.put<number>(
+      await axios.put<Category>(
         "http://shopshop.somee.com/AdminPanel/EditCategory",
         category
       )

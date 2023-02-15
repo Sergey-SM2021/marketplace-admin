@@ -1,5 +1,5 @@
-import { CategoryResponseDTO } from "./../../../../entity/models/CategoryResponseDTO"
 import { Category, CreateCategoryCommand, CreateProductCommand } from "entity"
+import { CategoryResponseDTO } from "entity/models/CategoryResponseDTO"
 
 // import { setIsOpenMode } from "./store.spec"
 import { api } from "../api"
@@ -69,7 +69,9 @@ export const getCategories = categoriesDomain.createEffect<
   CategoryResponseDTO[]
 >(api.getCategories)
 
-export const updateCategory = categoriesDomain.createEffect<Category, number>(api.editCategory)
+export const updateCategory = categoriesDomain.createEffect<Category, Category>(
+  api.editCategory
+)
 
 // Change state у category.isOpen
 export const ShowChilds = categoriesDomain.createEvent<number>()
@@ -87,7 +89,7 @@ export const $categoriesTree = categoriesDomain
   .on(removeCategoryById.done, (state, { params }) =>
     state.filter(category => category.id !== params)
   )
-  // FIXME: id, category, mode - в один объект и один тип вынеси блядь
+  // FIXME: id, category, mode - в один объект и один тип вынеси
   .on(ShowChilds, (state, payload) => {
     state.forEach(el => setIsOpenMode(el, payload, true))
     return [...state]
@@ -105,8 +107,19 @@ export const $categoriesTree = categoriesDomain
   .on(createProduct.doneData, (state, payload) => {
     alert(JSON.stringify(payload))
   })
-  .on(updateCategory.doneData, (state, payload) => {
-    console.log("hihihy")
+  .on(updateCategory.done, (state, { params, result }) => {
+    function rec(cat: ILocalCategory) {
+      if (cat.childCategories?.length) {
+        cat.childCategories.forEach(element => {
+          rec(element)
+        })
+      }
+      return cat.id === result.id
+        ? { ...result, isOpen: false, childCategories: [] }
+        : cat 
+    }
+    const res = state.map(el => rec(el))
+    return res
   })
 
 attachLogger(categoriesDomain, {
