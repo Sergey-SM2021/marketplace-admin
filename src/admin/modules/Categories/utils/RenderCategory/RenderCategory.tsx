@@ -41,7 +41,6 @@ export const RenderCategory = (props: IRenderCategory) => {
   const {
     name,
     id,
-    childCategories,
     features,
     parentCategory,
     parentCategoryId,
@@ -72,14 +71,14 @@ export const RenderCategory = (props: IRenderCategory) => {
     <Button isDangerous={true} onClick={handlerEdit}>
       edit
     </Button>,
-    !childCategories!.length ? (
+    category.childCategories?.length ? (
       <Button isDangerous onClick={e => handlerAddProduct(e)}>
         Create Product
       </Button>
     ) : null,
   ]
 
-  if (category.childCategories!.length && isOpen) {
+  if (category.childCategories && category.childCategories.length && isOpen) {
     return (
       <>
         <Row item={{ cols: row, id: id as number }} onClick={() => {}} />
