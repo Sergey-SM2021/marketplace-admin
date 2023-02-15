@@ -1,4 +1,9 @@
-import { Category, CreateCategoryCommand, CreateProductCommand, EditCategoryCommand } from "entity"
+import {
+  Category,
+  CreateCategoryCommand,
+  CreateProductCommand,
+  EditCategoryCommand,
+} from "entity"
 
 import {
   $categoriesTree,

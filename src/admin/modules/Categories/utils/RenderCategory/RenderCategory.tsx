@@ -1,17 +1,13 @@
-import {
-  HideChilds,
-  ILocalCategory,
-  ShowChilds,
-} from "admin/modules/Categories/store/store"
+import { Category } from "entity"
 
 import { Button } from "admin/ui"
 import { Row } from "admin/ui/Table/Row"
 
 import { ReactComponent as Collapse } from "admin/assets/collapse.svg"
-import { FC, memo, SyntheticEvent } from "react"
+import { SyntheticEvent, useState } from "react"
 
 interface IRenderCategory {
-  category: ILocalCategory
+  category: Category
   onClick: (id: number) => void
   onRemove: () => void
   onEdit: () => void
@@ -19,93 +15,79 @@ interface IRenderCategory {
   deep?: number
 }
 
-export const RenderCategory: FC<IRenderCategory> = memo(
-  ({ category, onClick, onEdit, onRemove, onAddProduct, deep = 0 }) => {
-    const handlerRowClick = () => {
-      onClick(category.id!)
-    }
+export const RenderCategory = (props: IRenderCategory) => {
+  const { category, onClick, onEdit, onRemove, onAddProduct, deep = 0 } = props
+  const [isOpen, SetIsOpen] = useState(false)
 
-    const handlerRemove = (e: SyntheticEvent) => {
-      e.stopPropagation()
-      onRemove()
-    }
+  const handlerRowClick = () => {
+    onClick(category.id!)
+  }
 
-    const handlerEdit = (e: SyntheticEvent) => {
-      e.stopPropagation()
-      onEdit()
-    }
+  const handlerRemove = (e: SyntheticEvent) => {
+    e.stopPropagation()
+    onRemove()
+  }
 
-    const handlerAddProduct = (e: SyntheticEvent) => {
-      e.stopPropagation()
-      onAddProduct(category.id!)
-    }
+  const handlerEdit = (e: SyntheticEvent) => {
+    e.stopPropagation()
+    onEdit()
+  }
 
-    const { name, id, childCategories, isOpen } = category
+  const handlerAddProduct = (e: SyntheticEvent) => {
+    e.stopPropagation()
+    onAddProduct(category.id!)
+  }
 
-    const row = [
-      category.childCategories?.length ? (
-        <Collapse
-          style={{ marginLeft: deep * 30 }}
-          className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
-            category.isOpen ? "rotate-90" : "rotate-0"
-          }`}
-          onClick={e => {
-            if (category.isOpen) {
-              e.stopPropagation()
-              HideChilds(id!)
-            } else {
-              ShowChilds(id!)
-              e.stopPropagation()
-            }
-          }}
-        />
-      ) : null,
-      id,
-      name,
-      <div className="flex gap-3 justify-center">
-        {category.features?.map(f => (
-          <Button>{f.name}</Button>
-        ))}
-      </div>,
-      "Здесь должно быть кол-во продуктов",
-      <Button onClick={handlerRemove}>remove</Button>,
-      <Button isDangerous={true} onClick={handlerEdit}>
-        edit
-      </Button>,
-      !childCategories.length ? (
-        <Button isDangerous onClick={e => handlerAddProduct(e)}>
-          Create Product
-        </Button>
-      ) : null,
-    ]
+  const {
+    name,
+    id,
+    childCategories,
+    features,
+    parentCategory,
+    parentCategoryId,
+    products,
+  } = category
 
-    // рекурсивный Render категорий with children,
-    // которые в открытом state
-    if (childCategories?.length && isOpen) {
-      return (
-        <>
-          <Row
-            item={{ cols: row, id: category.id! }}
-            onClick={handlerRowClick}
-          />
-          {childCategories?.map(c => (
-            <RenderCategory
-              deep={deep + 1}
-              category={c}
-              onClick={handlerRowClick}
-              onEdit={onEdit}
-              onRemove={onRemove}
-              onAddProduct={onAddProduct}
-            />
-          ))}
-        </>
-      )
-    }
+  const row = [
+    category.childCategories?.length ? (
+      <Collapse
+        style={{ marginLeft: deep * 30 }}
+        className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
+          isOpen ? "rotate-90" : "rotate-0"
+        }`}
+        onClick={e => {
+          SetIsOpen(prev => !prev)
+        }}
+      />
+    ) : null,
+    id,
+    name,
+    <div className="flex gap-3 justify-center">
+      {category.features?.map(f => (
+        <Button>{f.name}</Button>
+      ))}
+    </div>,
+    "Здесь должно быть кол-во продуктов",
+    <Button onClick={handlerRemove}>remove</Button>,
+    <Button isDangerous={true} onClick={handlerEdit}>
+      edit
+    </Button>,
+    !childCategories!.length ? (
+      <Button isDangerous onClick={e => handlerAddProduct(e)}>
+        Create Product
+      </Button>
+    ) : null,
+  ]
 
-    // рекурсивный Render категорий with out children,
-    // or в close state
+  if (category.childCategories!.length && isOpen) {
     return (
-      <Row item={{ cols: row, id: category.id! }} onClick={handlerRowClick} />
+      <>
+        <Row item={{ cols: row, id: id as number }} onClick={() => {}} />
+        {category.childCategories!.map(el => (
+          <RenderCategory {...props} category={el} />
+        ))}
+      </>
     )
   }
-)
+  return <Row item={{ cols: row, id: id as number }} onClick={() => {}} />
+}
