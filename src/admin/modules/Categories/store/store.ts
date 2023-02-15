@@ -84,7 +84,7 @@ export const $categoriesTree = categoriesDomain
         })
       }
       return cat.id === result.id
-        ? { ...result, isOpen: false, childCategories: [] }
+        ? { ...result, isOpen: false, childCategories: result.childCategories }
         : cat
     }
     const res = state.map(el => rec(el))
