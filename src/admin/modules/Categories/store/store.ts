@@ -55,6 +55,9 @@ export const $categories = categoriesDomain
   .createStore<CategoryResponseDTO[]>([])
   .on(getCategories.doneData, (_, payload) => payload)
   .on(addCategory.doneData, (state, payload) => [...state, payload])
+  .on(removeCategoryById.done, (state, { params }) =>
+    [...state].filter(el => el.id !== params)
+  )
 
 export const $categoriesTree = categoriesDomain
   .createStore<Category[]>([])
