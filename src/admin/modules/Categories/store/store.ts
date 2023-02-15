@@ -73,7 +73,12 @@ export const $categoriesTree = categoriesDomain
         category.childCategories.forEach(c => rec(c, forAdd))
       }
       if (category.id === forAdd.parentCategoryId) {
-        category = forAdd
+        return {
+          ...category,
+          childCategories: category.childCategories
+            ? [...category.childCategories, forAdd]
+            : [forAdd],
+        }
       }
       return category
     }
