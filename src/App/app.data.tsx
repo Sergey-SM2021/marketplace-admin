@@ -3,7 +3,7 @@ import { CategoriesPage } from "admin/pages/Categories"
 import { ItemsPage } from "admin/pages/Items/index"
 import { ProductsPage } from "admin/pages/Products/index"
 
-import { Layout } from "admin/index"
+import { Layout } from "admin/Layout/index"
 import { ClientPages } from "client"
 import { Navigate } from "react-router-dom"
 
