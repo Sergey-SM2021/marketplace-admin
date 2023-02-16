@@ -4,8 +4,12 @@ import { Category } from "entity"
 
 // addCategoryInChildCategoriesById
 export const addNestedCat = (where: Category, what: Category): Category => {
+  if (where.childCategories && where.childCategories.length) {
+    if (where.id === what.parentCategoryId) {
+      return { ...where, childCategories: [...where.childCategories, what] }
+    }
+  }
   if (where.id === what.parentCategoryId) {
-    // FIXME: ещё скопировать прежнее значение
     return { ...where, childCategories: [what] }
   }
   if (where.childCategories && where.childCategories?.length) {

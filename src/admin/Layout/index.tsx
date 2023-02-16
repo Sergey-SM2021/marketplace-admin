@@ -11,7 +11,7 @@ export const Layout: FC<ILayout> = () => {
   const { pathname } = useLocation()
   return (
     <div className="flex bg-gray min-h-screen h-full">
-      {pathname === "/products" || pathname.split("/")[1] === "categories" ? (
+      {pathname.includes("/products") ? (
         <Sidebar />
       ) : null}
       <div className="flex-auto">

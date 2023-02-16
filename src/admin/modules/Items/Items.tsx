@@ -11,7 +11,9 @@ import { addNotification } from "admin/modules/Notifications/store"
 
 import { Notifications } from "admin/modules/Notifications"
 
-import { Add, Button, Table, Title } from "admin/ui"
+import { CreateNewItem } from "./components/CreateNewItem"
+
+import { Add, Button, Modal, Table, Title } from "admin/ui"
 
 import { useStore } from "effector-react"
 import { FC, memo, useEffect, useState } from "react"
@@ -82,15 +84,17 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
   return (
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
       <Notifications />
-      {/* <Modal
-        title="Создать новый товар"
-        handlerClose={() => setIsModalOpen(false)}>
-        <CreateNewItem
-          categoryId={Number(categoryId)}
-          handlerCreateProduct={handlerCreateProduct}
-          handlerClose={handlerModalClose}
-        />
-      </Modal> */}
+      {isModalOpen ? (
+        <Modal
+          title="Создать новый товар"
+          handlerClose={() => setIsModalOpen(false)}>
+          <CreateNewItem
+            categoryId={Number(categoryId)}
+            handlerCreateProduct={handlerCreateProduct}
+            handlerClose={handlerModalClose}
+          />
+        </Modal>
+      ) : null}
       <div className="flex gap-4 flex-row-reverse items-center">
         <Add handlerAdd={handlerAddItem} />
         <Title>
