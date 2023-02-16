@@ -84,7 +84,7 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
   return (
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
       <Notifications />
-      {isModalOpen ? (
+      {/* {isModalOpen ? (
         <Modal
           title="Создать новый товар"
           handlerClose={() => setIsModalOpen(false)}>
@@ -94,12 +94,12 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
             handlerClose={handlerModalClose}
           />
         </Modal>
-      ) : null}
+      ) : null} */}
       <div className="flex gap-4 flex-row-reverse items-center">
-        <Add handlerAdd={handlerAddItem} />
-        <Title>
+        {/* <Add handlerAdd={handlerAddItem} /> */}
+        {/* <Title>
           Products from {categoryName} [ {categoryId} ]{" "}
-        </Title>
+        </Title> */}
         <Button onClick={handlerBackClick} isDangerous>
           Back
         </Button>
