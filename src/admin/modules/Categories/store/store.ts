@@ -21,6 +21,20 @@ export const appandCategoriesChild = (root: Category, child: Category) => {
   }
 }
 
+// возвращает категорию у которой в category.childsCategories добавленна категория
+// рекурсивно, по id
+// addCategoryInChildCategoriesById
+export const addNestedCat = (where: Category, what: Category): Category => {
+  if (where.id === what.parentCategoryId) {
+    // FIXME: ещё скопировать прежнее значение
+    return { ...where, childCategories: [what] }
+  }
+  if (where.childCategories && where.childCategories?.length) {
+    return {...where, childCategories: where.childCategories.map(c => addNestedCat(c, what))}
+  }
+  return where
+}
+
 const categoriesDomain = createDomain()
 
 export const getCategoriesTree = categoriesDomain.createEffect<
@@ -71,21 +85,7 @@ export const $categoriesTree = categoriesDomain
     if (payload.parentCategoryId === null) {
       return [...state, { ...payload, childCategories: [] }]
     }
-    function rec(category: Category, forAdd: Category) {
-      if (category.childCategories?.length) {
-        category.childCategories.forEach(c => rec(c, forAdd))
-      }
-      if (category.id === forAdd.parentCategoryId) {
-        return {
-          ...category,
-          childCategories: category.childCategories
-            ? [...category.childCategories, forAdd]
-            : [forAdd],
-        }
-      }
-      return category
-    }
-    return state.map(el => rec(el, payload))
+    return state.map(el => addNestedCat(el, payload))
   })
   .on(createProduct.doneData, (state, payload) => {
     alert(JSON.stringify(payload))
