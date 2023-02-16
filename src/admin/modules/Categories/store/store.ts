@@ -4,6 +4,9 @@ import { CategoryResponseDTO } from "entity/models/CategoryResponseDTO"
 // import { setIsOpenMode } from "./store.spec"
 import * as api from "../api"
 
+import { removeNestedCat } from "../utils"
+import { addNestedCat } from "../utils/addNestedCat/addNestedCat"
+
 import { createDomain } from "effector"
 // @ts-ignore
 import { attachLogger } from "effector-logger/attach"
@@ -19,20 +22,6 @@ export const appandCategoriesChild = (root: Category, child: Category) => {
       appandCategoriesChild(childCat, child)
     )
   }
-}
-
-// возвращает категорию у которой в category.childsCategories добавленна категория
-// рекурсивно, по id
-// addCategoryInChildCategoriesById
-export const addNestedCat = (where: Category, what: Category): Category => {
-  if (where.id === what.parentCategoryId) {
-    // FIXME: ещё скопировать прежнее значение
-    return { ...where, childCategories: [what] }
-  }
-  if (where.childCategories && where.childCategories?.length) {
-    return {...where, childCategories: where.childCategories.map(c => addNestedCat(c, what))}
-  }
-  return where
 }
 
 const categoriesDomain = createDomain()
@@ -78,9 +67,12 @@ export const $categoriesTree = categoriesDomain
   .on(getCategoriesTree.doneData, (_, payload) =>
     payload.map(category => ({ ...category, isOpen: false }))
   )
-  .on(removeCategoryById.done, (state, { params }) =>
-    state.filter(category => category.id !== params)
-  )
+  .on(removeCategoryById.done, (state, { params }) => {
+    if (state.findIndex(el => el.id === params) !== -1) {
+      return state.filter(el => el.id !== params)
+    }
+    return state.map(s => removeNestedCat(s, params))
+  })
   .on(addCategory.doneData, (state, payload) => {
     if (payload.parentCategoryId === null) {
       return [...state, { ...payload, childCategories: [] }]

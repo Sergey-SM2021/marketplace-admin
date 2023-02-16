@@ -142,7 +142,7 @@ export const Categories: FC = memo(() => {
                   parentCategoryId: cat.parentCategoryId!,
                 })
               }
-              onRemove={() => handlerRemoveClick(cat.id as number)}
+              onRemove={handlerRemoveClick}
               category={cat}
               onClick={(id: number) => handlerRowClick(id)}
               onAddProduct={handlerCreateProduct}

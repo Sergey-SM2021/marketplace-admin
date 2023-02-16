@@ -4,12 +4,12 @@ import { Button } from "admin/ui"
 import { Row } from "admin/ui/Table/Row"
 
 import { ReactComponent as Collapse } from "admin/assets/collapse.svg"
-import { SyntheticEvent, useState } from "react"
+import { MouseEvent, SyntheticEvent, useState } from "react"
 
 interface IRenderCategory {
   category: Category
   onClick: (id: number) => void
-  onRemove: () => void
+  onRemove: (id: number) => void
   onEdit: () => void
   onAddProduct: (id: number) => void
   deep?: number
@@ -23,9 +23,9 @@ export const RenderCategory = (props: IRenderCategory) => {
     onClick(category.id!)
   }
 
-  const handlerRemove = (e: SyntheticEvent) => {
+  const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
     e.stopPropagation()
-    onRemove()
+    onRemove(id)
   }
 
   const handlerEdit = (e: SyntheticEvent) => {
@@ -38,14 +38,8 @@ export const RenderCategory = (props: IRenderCategory) => {
     onAddProduct(category.id!)
   }
 
-  const {
-    name,
-    id,
-    features,
-    parentCategory,
-    parentCategoryId,
-    products,
-  } = category
+  const { name, id, features, parentCategory, parentCategoryId, products } =
+    category
 
   const row = [
     category.childCategories?.length ? (
@@ -67,7 +61,7 @@ export const RenderCategory = (props: IRenderCategory) => {
       ))}
     </div>,
     "Здесь должно быть кол-во продуктов",
-    <Button onClick={handlerRemove}>remove</Button>,
+    <Button onClick={e => handlerRemove(e, id!)}>remove</Button>,
     <Button isDangerous={true} onClick={handlerEdit}>
       edit
     </Button>,

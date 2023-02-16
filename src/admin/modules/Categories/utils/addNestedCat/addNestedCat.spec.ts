@@ -1,5 +1,5 @@
 import { Category } from "entity"
-import { addNestedCat } from "./store"
+import { addNestedCat } from "./addNestedCat"
 
 describe("addCategoryInChildCategoriesById", () => {
   it(`addCategoryInChildCategoriesById вернёт изменённую категорию. Мы добавим категорию в child.childCategories`, () => {
