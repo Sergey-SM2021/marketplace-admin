@@ -65,7 +65,7 @@ export const RenderCategory = (props: IRenderCategory) => {
     <Button isDangerous={true} onClick={handlerEdit}>
       edit
     </Button>,
-    category.childCategories?.length ? (
+    !category.childCategories?.length ? (
       <Button isDangerous onClick={e => handlerAddProduct(e)}>
         Create Product
       </Button>
