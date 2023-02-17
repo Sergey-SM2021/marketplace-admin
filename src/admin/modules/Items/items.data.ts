@@ -1,0 +1,1 @@
+export const headerRow = ["id", "name", "rating", "price", "action"]

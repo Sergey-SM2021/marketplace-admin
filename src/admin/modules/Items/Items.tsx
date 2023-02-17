@@ -15,6 +15,8 @@ import { CreateNewItem } from "./components/CreateNewItem"
 
 import { Add, Button, Modal, Table, Title } from "admin/ui"
 
+import { headerRow } from "./items.data"
+
 import { useStore } from "effector-react"
 import { FC, memo, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -51,8 +53,6 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
     removeProduct(id)
   }
 
-  const headerRow = ["id", "name", "rating", "price", "info", "action"]
-
   const handlerCreateProduct = async (product: Product) => {
     const id = await createProduct(product)
     await getProductById(id)
@@ -66,7 +66,6 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
       name,
       rating,
       price,
-      info,
       <Button
         isDangerous={true}
         onClick={() =>
@@ -77,7 +76,6 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
         }>
         delete
       </Button>,
-      <Button onClick={handlerModalOpen}>edit</Button>,
     ]
   })
 
