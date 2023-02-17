@@ -25,6 +25,10 @@ export const $privateRoutes = [
         element: <ProductsPage />,
       },
       {
+        path: "/admin/products/:id",
+        element: <ProductsPage />,
+      },
+      {
         path: "/admin/profile",
         element: <div>profile</div>,
       },

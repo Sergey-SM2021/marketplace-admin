@@ -1,19 +1,12 @@
 import { Product } from "entity"
 
 import { createDomain } from "effector"
+import { api } from "../api"
 
 const productDomain = createDomain()
 
-export const getProductById = productDomain.createEffect<number, Product>()
+export const getProductById = productDomain.createEffect<number, Product>(api.getProductById)
 
 export const $productStore = productDomain
-  .createStore<Product>({
-    name: "Холодильник",
-    categoryId: 293,
-    features: [],
-    info: "Просто холодильник",
-    price: 10000,
-    rating: null,
-    id: 78,
-  })
+  .createStore<Product|null>(null)
   .on(getProductById.doneData, (_, payload) => payload)

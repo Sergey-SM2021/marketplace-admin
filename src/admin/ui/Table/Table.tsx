@@ -7,7 +7,7 @@ import { FC } from "react"
 
 interface ITable {
   HeaderTableRow: Array<React.ReactNode>
-  BodyTableRows: Array<Array<React.ReactNode>>
+  BodyTableRows: Array<{ cols: React.ReactNode[]; id: number }>
   BodyTableRowClickHandler: (companyId: number) => void
 }
 
@@ -20,11 +20,8 @@ export const Table: FC<ITable> = ({
     <table className={style.table}>
       <Header row={HeaderTableRow} />
       <tbody className={cn(style.table__body, style.bodyTable)}>
-        {BodyTableRows.map(category => (
-          <Row
-            item={{ id: Math.random(), cols: category }}
-            onClick={BodyTableRowClickHandler}
-          />
+        {BodyTableRows.map(row => (
+          <Row item={row} onClick={BodyTableRowClickHandler} />
         ))}
       </tbody>
     </table>

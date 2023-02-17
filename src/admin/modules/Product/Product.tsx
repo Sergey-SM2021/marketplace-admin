@@ -14,21 +14,27 @@ interface IProduct {}
 
 export const Product: FC<IProduct> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const { name, info } = useStore($productStore)
+  const product = useStore($productStore)
+  const { id } = useParams()
   useEffect(() => {
-    getProductById(78)
-  }, [])
+    if (id) {
+      getProductById(Number(id))
+    }
+  }, [id])
   const handlerScaleing = () => {
     setIsOpen(true)
   }
   const handlerUnScaleing = () => {
     setIsOpen(false)
   }
+  if (!id) {
+    return null
+  }
   return (
     <>
       {isOpen ? <FullMedia onClose={handlerUnScaleing} /> : null}
       <div className="bg-white w-1/2 min-h-full p-4">
-        <Subtitle>{name}</Subtitle>
+        <Subtitle>{product?.name}</Subtitle>
         <div className="text-dark-gray font-bold">
           <NavLink to={"/"} className="text-[#888] hover:text-[#333] font-bold">
             электроника
@@ -45,7 +51,7 @@ export const Product: FC<IProduct> = () => {
         <Slider onScaleing={handlerScaleing} />
         <Counter />
         <Button isDangerous={true}>Edit</Button>
-        <div>{info}</div>
+        <div>{product?.info}</div>
       </div>
     </>
   )

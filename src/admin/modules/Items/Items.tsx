@@ -18,7 +18,7 @@ import { Add, Button, Modal, Table, Title } from "admin/ui"
 import { headerRow } from "./items.data"
 
 import { useStore } from "effector-react"
-import { FC, memo, useEffect, useState } from "react"
+import { FC, memo, ReactNode, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 interface IItems {
@@ -61,22 +61,25 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
   const BodyRows = products.map(row => {
     const { category, categoryId, features, id, info, name, price, rating } =
       row
-    return [
-      id,
-      name,
-      rating,
-      price,
-      <Button
-        isDangerous={true}
-        onClick={() =>
-          addNotification({
-            text: `вы действительно хотите удалить продукт #${id}?`,
-            onAccept: () => handlerRemoveProduct(Number(id)),
-          })
-        }>
-        delete
-      </Button>,
-    ]
+    return {
+      cols: [
+        <div>{id}</div>,
+        <div>{name}</div>,
+        <div>{rating}</div>,
+        <div>{price}</div>,
+        <Button
+          isDangerous={true}
+          onClick={() =>
+            addNotification({
+              text: `вы действительно хотите удалить продукт #${id}?`,
+              onAccept: () => handlerRemoveProduct(Number(id)),
+            })
+          }>
+          delete
+        </Button>,
+      ],
+      id: id as number,
+    }
   })
 
   return (
@@ -103,7 +106,9 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
         </Button>
       </div>
       <Table
-        BodyTableRowClickHandler={id => {}}
+        BodyTableRowClickHandler={id => {
+          nav(`/admin/products/${id}`)
+        }}
         HeaderTableRow={headerRow}
         BodyTableRows={BodyRows}
       />
