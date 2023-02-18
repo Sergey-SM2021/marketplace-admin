@@ -33,7 +33,7 @@ export const Product: FC<IProduct> = () => {
   return (
     <>
       {isOpen ? <FullMedia onClose={handlerUnScaleing} /> : null}
-      <div className="bg-white w-1/2 min-h-full p-4">
+      <div className="bg-white w-full min-h-full p-4">
         <Subtitle>{product?.name}</Subtitle>
         <div className="text-dark-gray font-bold">
           <NavLink to={"/"} className="text-[#888] hover:text-[#333] font-bold">

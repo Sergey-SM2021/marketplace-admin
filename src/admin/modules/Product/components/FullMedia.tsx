@@ -6,7 +6,7 @@ interface IFullMedia {
 
 export const FullMedia: FC<IFullMedia> = ({ onClose }) => {
   return (
-    <div className=" bg-[rgba(#2A2C38, .7)] hover:cursor-not-allowed absolute inset-0 w-full h-full p-10 backdrop-blur-sm">
+    <div className=" bg-[rgba(#2A2C38, .7)] hover:cursor-not-allowed z-10 absolute inset-0 w-full h-full p-10 backdrop-blur-sm">
       <img
         onClick={onClose}
         className="object-cover w-full h-full"
