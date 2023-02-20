@@ -5,6 +5,7 @@ import "swiper/css/thumbs"
 
 interface ISlider {
   onScaleing: () => void
+  onAddMedia: () => void
 }
 
 const media = [
@@ -14,7 +15,7 @@ const media = [
   "https://static.batnorton.com/image/42231-627ba80dafaab0.64946494/1462x2048-1_2542632289.jpg",
 ]
 
-export const Slider: FC<ISlider> = ({ onScaleing }) => {
+export const Slider: FC<ISlider> = ({ onScaleing, onAddMedia }) => {
   useEffect(() => {
     const swiperNav = new Swiper(".swiper-nav", {
       slidesPerView: 3,
@@ -25,6 +26,7 @@ export const Slider: FC<ISlider> = ({ onScaleing }) => {
       modules: [Mousewheel, Keyboard],
       slidesPerGroup: 1,
       spaceBetween: 15,
+      noSwipingSelector: "#a",
     })
     new Swiper(".swiper-intro", {
       thumbs: { swiper: swiperNav },
@@ -42,6 +44,11 @@ export const Slider: FC<ISlider> = ({ onScaleing }) => {
               <img className="w-full h-full object-cover" src={el} alt="" />
             </div>
           ))}
+          <div className="swiper-slide" id="a" onClick={onAddMedia}>
+            <div className="w-full bg-red h-[200px] flex justify-center items-center">
+              <div>+</div>
+            </div>
+          </div>
         </div>
       </div>
       <div

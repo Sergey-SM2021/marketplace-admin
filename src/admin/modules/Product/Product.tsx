@@ -36,20 +36,17 @@ export const Product: FC<IProduct> = () => {
   }
   const RenderRow = () =>
     product?.features?.map(el => ({
-      cols: [
-        <div>edit</div>,
-        <div>{el.name}</div>,
-        <div>{el.value}</div>,
-      ],
+      cols: [<div>edit</div>, <div>{el.name}</div>, <div>{el.value}</div>],
       id: 9,
     })) || []
+  const handlerAddMedia = () => {}
   return (
     <>
       {isOpen ? <FullMedia onClose={handlerUnScaleing} /> : null}
       <div className="w-full min-h-full p-4">
         <Header productName={product?.name ?? "name"} />
         <div className="bg-white rounded p-4 grid grid-cols-3 gap-4">
-          <Slider onScaleing={handlerScaleing} />
+          <Slider onAddMedia={handlerAddMedia} onScaleing={handlerScaleing} />
           <div>
             <div>price: {product?.price}</div>
             <div>id: {product?.id}</div>
