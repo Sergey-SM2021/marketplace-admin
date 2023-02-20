@@ -1,20 +1,24 @@
+import { ProductResponseDTO } from "entity"
+
 import { $productStore, getProductById } from "./store/store"
 
+import { AttributesTable } from "./components/AttributesTable"
 import { Counter } from "./components/Counter"
 import { FullMedia } from "./components/FullMedia"
+import { Header } from "./components/Header"
 import { Slider } from "./components/Slider"
 
 import { Button, Subtitle } from "admin/ui"
 
 import { useStore } from "effector-react"
 import { FC, useEffect, useState } from "react"
-import { NavLink, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 interface IProduct {}
 
 export const Product: FC<IProduct> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const product = useStore($productStore)
+  const product = useStore<ProductResponseDTO | null>($productStore)
   const { id } = useParams()
   useEffect(() => {
     if (id) {
@@ -30,28 +34,41 @@ export const Product: FC<IProduct> = () => {
   if (!id) {
     return null
   }
+  const RenderRow = () =>
+    product?.features?.map(el => ({
+      cols: [
+        <div>edit</div>,
+        <div>{el.name}</div>,
+        <div>{el.value}</div>,
+      ],
+      id: 9,
+    })) || []
   return (
     <>
       {isOpen ? <FullMedia onClose={handlerUnScaleing} /> : null}
-      <div className="bg-white w-full min-h-full p-4">
-        <Subtitle>{product?.name}</Subtitle>
-        <div className="text-dark-gray font-bold">
-          <NavLink to={"/"} className="text-[#888] hover:text-[#333] font-bold">
-            электроника
-          </NavLink>
-          <span className="text-[#888]">/</span>
-          <NavLink to={"/"} className="text-[#888] hover:text-[#333] font-bold">
-            ноутбуки
-          </NavLink>
-          <span className="text-[#888]">/</span>
-          <NavLink to={"/"} className="text-[#888] hover:text-[#333] font-bold">
-            asermodel8291738_3782gryu...
-          </NavLink>
+      <div className="w-full min-h-full p-4">
+        <Header productName={product?.name ?? "name"} />
+        <div className="bg-white rounded p-4 grid grid-cols-3 gap-4">
+          <Slider onScaleing={handlerScaleing} />
+          <div>
+            <div>price: {product?.price}</div>
+            <div>id: {product?.id}</div>
+            <Counter />
+            <div className="grid gap-4 grid-cols-2">
+              <Button isDangerous={true}>Edit</Button>
+              <Button isDangerous={true}>Remove</Button>
+            </div>
+          </div>
+          <AttributesTable
+            BodyTableRowClickHandler={() => {}}
+            BodyTableRows={RenderRow()}
+            HeaderTableRow={["", "key", "value"]}
+          />
+          <div>
+            <Subtitle>Описание</Subtitle>
+            <div>{product?.info}</div>
+          </div>
         </div>
-        <Slider onScaleing={handlerScaleing} />
-        <Counter />
-        <Button isDangerous={true}>Edit</Button>
-        <div>{product?.info}</div>
       </div>
     </>
   )

@@ -14,6 +14,12 @@ export const navLinks = [
   },
   {
     icon: <Settings className="w-5 h-5 fill-white" />,
+    text: "Orders",
+    id: v4(),
+    link: "/admin/orders",
+  },
+  {
+    icon: <Settings className="w-5 h-5 fill-white" />,
     text: "Settings",
     id: v4(),
     link: "/admin/settings",

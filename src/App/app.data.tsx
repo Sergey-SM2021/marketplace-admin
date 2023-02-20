@@ -1,7 +1,8 @@
-import { AuthPage } from "client/pages/AuthPage"
 import { CategoriesPage } from "admin/pages/Categories"
 import { ItemsPage } from "admin/pages/Items/index"
+import { ProductPage } from "admin/pages/ProductPage"
 import { ProductsPage } from "admin/pages/Products/index"
+import { AuthPage } from "client/pages/AuthPage"
 
 import { Layout } from "admin/Layout/index"
 import { ClientPages } from "client"
@@ -15,6 +16,10 @@ export const $privateRoutes = [
       {
         path: "/admin/categories/",
         element: <CategoriesPage />,
+      },
+      {
+        path: "/admin/product/:id",
+        element: <ProductPage />,
       },
       {
         path: "/admin/categories/:categoryId",
@@ -38,11 +43,11 @@ export const $privateRoutes = [
       },
       {
         path: "/admin/notifications-list",
-        element: <div>/admin/notifications-list</div>
+        element: <div>/admin/notifications-list</div>,
       },
       {
         path: "/admin/settings",
-        element: <div>/admin/settings</div>
+        element: <div>/admin/settings</div>,
       },
     ],
   },

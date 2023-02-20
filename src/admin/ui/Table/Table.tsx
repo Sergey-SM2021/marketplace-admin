@@ -5,7 +5,7 @@ import style from "./index.module.sass"
 import cn from "classnames"
 import { FC } from "react"
 
-interface ITable {
+export interface ITable {
   HeaderTableRow: Array<React.ReactNode>
   BodyTableRows: Array<{ cols: React.ReactNode[]; id: number }>
   BodyTableRowClickHandler: (companyId: number) => void

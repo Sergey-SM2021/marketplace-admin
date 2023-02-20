@@ -107,7 +107,7 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
       </div>
       <Table
         BodyTableRowClickHandler={id => {
-          nav(`/admin/products/${id}`)
+          nav(`/admin/product/${id}`)
         }}
         HeaderTableRow={headerRow}
         BodyTableRows={BodyRows}

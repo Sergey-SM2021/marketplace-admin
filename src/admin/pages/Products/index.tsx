@@ -4,7 +4,6 @@ import { Items } from "admin/modules/Items"
 
 import { useStore } from "effector-react"
 import { useEffect } from "react"
-import { Product } from "admin/modules/Product"
 
 export const ProductsPage = () => {
   const products = useStore($ProductsPageStore)
@@ -15,7 +14,6 @@ export const ProductsPage = () => {
   return (
     <div className="flex">
       <Items initProducts={products} />
-      <Product />
     </div>
   )
 }

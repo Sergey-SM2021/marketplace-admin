@@ -24,7 +24,7 @@ export const Slider: FC<ISlider> = ({ onScaleing }) => {
       keyboard: true,
       modules: [Mousewheel, Keyboard],
       slidesPerGroup: 1,
-      spaceBetween: 15
+      spaceBetween: 15,
     })
     new Swiper(".swiper-intro", {
       thumbs: { swiper: swiperNav },
@@ -34,7 +34,7 @@ export const Slider: FC<ISlider> = ({ onScaleing }) => {
     })
   }, [])
   return (
-    <div className="flex gap-[15px]">
+    <div className="flex gap-[15px] w-full">
       <div className="swiper swiper-nav" style={{ width: 200 }}>
         <div className="swiper-wrapper">
           {media.map(el => (
