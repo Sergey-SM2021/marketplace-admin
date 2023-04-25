@@ -7,6 +7,7 @@ import { useRoutes } from "react-router-dom"
 export const App = () => {
   const publicRoutes = useRoutes($publicRoutes)
   const privateRoutes = useRoutes($privateRoutes)
-  const isAuth = useStore($isAuth)
+  let isAuth = useStore($isAuth)
   return isAuth ? privateRoutes : publicRoutes
 }
+
