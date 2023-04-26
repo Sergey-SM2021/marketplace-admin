@@ -10,9 +10,10 @@ export type Product = {
     name?: string | null;
     categoryId?: number | null;
     category?: Category;
-    features?: Array<FeatureValue> | null;
+    featureValues?: Array<FeatureValue> | null;
     info?: string | null;
     price?: number | null;
     rating?: number | null;
+    count?: number;
 };
 

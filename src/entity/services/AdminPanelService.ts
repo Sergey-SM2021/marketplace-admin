@@ -1,14 +1,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Category } from '../models/Category';
+import type { CategoryResponse } from '../models/CategoryResponse';
+import type { ChangeCountProductCommand } from '../models/ChangeCountProductCommand';
 import type { CreateCategoryCommand } from '../models/CreateCategoryCommand';
 import type { CreateCategoryFeaturesCommand } from '../models/CreateCategoryFeaturesCommand';
-import type { CreateCategoryFeaturesResponse } from '../models/CreateCategoryFeaturesResponse';
 import type { CreateProductCommand } from '../models/CreateProductCommand';
 import type { EditCategoryCommand } from '../models/EditCategoryCommand';
+import type { EditFeatureCommand } from '../models/EditFeatureCommand';
 import type { EditProductCommand } from '../models/EditProductCommand';
-import type { Product } from '../models/Product';
+import type { FeaturesResponse } from '../models/FeaturesResponse';
+import type { ProductResponse } from '../models/ProductResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -17,13 +19,14 @@ import { request as __request } from '../core/request';
 export class AdminPanelService {
 
     /**
+     * Создать категорию
      * @param requestBody
-     * @returns Category Success
+     * @returns CategoryResponse Success
      * @throws ApiError
      */
     public static postAdminPanelCreateCategory(
         requestBody?: CreateCategoryCommand,
-    ): CancelablePromise<Category> {
+    ): CancelablePromise<CategoryResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/AdminPanel/CreateCategory',
@@ -33,13 +36,14 @@ export class AdminPanelService {
     }
 
     /**
+     * Создать атрибут категории
      * @param requestBody
-     * @returns CreateCategoryFeaturesResponse Success
+     * @returns FeaturesResponse Success
      * @throws ApiError
      */
     public static postAdminPanelCreateCategoryFeatures(
         requestBody?: CreateCategoryFeaturesCommand,
-    ): CancelablePromise<CreateCategoryFeaturesResponse> {
+    ): CancelablePromise<FeaturesResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/AdminPanel/CreateCategoryFeatures',
@@ -49,13 +53,14 @@ export class AdminPanelService {
     }
 
     /**
+     * Создать продукт
      * @param requestBody
-     * @returns Product Success
+     * @returns ProductResponse Success
      * @throws ApiError
      */
     public static postAdminPanelCreateProduct(
         requestBody?: CreateProductCommand,
-    ): CancelablePromise<Product> {
+    ): CancelablePromise<ProductResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/AdminPanel/CreateProduct',
@@ -65,6 +70,7 @@ export class AdminPanelService {
     }
 
     /**
+     * Удалить продукт
      * @param id
      * @returns string Success
      * @throws ApiError
@@ -82,6 +88,7 @@ export class AdminPanelService {
     }
 
     /**
+     * Удалить категорию
      * @param id
      * @returns string Success
      * @throws ApiError
@@ -99,6 +106,7 @@ export class AdminPanelService {
     }
 
     /**
+     * Удалить атрибут
      * @param id
      * @returns string Success
      * @throws ApiError
@@ -118,12 +126,12 @@ export class AdminPanelService {
     /**
      * Редактирование продукта
      * @param requestBody
-     * @returns string Success
+     * @returns ProductResponse Success
      * @throws ApiError
      */
     public static putAdminPanelEditProduct(
         requestBody?: EditProductCommand,
-    ): CancelablePromise<string> {
+    ): CancelablePromise<ProductResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/AdminPanel/EditProduct',
@@ -133,13 +141,14 @@ export class AdminPanelService {
     }
 
     /**
+     * Редактирование категории
      * @param requestBody
-     * @returns number Success
+     * @returns CategoryResponse Success
      * @throws ApiError
      */
     public static putAdminPanelEditCategory(
         requestBody?: EditCategoryCommand,
-    ): CancelablePromise<number> {
+    ): CancelablePromise<CategoryResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/AdminPanel/EditCategory',
@@ -149,14 +158,36 @@ export class AdminPanelService {
     }
 
     /**
-     * Сброс данных
-     * @returns string Success
+     * Редактирование атрибута
+     * @param requestBody
+     * @returns FeaturesResponse Success
      * @throws ApiError
      */
-    public static postAdminPanelSeedDatabase(): CancelablePromise<string> {
+    public static putAdminPanelEditFeature(
+        requestBody?: EditFeatureCommand,
+    ): CancelablePromise<FeaturesResponse> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/AdminPanel/SeedDatabase',
+            method: 'PUT',
+            url: '/AdminPanel/EditFeature',
+            body: requestBody,
+            mediaType: 'application/json-patch+json',
+        });
+    }
+
+    /**
+     * Изменить кол-во товара
+     * @param requestBody
+     * @returns ProductResponse Success
+     * @throws ApiError
+     */
+    public static putAdminPanelChangeCountProduct(
+        requestBody?: ChangeCountProductCommand,
+    ): CancelablePromise<ProductResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/AdminPanel/ChangeCountProduct',
+            body: requestBody,
+            mediaType: 'application/json-patch+json',
         });
     }
 

@@ -1,20 +1,18 @@
-import { CategoriesPage } from "admin/pages/Categories"
-import { ItemsPage } from "admin/pages/Items/index"
-import { ProductPage } from "admin/pages/ProductPage"
-import { ProductsPage } from "admin/pages/Products/index"
-import { AuthPage } from "client/pages/AuthPage"
+import { CategoriesPage } from "pages/Categories"
+import { ItemsPage } from "pages/Items/index"
+import { ProductPage } from "pages/ProductPage"
+import { ProductsPage } from "pages/Products/index"
 
-import { Layout } from "admin/Layout/index"
-import { ClientPages } from "client"
+import { Layout } from "Layout/index"
 import { Navigate } from "react-router-dom"
 
 export const $privateRoutes = [
   {
-    path: "/admin/",
+    path: "/",
     element: <Layout />,
     children: [
       {
-        path: "/admin/categories/",
+        path: "/",
         element: <CategoriesPage />,
       },
       {
@@ -52,26 +50,7 @@ export const $privateRoutes = [
     ],
   },
   {
-    path: "/",
-    element: <ClientPages.MainPage />,
-  },
-  {
     path: "*",
     element: <div>error</div>,
-  },
-]
-
-export const $publicRoutes = [
-  {
-    path: "/",
-    element: <ClientPages.MainPage />,
-  },
-  {
-    path: "/signIn",
-    element: <AuthPage />,
-  },
-  {
-    path: "*",
-    element: <Navigate to={"/"} />,
   },
 ]

@@ -7,6 +7,5 @@ export type CreateProductCommand = {
     categoryId?: number | null;
     info?: string | null;
     price?: number;
-    rating?: number | null;
 };
 

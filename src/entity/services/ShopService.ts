@@ -13,6 +13,7 @@ import { request as __request } from '../core/request';
 export class ShopService {
 
     /**
+     * Получить список всех продуктов
      * @returns ProductResponseDTO Success
      * @throws ApiError
      */
@@ -24,6 +25,7 @@ export class ShopService {
     }
 
     /**
+     * Получить конкретный продукт
      * @param id
      * @returns ProductResponseDTO Success
      * @throws ApiError
@@ -41,6 +43,7 @@ export class ShopService {
     }
 
     /**
+     * Получить список всех атрибутов
      * @returns Feature Success
      * @throws ApiError
      */
@@ -52,6 +55,7 @@ export class ShopService {
     }
 
     /**
+     * Получить список категорий в виде дерева
      * @returns CategoryResponseTreeDTO Success
      * @throws ApiError
      */
@@ -63,6 +67,7 @@ export class ShopService {
     }
 
     /**
+     * Получить список категорий
      * @returns CategoryResponseDTO Success
      * @throws ApiError
      */
@@ -74,6 +79,7 @@ export class ShopService {
     }
 
     /**
+     * Получить список атрибутов конкретной категории
      * @param id
      * @returns Feature Success
      * @throws ApiError
@@ -91,6 +97,7 @@ export class ShopService {
     }
 
     /**
+     * Получить список продуктов конкретной категории
      * @param id
      * @returns ProductResponseDTO Success
      * @throws ApiError

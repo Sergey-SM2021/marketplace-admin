@@ -8,7 +8,6 @@ export type EditProductCommand = {
     categoryId?: number | null;
     info?: string | null;
     price?: number | null;
-    rating?: number | null;
     featureValue?: Record<string, string | null> | null;
 };
 
