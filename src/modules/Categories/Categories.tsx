@@ -15,7 +15,7 @@ import {
   updateCategory,
 } from "./store/store"
 import { $categories } from "./store/store"
-import { addNotification } from "modules/Notifications/store"
+import { addNotification } from "App/Providers/Notifications/store"
 
 import { CategoryModal } from "./components/CategoryModal"
 import { CreateProductModal } from "./components/CreateProductModal/CreateProductModal"

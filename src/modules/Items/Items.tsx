@@ -7,9 +7,9 @@ import {
   removeProduct,
 } from "./store"
 import { setProducts } from "./store"
-import { addNotification } from "modules/Notifications/store"
+import { addNotification } from "App/Providers/Notifications/store"
 
-import { Notifications } from "modules/Notifications"
+import { Notifications } from "App/Providers/Notifications"
 
 import { Button, Table} from "ui"
 

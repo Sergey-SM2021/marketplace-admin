@@ -1,9 +1,9 @@
 import { CategoriesPage } from "pages/Categories"
-import { ItemsPage } from "pages/Items/index"
+import { ItemsPage } from "pages/Items"
 import { ProductPage } from "pages/ProductPage"
-import { ProductsPage } from "pages/Products/index"
+import { ProductsPage } from "pages/Products"
 
-import { Layout } from "Layout/index"
+import { Layout } from "App/Providers/Layout"
 import { Navigate } from "react-router-dom"
 
 export const $privateRoutes = [
