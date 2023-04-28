@@ -2,7 +2,6 @@ import { ReactComponent as Burger } from "assets/burger.svg"
 import { FC, memo, useState } from "react"
 import { Button } from "ui"
 import { FilterByRegularName } from "./components/SearchByProductName"
-import { FilterByRating } from "./components/FilterByRating"
 import { FilterByPrice } from "./components/FilterByPrice"
 
 interface ISidebar {}
@@ -27,7 +26,6 @@ export const Sidebar: FC<ISidebar> = memo(() => {
             <FilterByRegularName />
             <FilterByPrice />
             <div>attributes</div>
-            <FilterByRating/>
           </div>
           <Button>filter</Button>
         </div>

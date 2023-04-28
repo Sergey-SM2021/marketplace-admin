@@ -63,7 +63,6 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
       cols: [
         <div>{id}</div>,
         <div>{name}</div>,
-        <div>{rating}</div>,
         <div>{price}</div>,
         <Button
           isDangerous={true}
