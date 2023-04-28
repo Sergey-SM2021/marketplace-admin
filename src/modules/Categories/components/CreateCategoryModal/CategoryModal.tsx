@@ -35,6 +35,7 @@ export const CategoryModal: FC<ICategoryModal> = ({onClose, isOpen, params, cate
     }, [parentCategoryIdWatcher])
     const onSubmit = (values: IForm) => {
         addCategory({...values, features: values.features.map(f => f.value)})
+        onClose()
     }
     const addParam = () => {
         const value = getValues()
@@ -63,6 +64,7 @@ export const CategoryModal: FC<ICategoryModal> = ({onClose, isOpen, params, cate
                             <Flex direction={'column'}>
                                 <FormLabel>Родительская категория</FormLabel>
                                 <Select {...register("parentCategoryId")}>
+                                    <option value={undefined}></option>
                                     {categories.map(cat => <option value={cat.id}>{cat.name}</option>)}
                                 </Select>
                                 <FormErrorMessage>not valid field</FormErrorMessage>
