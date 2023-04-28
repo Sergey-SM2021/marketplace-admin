@@ -60,7 +60,6 @@ export const RenderCategory = (props: IRenderCategory) => {
         <Button>{f.name}</Button>
       ))}
     </div>,
-    "Здесь должно быть кол-во продуктов",
     <Button onClick={e => handlerRemove(e, id!)}>remove</Button>,
     <Button isDangerous={true} onClick={handlerEdit}>
       edit
