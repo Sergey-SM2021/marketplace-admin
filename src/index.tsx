@@ -1,7 +1,6 @@
 import { App } from "./App/App"
 import "./index.css"
 import reportWebVitals from "./reportWebVitals"
-
 import ReactDOM from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
 

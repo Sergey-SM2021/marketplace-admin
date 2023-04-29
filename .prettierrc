@@ -4,15 +4,15 @@
   "arrowParens": "avoid",
   "importOrderSeparation": true,
   "importOrder": [
-    "entity",
-    "store",
-    "api",
-    "pages",
-    "modules",
-    "components",
-    "ui",
-    "^./",
-    "^../",
+    "^types/*",
+    "^modules/*",
+    "^Entity/*",
+    "^components/*",
+    "^ui/*",
+    "^utils/*",
+    "^pages/*",
+    "^[./]",
+    "^[../]",
     "<THIRD_PARTY_MODULES>"
   ]
 }

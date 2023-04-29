@@ -1,5 +1,4 @@
 import { navLinks } from "./Header.data"
-
 import { ReactComponent as Shop } from "assets/goShop.svg"
 import { ReactComponent as Profile } from "assets/profile0.svg"
 import { memo } from "react"

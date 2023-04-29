@@ -1,14 +1,13 @@
 import { ProductResponseDTO } from "types"
 
-import { $productStore, getProductById } from "./store/store"
+import { Button, Subtitle } from "ui"
 
 import { AttributesTable } from "./components/AttributesTable"
 import { Counter } from "./components/Counter"
 import { FullMedia } from "./components/FullMedia"
 import { Header } from "./components/Header"
 import { Slider } from "./components/Slider"
-
-import { Button, Subtitle } from "ui"
+import { $productStore, getProductById } from "./store/store"
 
 import { useStore } from "effector-react"
 import { FC, useEffect, useState } from "react"
