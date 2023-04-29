@@ -1,4 +1,4 @@
-import { Category } from "entity"
+import { Category } from "types"
 
 import { Button } from "ui"
 import { Row } from "ui/Table/Row"
@@ -63,12 +63,7 @@ export const RenderCategory = (props: IRenderCategory) => {
     <Button onClick={e => handlerRemove(e, id!)}>remove</Button>,
     <Button isDangerous={true} onClick={handlerEdit}>
       edit
-    </Button>,
-    !category.childCategories?.length ? (
-      <Button isDangerous onClick={e => handlerAddProduct(e)}>
-        Create Product
-      </Button>
-    ) : null,
+    </Button>
   ]
 
   if (category.childCategories && category.childCategories.length && isOpen) {
