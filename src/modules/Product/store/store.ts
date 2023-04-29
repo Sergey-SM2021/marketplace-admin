@@ -1,4 +1,4 @@
-import { Product, ProductResponseDTO } from "entity"
+import { Product, ProductResponseDTO } from "types"
 
 import { createDomain } from "effector"
 import { api } from "../api"

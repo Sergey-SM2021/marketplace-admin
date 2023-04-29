@@ -1,4 +1,4 @@
-import { Product } from "entity"
+import { Product } from "types"
 
 import { api } from "./api"
 

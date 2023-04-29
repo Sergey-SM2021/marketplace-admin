@@ -1,4 +1,4 @@
-import { ProductResponseDTO } from "entity"
+import { ProductResponseDTO } from "types"
 
 import { $productStore, getProductById } from "./store/store"
 

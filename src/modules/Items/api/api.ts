@@ -1,4 +1,4 @@
-import { CancelablePromise, Product, ProductResponseDTO } from "entity"
+import { CancelablePromise, Product, ProductResponseDTO } from "types"
 
 import axios from "axios"
 
