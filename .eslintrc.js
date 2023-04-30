@@ -16,5 +16,7 @@ module.exports = {
     "react/react-in-jsx-scope": 0,
     "react/prop-types": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/no-floating-promises": 0,
+    "@typescript-eslint/no-invalid-void-type": 0,
   },
 }

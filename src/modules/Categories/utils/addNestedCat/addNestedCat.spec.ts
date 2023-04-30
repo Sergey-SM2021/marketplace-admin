@@ -65,7 +65,6 @@ describe("addCategoryInChildCategoriesById", () => {
     }
 
     const newCat = addNestedCat(cat1, cat3)
-    console.log(JSON.stringify(newCat))
     expect(newCat).toEqual(result)
   })
 })

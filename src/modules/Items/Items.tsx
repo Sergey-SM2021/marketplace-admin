@@ -2,7 +2,7 @@ import { type Product } from "types"
 
 import { Button, Table } from "ui"
 
-import { CreateNewItem } from "./components/CreateNewItem"
+import { CreateNewItem } from "../../features/createProduct/ui/CreateNewItem"
 import { headerRow } from "./items.data"
 import {
   $products,
