@@ -1,7 +1,7 @@
-import { Category } from "types"
+import { type Category } from "types"
 
 export const removeNestedCat = (where: Category, id: number): Category => {
-  if (where.childCategories && where.childCategories.length) {
+  if ((where.childCategories != null) && (where.childCategories.length > 0)) {
     const isChildExist = where.childCategories.findIndex(el => el.id === id)
     if (isChildExist !== -1) {
       return {

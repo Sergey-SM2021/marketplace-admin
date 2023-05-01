@@ -1,4 +1,4 @@
-import { CreateProductCommand } from "types"
+import { type CreateProductCommand } from "types"
 
 export interface ICreateProductModal {
     onCreateProduct: (product :CreateProductCommand) => void

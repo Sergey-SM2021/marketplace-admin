@@ -1,4 +1,4 @@
-import { ProductResponseDTO } from "types"
+import { type ProductResponseDTO } from "types"
 
 import { Button, Subtitle } from "ui"
 
@@ -10,7 +10,7 @@ import { Slider } from "./components/Slider"
 import { $productStore, getProductById } from "./store/store"
 
 import { useStore } from "effector-react"
-import { FC, useEffect, useState } from "react"
+import { type FC, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 interface IProduct {}
@@ -34,10 +34,10 @@ export const Product: FC<IProduct> = () => {
     return null
   }
   const RenderRow = () =>
-    product?.features?.map(el => ({
+    ((product?.features?.map(el => ({
       cols: [<div>edit</div>, <div>{el.name}</div>, <div>{el.value}</div>],
       id: 9,
-    })) || []
+    }))) != null) || []
   const handlerAddMedia = () => {}
   return (
     <>

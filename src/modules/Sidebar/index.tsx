@@ -1,5 +1,5 @@
 import { ReactComponent as Burger } from "assets/burger.svg"
-import { FC, memo, useState } from "react"
+import { type FC, memo, useState } from "react"
 import { Button } from "ui"
 import { FilterByRegularName } from "./components/SearchByProductName"
 import { FilterByPrice } from "./components/FilterByPrice"

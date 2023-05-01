@@ -3,7 +3,7 @@ import { v4 } from "uuid"
 import style from "./index.module.sass"
 
 import cn from "classnames"
-import { HTMLProps } from "react"
+import { type HTMLProps } from "react"
 
 interface IRow extends HTMLProps<HTMLTableRowElement> {
   onClick: (item: any) => void

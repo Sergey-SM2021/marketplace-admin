@@ -1,7 +1,7 @@
 import style from "./index.module.sass"
 
 import { ReactComponent as Close } from "assets/cancle.svg"
-import { FC, PropsWithChildren, SyntheticEvent } from "react"
+import { type FC, type PropsWithChildren, type SyntheticEvent } from "react"
 
 interface IModal {
   handlerClose?: () => void
@@ -23,7 +23,7 @@ export const Modal: FC<PropsWithChildren & IModal> = ({
         <header className={style.modal__header}>
           <div className="flex items-center">
             <div className="flex-auto text-lg font-medium">{title}</div>
-            {handlerClose && (
+            {(handlerClose != null) && (
               <Close
                 className="w-5 h-5 hover:cursor-pointer"
                 onClick={handlerClose}

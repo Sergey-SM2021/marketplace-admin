@@ -1,5 +1,5 @@
 import { ReactComponent as AddIcon } from "assets/add.svg"
-import { FC } from "react"
+import { type FC } from "react"
 
 interface IAdd {
   handlerAdd: () => void

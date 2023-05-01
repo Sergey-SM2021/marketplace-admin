@@ -1,8 +1,8 @@
-import { Category } from "types"
+import { type Category } from "types"
 
 import { Button } from "ui"
 
-import { FC, memo, SyntheticEvent, useState } from "react"
+import { type FC, memo, type SyntheticEvent, useState } from "react"
 
 interface IWatchChild {
   index: number

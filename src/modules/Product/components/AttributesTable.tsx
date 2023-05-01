@@ -1,6 +1,6 @@
-import { ITable, Table } from "ui"
+import { type ITable, Table } from "ui"
 
-import { FC } from "react"
+import { type FC } from "react"
 
 interface IAttributesTable extends ITable {}
 

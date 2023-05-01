@@ -1,5 +1,5 @@
 import { createDomain } from "effector"
-import { INotification } from "./ui/Note"
+import { type INotification } from "./ui/Note"
 
 type TNotification = Omit<INotification, "unMount">
 
@@ -11,7 +11,7 @@ export const addNotification =
 export const removeNotification = notificationsDomain.createEvent<number>()
 
 export const $notifications = notificationsDomain
-  .createStore<Array<TNotification>>([])
+  .createStore<TNotification[]>([])
   .on(addNotification, (state, payload: Omit<TNotification, "id">) => [
     ...state,
     { ...payload, id: Math.random() },

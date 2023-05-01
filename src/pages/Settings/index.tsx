@@ -6,7 +6,7 @@ interface ISettings {}
 export const Settings = ({}: ISettings) => {
   const { register, handleSubmit, errors } = useForm()
 
-  const onSubmit = data => console.log(data)
+  const onSubmit = data => { console.log(data); }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 export function useModal<T>(initState: T | null) {
-  const [isOpen, setIsOpen] = useState<Boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [state, setState] = useState<T | null>(initState)
 
   const hanlerOpen = (st?: T) => {

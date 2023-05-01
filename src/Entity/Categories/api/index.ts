@@ -1,17 +1,17 @@
 import {
-    CancelablePromise,
-    Category,
-    CategoryResponseDTO,
-    CreateCategoryCommand,
+    type CancelablePromise,
+    type Category,
+    type CategoryResponseDTO,
+    type CreateCategoryCommand,
 } from "types"
-import {CreateProductCommand} from "types/models/CreateProductCommand"
+import {type CreateProductCommand} from "types/models/CreateProductCommand"
 
 import axios from "axios"
 
 const ConvertCatToCustomCat = (cat: Category): Category => {
     return {
         ...cat,
-        childCategories: cat.childCategories
+        childCategories: (cat.childCategories != null)
             ? cat.childCategories.map(chCat => ConvertCatToCustomCat(chCat))
             : [],
     }
@@ -29,7 +29,7 @@ const instance = axios.create({
 
 export const getCategoriesTree = async () => {
     const data = (
-        await instance.get<CancelablePromise<Array<CategoryResponseDTO>>>(
+        await instance.get<CancelablePromise<CategoryResponseDTO[]>>(
             "Shop/GetCategoriesTree"
         )
     ).data
@@ -37,7 +37,7 @@ export const getCategoriesTree = async () => {
 }
 
 export const createCategory = async (payload: CreateCategoryCommand) => {
-    return (
+    return await (
         await instance.post<CancelablePromise<Category>>(
             "AdminPanel/CreateCategory",
             payload
@@ -46,7 +46,7 @@ export const createCategory = async (payload: CreateCategoryCommand) => {
 }
 
 export const removeCategory = async (id: number) => {
-    return (
+    return await (
         await instance.delete<CancelablePromise<string>>(
             `AdminPanel/DeleteCategory/${id}`
         )

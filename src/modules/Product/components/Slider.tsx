@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { type FC, useEffect } from "react"
 import Swiper, { Thumbs, Mousewheel, Keyboard } from "swiper"
 import "swiper/css"
 import "swiper/css/thumbs"

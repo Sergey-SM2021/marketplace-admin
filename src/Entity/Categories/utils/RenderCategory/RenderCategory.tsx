@@ -1,10 +1,10 @@
-import { Category } from "types"
+import { type Category } from "types"
 
 import { Button } from "ui"
 import { Row } from "ui/Table/Row"
 
 import { ReactComponent as Collapse } from "assets/collapse.svg"
-import { MouseEvent, SyntheticEvent, useState } from "react"
+import { type MouseEvent, type SyntheticEvent, useState } from "react"
 
 interface IRenderCategory {
   category: Category
@@ -60,17 +60,17 @@ export const RenderCategory = (props: IRenderCategory) => {
         <Button>{f.name}</Button>
       ))}
     </div>,
-    <Button onClick={e => handlerRemove(e, id!)}>remove</Button>,
+    <Button onClick={e => { handlerRemove(e, id!); }}>remove</Button>,
     <Button isDangerous={true} onClick={handlerEdit}>
       edit
     </Button>
   ]
 
-  if (category.childCategories && category.childCategories.length && isOpen) {
+  if ((category.childCategories != null) && (category.childCategories.length > 0) && isOpen) {
     return (
       <>
         <Row item={{ cols: row, id: id as number }} onClick={() => {}} />
-        {category.childCategories!.map(el => (
+        {category.childCategories.map(el => (
           <RenderCategory {...props} category={el} />
         ))}
       </>

@@ -1,4 +1,4 @@
-import { ProductResponseDTO } from "types"
+import { type ProductResponseDTO } from "types"
 
 import axios from "axios"
 

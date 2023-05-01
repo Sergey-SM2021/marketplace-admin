@@ -1,6 +1,6 @@
 import { ReactComponent as DropdownIcon } from "assets/dropdown.svg"
 import classNames from "classnames"
-import { FC, memo, useEffect, useRef, useState } from "react"
+import { type FC, memo, useEffect, useRef, useState } from "react"
 
 interface IDropdown {
   name: string
@@ -42,7 +42,7 @@ export const Dropdown: FC<IDropdown> = memo(({ listInit, onChange, name }) => {
       className="rounded h-auto max-h-2 relative">
       <input
         placeholder="Техника"
-        onChange={e => setText(e.currentTarget.value)}
+        onChange={e => { setText(e.currentTarget.value); }}
         type="text"
         value={text}
         className="w-full h-auto p-1 rounded-t outline-none pr-11 pl-3"

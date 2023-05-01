@@ -3,10 +3,10 @@ import { Row } from "./Row"
 import style from "./index.module.sass"
 
 import cn from "classnames"
-import { FC } from "react"
+import { type FC } from "react"
 
 export interface ITable {
-  HeaderTableRow: Array<React.ReactNode>
+  HeaderTableRow: React.ReactNode[]
   BodyTableRows: Array<{ cols: React.ReactNode[]; id: number }>
   BodyTableRowClickHandler: (companyId: number) => void
 }

@@ -1,7 +1,7 @@
 import style from "./Button.module.sass"
 
 import cn from "classnames"
-import { ButtonHTMLAttributes, FC, PropsWithChildren } from "react"
+import { type ButtonHTMLAttributes, type FC, type PropsWithChildren } from "react"
 
 interface IСustomButtonProps {
   isDangerous?: boolean

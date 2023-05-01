@@ -1,8 +1,8 @@
-import { FC, FormEvent, memo, useState } from "react"
+import { type FC, type FormEvent, memo, useState } from "react"
 import { Add, Field } from "ui"
 
 interface IChips {
-  Chips: {text:string}[]
+  Chips: Array<{text:string}>
   AddChip: (text:string) => void
   RemoveChip: (id:number) => void
 }
@@ -43,7 +43,7 @@ export const Chips: FC<IChips> = memo(({ Chips, AddChip, RemoveChip }) => {
         {Chips.map(({text},index) => (
           <li key={index} className="flex gap-2 bg-purple py-1 px-2 rounded">
             <div className="flex-auto">{text}</div>
-            <button type="button" onClick={() => handlerRemoveChip(index)}>
+            <button type="button" onClick={() => { handlerRemoveChip(index); }}>
               x
             </button>
           </li>

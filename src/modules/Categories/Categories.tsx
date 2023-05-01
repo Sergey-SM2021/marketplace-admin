@@ -10,22 +10,21 @@ import {
   getCategoriesTree,
   removeCategoryById,
   updateCategory,
-} from "./store/store"
-import { $categories, $params } from "./store/store"
+ $categories, $params } from "./store/store"
 import * as store from "./store/store"
 import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
 
 import {
-  Category,
-  CreateCategoryCommand,
-  CreateProductCommand,
-  EditCategoryCommand,
+  type Category,
+  type CreateCategoryCommand,
+  type CreateProductCommand,
+  type EditCategoryCommand,
 } from "types"
 
 import { useDisclosure } from "@chakra-ui/react"
 import { addNotification } from "App/Providers/Notifications/store"
 import { useStore } from "effector-react"
-import { memo, useEffect, FC } from "react"
+import { memo, useEffect, type FC } from "react"
 import { useNavigate } from "react-router-dom"
 import { Add } from "ui/Add"
 import { Header } from "ui/Table/Header"
@@ -74,11 +73,11 @@ export const Categories: FC = memo(() => {
 
   // onEdit
   const handlerEdit = ({ id, name, parentCategoryId, features }: Category) =>
-    createCategoryModal.hanlerOpen({
+    { createCategoryModal.hanlerOpen({
       id,
-      name: name,
-      parentCategoryId: parentCategoryId,
-    })
+      name,
+      parentCategoryId,
+    }); }
 
   // При нажатии на кнопку создать продукт
   const handlerCreateProduct = (id: number) => {
@@ -106,7 +105,7 @@ export const Categories: FC = memo(() => {
           <h1 className={style.content__title}>Categories</h1>
           <Add handlerAdd={onOpen} />
         </div>
-        {categoriesTree.length ? (
+        {(categoriesTree.length > 0) ? (
           <table
             style={{
               margin: "-10px 0",
@@ -118,15 +117,15 @@ export const Categories: FC = memo(() => {
             {categoriesTree.map(cat => (
               <RenderCategory
                 onEdit={() =>
-                  handlerEdit({
+                  { handlerEdit({
                     id: cat.id!,
                     name: cat.name!,
                     parentCategoryId: cat.parentCategoryId!,
-                  })
+                  }); }
                 }
                 onRemove={handlerRemoveClick}
                 category={cat}
-                onClick={(id: number) => handlerRowClick(id)}
+                onClick={(id: number) => { handlerRowClick(id); }}
                 onAddProduct={handlerCreateProduct}
               />
             ))}

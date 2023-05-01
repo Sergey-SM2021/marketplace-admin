@@ -1,4 +1,4 @@
-import { FC, memo, useEffect } from "react"
+import { type FC, memo, useEffect } from "react"
 import style from "./index.module.scss"
 import { ReactComponent as Accept } from "assets/accept.svg"
 import { ReactComponent as Cancel } from "assets/cancle.svg"

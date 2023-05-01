@@ -1,6 +1,6 @@
 import { Button, Subtitle } from "ui"
 
-import { FC } from "react"
+import { type FC } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 
 interface IHeader {

@@ -1,8 +1,8 @@
 import { Button, Field } from "ui"
 
-import { ICreateProductModal, IForm } from "./CreateProductModal.types"
+import { type ICreateProductModal, type IForm } from "./CreateProductModal.types"
 
-import { FC } from "react"
+import { type FC } from "react"
 import { useForm } from "react-hook-form"
 
 export const CreateProductModal: FC<ICreateProductModal> = ({

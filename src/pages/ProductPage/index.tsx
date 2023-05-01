@@ -1,6 +1,6 @@
 import { Product } from "modules/Product"
 
-import { FC } from "react"
+import { type FC } from "react"
 
 export const ProductPage: FC = () => {
   return (

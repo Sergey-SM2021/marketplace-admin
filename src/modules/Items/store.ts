@@ -1,14 +1,14 @@
-import { Product } from "types/models/Product"
+import { type Product } from "types/models/Product"
 
 import { api } from "./api/api"
 
 import { createDomain } from "effector"
 
-type TProducts = Array<Product>
+type TProducts = Product[]
 
 export const ProductsDomain = createDomain()
 
-export const setProducts = ProductsDomain.createEvent<Array<Product>>()
+export const setProducts = ProductsDomain.createEvent<Product[]>()
 
 export const getProductById = ProductsDomain.createEffect(api.getProductById)
 

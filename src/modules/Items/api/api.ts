@@ -1,11 +1,11 @@
-import { CancelablePromise, Product, ProductResponseDTO } from "types"
+import { type CancelablePromise, type Product, type ProductResponseDTO } from "types"
 
 import axios from "axios"
 
 export const api = {
   async getProducts(id: number) {
-    return (
-      await axios.get<CancelablePromise<Array<ProductResponseDTO>>>(
+    return await (
+      await axios.get<CancelablePromise<ProductResponseDTO[]>>(
         `http://shopshop.somee.com/Shop/GetProductsByCategory/${id}`
       )
     ).data

@@ -5,11 +5,10 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody, Button, HStack, Input, FormControl, Flex, VStack, Select, Tag
-} from '@chakra-ui/react'
-import {FC, useEffect} from "react";
-import {FormLabel, TagCloseButton, FormErrorMessage, TagLabel, ModalCloseButton} from '@chakra-ui/react'
+,FormLabel, TagCloseButton, FormErrorMessage, TagLabel, ModalCloseButton} from '@chakra-ui/react'
+import {type FC, useEffect} from "react";
 import {useFieldArray, useForm} from "react-hook-form";
-import {Category, CreateCategoryCommand, Feature} from "types";
+import {type Category, type CreateCategoryCommand, type Feature} from "types";
 import {addCategory} from "../../store/store";
 
 interface ICategoryModal {

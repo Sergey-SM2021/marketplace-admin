@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from "react"
+import { forwardRef, type InputHTMLAttributes } from "react"
 import { ReactComponent as SearchIcon } from "assets/search.svg"
 
 interface ISearch {}

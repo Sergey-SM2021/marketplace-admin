@@ -1,10 +1,10 @@
 import { v4 } from "uuid"
 import style from "./index.module.sass"
 import cn from "classnames"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 interface IHeader {
-    row:Array<ReactNode>
+    row:ReactNode[]
 }
 
 export const Header = ({row}: IHeader) => {

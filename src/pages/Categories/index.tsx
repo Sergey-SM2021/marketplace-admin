@@ -1,5 +1,5 @@
 import {Categories} from "modules/Categories/Categories"
-import {FC} from "react"
+import {type FC} from "react"
 
 export const CategoriesPage: FC = () => {
     return (<Categories/>)

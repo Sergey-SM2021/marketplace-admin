@@ -2,7 +2,7 @@ import { Sidebar } from "modules/Sidebar"
 
 import { Header } from "components/Header"
 
-import { FC, PropsWithChildren } from "react"
+import { type FC, type PropsWithChildren } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 
 interface ILayout extends PropsWithChildren {}
