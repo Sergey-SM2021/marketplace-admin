@@ -5,6 +5,7 @@ import { ProductsPage } from "pages/Products"
 
 import { Layout } from "App/Providers/Layout"
 import { Navigate } from "react-router-dom"
+import { Settings } from "pages/Settings"
 
 export const $privateRoutes = [
   {
@@ -45,7 +46,7 @@ export const $privateRoutes = [
       },
       {
         path: "/admin/settings",
-        element: <div>/admin/settings</div>,
+        element: <Settings />,
       },
     ],
   },

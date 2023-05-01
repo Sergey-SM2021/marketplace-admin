@@ -26,7 +26,7 @@ import {
   Select,
 } from "@chakra-ui/react"
 import { DevTool } from "@hookform/devtools"
-import { type FC } from "react"
+import { type FC, useRef } from "react"
 import { useForm } from "react-hook-form"
 
 interface ICreateNewItem {
@@ -36,7 +36,7 @@ interface ICreateNewItem {
 
 export interface SubmitedValue
   extends Omit<Record<keyof CreateProductCommand, string>, "featureValue"> {
-  featureValue: CreateProductCommand["featureValue"]
+  featureValue: any
 }
 
 export const CreateNewItem: FC<ICreateNewItem> = ({ onClose, isOpen }) => {
@@ -47,13 +47,16 @@ export const CreateNewItem: FC<ICreateNewItem> = ({ onClose, isOpen }) => {
 
   const categoryId = watch("categoryId")
 
+  const featureValue = useRef(null)
+
   const onSubmit = (value: SubmitedValue) => {
-    product.model.createProduct({
-      ...value,
-      count: Number(value.count),
-      categoryId: Number(value.categoryId),
-      price: Number(value.categoryId),
-    })
+    // product.model.createProduct({
+    //   ...value,
+    //   count: Number(value.count),
+    //   categoryId: Number(value.categoryId),
+    //   price: Number(value.categoryId),
+    // })
+    console.log(featureValue)
   }
 
   return (
@@ -71,9 +74,8 @@ export const CreateNewItem: FC<ICreateNewItem> = ({ onClose, isOpen }) => {
                 <Stack>
                   <Text>Параметры</Text>
                   <ParamsListByCategoryId
-                    register={register}
+                    featureValue={featureValue}
                     categoryId={categoryId ?? 51}
-                    name={"featureValue"}
                   />
                   <Spacer />
                   <HStack>

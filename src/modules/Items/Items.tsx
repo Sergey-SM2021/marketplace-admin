@@ -1,80 +1,80 @@
 import { type Product } from "types"
 
-import { Button, Table } from "ui"
+import { Table } from "ui"
 
 import { CreateNewItem } from "../../features/createProduct/ui/CreateNewItem"
 import { headerRow } from "./items.data"
-import {
-  $products,
-  createProduct,
-  getProductById,
-  removeProduct,
-  setProducts,
-} from "./store"
+import { $products, removeProduct, setProducts } from "./store"
 
-import { useDisclosure } from "@chakra-ui/react"
+import { Button, useDisclosure } from "@chakra-ui/react"
 import { Notifications } from "App/Providers/Notifications"
 import { addNotification } from "App/Providers/Notifications/store"
 import { useStore } from "effector-react"
-import { type FC, memo, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import {
+  type FC,
+  memo,
+  useEffect,
+  type MouseEvent,
+} from "react"
+import { useNavigate } from "react-router-dom"
+import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 
 interface IItems {
   initProducts: Product[]
 }
 
 export const Items: FC<IItems> = memo(({ initProducts }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const create = useDisclosure()
+  const remove = useDisclosure()
+
   useEffect(() => {
     setProducts(initProducts)
   }, [initProducts])
-  const { categoryId } = useParams()
+
   const nav = useNavigate()
+
   const handlerBackClick = () => {
     nav(-1)
   }
-  const { categoryName, products } = useStore($products)
-  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handlerModalOpen = () => {
-    setIsModalOpen(true)
+  const { products } = useStore($products)
+
+  const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
+    e.stopPropagation()
+    remove.onOpen()
+    addNotification({
+      text: `вы действительно хотите удалить продукт #${id}?`,
+      onAccept: () => {
+        removeProduct(id)
+      },
+    })
   }
 
-  const handlerModalClose = () => {
-    setIsModalOpen(false)
-  }
-
-  const handlerAddItem = () => {
-    setIsModalOpen(true)
-  }
-
-  const handlerRemoveProduct = (id: number) => {
-    removeProduct(id)
-  }
-
-  const handlerCreateProduct = async (product: Product) => {
-    const id = await createProduct(product)
-    await getProductById(id)
+  const handlerEdit = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    create.onOpen()
   }
 
   const BodyRows = products.map(row => {
-    const { category, categoryId, id, info, name, price, rating } = row
+    const { id, name, price } = row
     return {
       cols: [
-        <div>{id}</div>,
-        <div>{name}</div>,
-        <div>{price}</div>,
+        <div key={65}>{id}</div>,
+        <div key={4}>{name}</div>,
+        <div key={2}>{price}</div>,
         <Button
-          isDangerous={true}
-          onClick={() =>
-            addNotification({
-              text: `вы действительно хотите удалить продукт #${id}?`,
-              onAccept: () => {
-                handlerRemoveProduct(Number(id))
-              },
-            })
-          }>
+          key={1}
+          onClick={e => {
+            handlerRemove(e, id as number)
+          }}>
           delete
+        </Button>,
+        <Button
+          key={9}
+          onClick={e => {
+            handlerEdit(e)
+          }}>
+          edit
         </Button>,
       ],
       id: id as number,
@@ -84,12 +84,10 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
   return (
     <div className="p-4 w-full min-h-screen gap-4 flex flex-col items-start">
       <Notifications />
-      <CreateNewItem categories={[]} onClose={onClose} isOpen={isOpen} />
+      <CreateNewItem categories={[]} onClose={create.onClose} isOpen={create.isOpen} />
       <div className="flex gap-4 flex-row-reverse items-center">
-        <Button onClick={onOpen}>Создать новый продукт</Button>
-        <Button onClick={handlerBackClick} isDangerous>
-          Back
-        </Button>
+        <Button onClick={create.onOpen}>Создать новый продукт</Button>
+        <Button onClick={handlerBackClick}>Back</Button>
       </div>
       <Table
         BodyTableRowClickHandler={id => {
@@ -98,6 +96,7 @@ export const Items: FC<IItems> = memo(({ initProducts }) => {
         HeaderTableRow={headerRow}
         BodyTableRows={BodyRows}
       />
+      <RemoveProduct isOpen={remove.isOpen} productId={9} onClose={remove.onClose}/>
     </div>
   )
 })

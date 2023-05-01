@@ -2,29 +2,36 @@ import { $params, getParams } from "../../store/store"
 
 import { HStack, Input, Text } from "@chakra-ui/react"
 import { useStore } from "effector-react"
-import { useEffect } from "react"
+import { type FormEvent, useEffect, type RefObject } from "react"
 
 interface IParamsListByCategoryId {
   categoryId: number
-  name: string
-  register: any
+  featureValue: any
 }
 
 export const ParamsListByCategoryId = ({
   categoryId,
-  name,
-  register,
+  featureValue,
 }: IParamsListByCategoryId) => {
   const params = useStore($params)
+
   useEffect(() => {
     getParams(categoryId)
   }, [categoryId])
+
+  const handlerChange = (e: FormEvent<HTMLInputElement>) => {
+    featureValue.current = {...featureValue.current, 3:"lsdkcdm"}
+  }
+
   return (
     <>
-      {params.map((param, index) => (
+      {params.map(param => (
         <HStack key={param.id}>
           <Text>{param.name}</Text>
-          <Input {...register(`${name}.${param.name}`)} />
+          <Input
+            value={featureValue[3]}
+            onChange={handlerChange}
+          />
         </HStack>
       ))}
     </>
