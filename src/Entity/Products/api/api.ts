@@ -11,7 +11,7 @@ export const createProduct = async (product: CreateProductCommand) => {
 }
 
 export const removeProduct = async (id: number) => {
-  return (await instance.delete(`AdminPanel/CreateProduct/${id}`)).data
+  return (await instance.delete(`AdminPanel/DeleteProduct/${id}`)).data
 }
 
 export const getProducts = async () => {

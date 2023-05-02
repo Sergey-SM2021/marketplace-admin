@@ -13,7 +13,9 @@ import { useRef } from "react"
 
 interface IRemoveProduct {
   isOpen: boolean
+
   onClose: () => void
+  
   productId: number
 }
 
@@ -22,10 +24,14 @@ export const RemoveProduct = ({
   onClose,
   productId,
 }: IRemoveProduct) => {
+  
   const ref = useRef(null)
+  
   const handlerRemove = () => {
     product.model.removeProduct(productId)
+    onClose()
   }
+
   return (
     <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={ref}>
       <AlertDialogOverlay />

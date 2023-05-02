@@ -16,3 +16,4 @@ export const getProducts = productDomain.createEffect<
 export const $products = productDomain
   .createStore<ProductResponseDTO[]>([])
   .on(getProducts.doneData, (state, payload) => payload)
+  .on(removeProduct.done, (state, { params, result }) => state.filter(el => el.id !== params))
