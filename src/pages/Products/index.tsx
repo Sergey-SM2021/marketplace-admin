@@ -3,7 +3,7 @@ import { useProducts } from "Entity/Products/hooks/useProducts"
 import {
   Button,
   Flex,
-  Table as ChakraTable,
+  Table,
   TableContainer,
   Tbody,
   Td,
@@ -13,6 +13,7 @@ import {
   HStack,
   Box,
   useDisclosure,
+  chakra,
 } from "@chakra-ui/react"
 import { CreateProduct } from "features/createProduct/ui/CreateNewItem"
 import { EditProduct } from "features/editProduct/ui/editProduct"
@@ -21,9 +22,10 @@ import { useState, type MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 
 export const ProductsPage = () => {
+  const [productIdToRemove, SetProductIdToRemove] = useState<number | null>(
+    null
+  )
 
-  const [productIdToRemove, SetProductIdToRemove] = useState<number|null>(null)
-  
   const nav = useNavigate()
 
   const handlerBackClick = () => {
@@ -49,6 +51,24 @@ export const ProductsPage = () => {
     create.onOpen()
   }
 
+  const TH = chakra(Th, {
+    baseStyle: {
+      background: "#96f",
+      color: "#fff",
+      _first: { borderRadius: "10px 0 0 10px" },
+      _last: { borderRadius: "0 10px 10px 0" },
+    },
+  })
+
+  const TD = chakra(Td, {
+    baseStyle: {
+      background: "#fff",
+      color: "#000",
+      _first: { borderRadius: "10px 0 0 10px" },
+      _last: { borderRadius: "0 10px 10px 0" },
+    },
+  })
+
   return (
     <>
       <RemoveProduct
@@ -64,60 +84,40 @@ export const ProductsPage = () => {
           <Button onClick={create.onOpen}>Создать новый продукт</Button>
         </HStack>
         <TableContainer>
-          <ChakraTable
+          <Table
             variant="simple"
             style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
             <Thead>
-              <Tr borderRadius={3}>
-                <Th
-                  color={"white"}
-                  background={"purple.400"}
-                  style={{ borderRadius: "10px 0 0 10px" }}>
-                  id
-                </Th>
-                <Th background={"purple.400"} color={"white"}>
-                  name
-                </Th>
-                <Th background={"purple.400"} color={"white"}>
-                  price
-                </Th>
-                <Th
-                  color={"white"}
-                  colSpan={2}
-                  background={"purple.400"}
-                  style={{ borderRadius: "0 10px 10px 0" }}>
+              <Tr>
+                {["id", "name", "price"].map(el => (
+                  <TH key={el}>{el}</TH>
+                ))}
+                <TH colSpan={2}>
                   <Flex justify={"center"}>action</Flex>
-                </Th>
+                </TH>
               </Tr>
             </Thead>
             <Tbody>
               {products.map(product => (
                 <Tr key={product.id}>
-                  <Td
-                    borderRadius={10}
-                    background={"white"}
-                    style={{ borderRadius: "10px 0 0 10px" }}>
-                    {product.id}
-                  </Td>
-                  <Td background={"white"}>{product.name}</Td>
-                  <Td background={"white"}>{product.price}</Td>
-                  <Td background={"white"}>
+                  {[product.id, product.name, product.price].map(el => (
+                    <TD key={el}>{el}</TD>
+                  ))}
+                  <TD>
                     <Button
                       onClick={e => {
                         handlerRemove(e, product.id as number)
                       }}>
                       Delete
                     </Button>
-                  </Td>
-                  <Td
-                    background={"white"}
-                    style={{ borderRadius: "0 10px 10px 0" }}>
+                  </TD>
+                  <TD>
                     <Button onClick={handlerEdit}>Edit</Button>
-                  </Td>
+                  </TD>
                 </Tr>
               ))}
             </Tbody>
-          </ChakraTable>
+          </Table>
         </TableContainer>
       </Box>
     </>

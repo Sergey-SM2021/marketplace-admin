@@ -1,6 +1,14 @@
+import {
+  type Category,
+  type CreateCategoryCommand,
+  type CreateProductCommand,
+  type EditCategoryCommand,
+} from "types"
+
+import { Add } from "ui/Add"
+
 import { CategoryModal } from "./components/CreateCategoryModal/CategoryModal"
 import { useModal } from "./hooks/useModal"
-import { headerTableCol } from "./index.data"
 import style from "./index.module.sass"
 import {
   $categoriesTree,
@@ -10,24 +18,17 @@ import {
   getCategoriesTree,
   removeCategoryById,
   updateCategory,
- $categories, $params } from "./store/store"
+  $categories,
+  $params,
+} from "./store/store"
 import * as store from "./store/store"
-import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
-
-import {
-  type Category,
-  type CreateCategoryCommand,
-  type CreateProductCommand,
-  type EditCategoryCommand,
-} from "types"
 
 import { useDisclosure } from "@chakra-ui/react"
 import { addNotification } from "App/Providers/Notifications/store"
+import { Table } from "Shared/Table"
 import { useStore } from "effector-react"
 import { memo, useEffect, type FC } from "react"
 import { useNavigate } from "react-router-dom"
-import { Add } from "ui/Add"
-import { Header } from "ui/Table/Header"
 
 export const Categories: FC = memo(() => {
   const categoriesTree = useStore($categoriesTree)
@@ -72,12 +73,13 @@ export const Categories: FC = memo(() => {
   }
 
   // onEdit
-  const handlerEdit = ({ id, name, parentCategoryId, features }: Category) =>
-    { createCategoryModal.hanlerOpen({
+  const handlerEdit = ({ id, name, parentCategoryId, features }: Category) => {
+    createCategoryModal.hanlerOpen({
       id,
       name,
       parentCategoryId,
-    }); }
+    })
+  }
 
   // При нажатии на кнопку создать продукт
   const handlerCreateProduct = (id: number) => {
@@ -105,36 +107,7 @@ export const Categories: FC = memo(() => {
           <h1 className={style.content__title}>Categories</h1>
           <Add handlerAdd={onOpen} />
         </div>
-        {(categoriesTree.length > 0) ? (
-          <table
-            style={{
-              margin: "-10px 0",
-              borderSpacing: "0 10px",
-              borderCollapse: "separate",
-              minWidth: "100%",
-            }}>
-            <Header row={headerTableCol} />
-            {categoriesTree.map(cat => (
-              <RenderCategory
-                onEdit={() =>
-                  { handlerEdit({
-                    id: cat.id!,
-                    name: cat.name!,
-                    parentCategoryId: cat.parentCategoryId!,
-                  }); }
-                }
-                onRemove={handlerRemoveClick}
-                category={cat}
-                onClick={(id: number) => { handlerRowClick(id); }}
-                onAddProduct={handlerCreateProduct}
-              />
-            ))}
-          </table>
-        ) : (
-          <div>
-            <div>Создайте категорию</div>
-          </div>
-        )}
+        <Table categories={categoriesTree}/>
       </div>
       {isOpen ? (
         <CategoryModal

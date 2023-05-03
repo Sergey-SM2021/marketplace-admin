@@ -1,1 +1,1 @@
-export { RenderCategory } from "./RenderCategory"
+export { RenderCategory } from "../../ui/RenderCategory"

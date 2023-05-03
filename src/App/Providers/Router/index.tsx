@@ -21,10 +21,6 @@ export const $privateRoutes = [
         element: <ProductPage />,
       },
       {
-        path: "/admin/categories/:categoryId",
-        element: <ItemsPage />,
-      },
-      {
         path: "/admin/products",
         element: <ProductsPage />,
       },

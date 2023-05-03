@@ -22,7 +22,7 @@ import {
   updateCategory,
  $categories, $params } from "./store/store"
 import * as store from "./store/store"
-import { RenderCategory } from "./utils/RenderCategory/RenderCategory"
+import { RenderCategory } from "./ui/RenderCategory"
 
 import { useDisclosure } from "@chakra-ui/react"
 import { addNotification } from "App/Providers/Notifications/store"
