@@ -1,16 +1,14 @@
 import { type Category } from "types"
 
-import { Flex, Td, Th, chakra, Button } from "@chakra-ui/react"
+import { Flex, Td, chakra, Button } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "assets/collapse.svg"
 import { type MouseEvent, type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
 
 interface IRenderCategory {
   category: Category
-  onClick: (id: number) => void
   onRemove: (id: number) => void
   onEdit: () => void
-  onAddProduct: (id: number) => void
   deep?: number
 }
 
@@ -25,13 +23,9 @@ const TD = chakra(Td, {
 
 export const RenderCategory = (props: IRenderCategory) => {
 
-  const { category, onClick, onEdit, onRemove, onAddProduct, deep = 0 } = props
+  const { category, onEdit, onRemove, onAddProduct, deep = 0 } = props
 
   const [isOpen, SetIsOpen] = useState(false)
-
-  const handlerRowClick = () => {
-    onClick(category.id!)
-  }
 
   const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
     e.stopPropagation()
