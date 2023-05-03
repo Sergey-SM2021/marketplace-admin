@@ -17,6 +17,7 @@ import {
 import { type FC } from "react"
 import { v4 } from "uuid"
 import { CreateCategory } from "features/createCategory/ui/createCategory"
+import { EditCategory } from "features/editCategory/ui/EditCategory"
 
 const TH = chakra(Th, {
   baseStyle: {
@@ -28,14 +29,17 @@ const TH = chakra(Th, {
 })
 
 export const CategoriesPage: FC = () => {
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const create = useDisclosure()
+  const edit = useDisclosure()
+
 
   const categories = useCategoriesTree()
 
   return (
     <Box p={3}>
-      <CreateCategory isOpen={isOpen} onClose={onClose} />
-      <Button colorScheme="facebook" onClick={onOpen}>Создать категорию</Button>
+      <EditCategory isOpen={edit.isOpen} onClose={edit.onClose} />
+      <CreateCategory isOpen={create.isOpen} onClose={create.onClose} />
+      <Button colorScheme="facebook" onClick={create.onOpen}>Создать категорию</Button>
       <TableContainer>
         <Table
           variant="simple"
@@ -54,7 +58,7 @@ export const CategoriesPage: FC = () => {
             {categories.map(category => (
               <RenderCategory
                 category={category}
-                onEdit={() => {}}
+                onEdit={edit.onOpen}
                 onRemove={() => {}}
                 deep={1}
                 key={v4()}

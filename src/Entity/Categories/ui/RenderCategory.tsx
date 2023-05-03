@@ -1,6 +1,6 @@
 import { type Category } from "types"
 
-import { Flex, Td, chakra, Button } from "@chakra-ui/react"
+import { Flex, Td, chakra, Button, Badge } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "assets/collapse.svg"
 import { type MouseEvent, type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
@@ -23,7 +23,7 @@ const TD = chakra(Td, {
 
 export const RenderCategory = (props: IRenderCategory) => {
 
-  const { category, onEdit, onRemove, onAddProduct, deep = 0 } = props
+  const { category, onEdit, onRemove, deep = 0 } = props
 
   const [isOpen, SetIsOpen] = useState(false)
 
@@ -35,11 +35,6 @@ export const RenderCategory = (props: IRenderCategory) => {
   const handlerEdit = (e: SyntheticEvent) => {
     e.stopPropagation()
     onEdit()
-  }
-
-  const handlerAddProduct = (e: SyntheticEvent) => {
-    e.stopPropagation()
-    onAddProduct(category.id!)
   }
 
   const { name, id, features, parentCategory, parentCategoryId, products } =
@@ -69,12 +64,13 @@ export const RenderCategory = (props: IRenderCategory) => {
         <TD>
           <Flex gap={3}>
             {category.features?.map(f => (
-              <Button>{f.name}</Button>
+              <Badge colorScheme='green' key={v4()}>{f.name}</Badge>
             ))}
           </Flex>
         </TD>
         <TD>
           <Button
+            colorScheme='facebook'
             onClick={e => {
               handlerRemove(e, id!)
             }}>
@@ -82,7 +78,7 @@ export const RenderCategory = (props: IRenderCategory) => {
           </Button>
         </TD>
         <TD>
-          <Button onClick={handlerEdit}>edit</Button>
+          <Button onClick={handlerEdit} colorScheme="facebook">edit</Button>
         </TD>
       </tr>
       {isOpen
