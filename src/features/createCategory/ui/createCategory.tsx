@@ -109,7 +109,7 @@ export const CreateCategory: FC<ICategoryModal> = ({
                     <Input {...register("param")} />
                     <Button onClick={addParam}>Добавить</Button>
                   </HStack>
-                  <HStack>
+                  {params.length || fields.length ? <Flex pt={5} gap={3}>
                     {params.map(param => (
                       <Tag key={param.id}>{param.name}</Tag>
                     ))}
@@ -123,7 +123,7 @@ export const CreateCategory: FC<ICategoryModal> = ({
                         />
                       </Tag>
                     ))}
-                  </HStack>
+                  </Flex> : null}
                   <FormErrorMessage>not valid field</FormErrorMessage>
                 </Flex>
               </VStack>

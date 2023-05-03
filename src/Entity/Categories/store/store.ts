@@ -59,9 +59,9 @@ export const getParamsByCategory = categoriesDomain.createEffect(
   api.getParamsByCategory
 )
 
-export const $params = categoriesDomain
-  .createStore([])
-  .on(getParamsByCategory.doneData, (state, payload) => payload)
+// export const $params = categoriesDomain
+//   .createStore([])
+//   .on(getParamsByCategory.doneData, (state, payload) => payload)
 
 export const $categories = categoriesDomain
   .createStore<CategoryResponseDTO[]>([])
@@ -87,8 +87,6 @@ export const $categoriesTree = categoriesDomain
       return [...state, { ...payload, childCategories: [] }]
     }
     return state.map(el => addNestedCat(el, payload))
-  })
-  .on(createProduct.doneData, (state, payload) => {
   })
   .on(updateCategory.done, (state, { params, result }) => {
     function rec(cat: Category) {
