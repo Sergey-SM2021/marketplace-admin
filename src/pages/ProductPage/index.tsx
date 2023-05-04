@@ -1,26 +1,52 @@
 import { type ProductResponseDTO } from "types"
 
-import { AttributesTable } from "modules/Product/components/AttributesTable"
 import { Counter } from "modules/Product/components/Counter"
 import { FullMedia } from "modules/Product/components/FullMedia"
 import { Header } from "modules/Product/components/Header"
 import { Slider } from "modules/Product/components/Slider"
-import { $productStore } from "modules/Product/store/store"
 
-import { getProductById } from "Entity/Product/model/model"
+import { $product, getProductById } from "Entity/Product/model/model"
 
 import { Button, Subtitle } from "ui"
 
+import {
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  chakra,
+} from "@chakra-ui/react"
 import { useStore } from "effector-react"
 import { type FC, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 interface IProduct {}
 
+const TH = chakra(Th, {
+  baseStyle: {
+    background: "#96f",
+    color: "#fff",
+    _first: { borderRadius: "10px 0 0 10px" },
+    _last: { borderRadius: "0 10px 10px 0" },
+  },
+})
+
+const TD = chakra(Td, {
+  baseStyle: {
+    background: "#fff",
+    color: "#000",
+    _first: { borderRadius: "10px 0 0 10px" },
+    _last: { borderRadius: "0 10px 10px 0" },
+  },
+})
+
 export const ProductPage: FC<IProduct> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const product = useStore<ProductResponseDTO | null>($productStore)
+  const product = useStore<ProductResponseDTO | null>($product)
 
   const { id } = useParams()
 
@@ -42,12 +68,6 @@ export const ProductPage: FC<IProduct> = () => {
     return null
   }
 
-  const RenderRow = () =>
-    ((product?.features?.map(el => ({
-      cols: [<div>edit</div>, <div>{el.name}</div>, <div>{el.value}</div>],
-      id: 9,
-    }))) != null) || []
-
   const handlerAddMedia = () => {}
 
   return (
@@ -66,11 +86,25 @@ export const ProductPage: FC<IProduct> = () => {
               <Button isDangerous={true}>Remove</Button>
             </div>
           </div>
-          <AttributesTable
-            BodyTableRowClickHandler={() => {}}
-            BodyTableRows={RenderRow()}
-            HeaderTableRow={["", "key", "value"]}
-          />
+          <TableContainer>
+            <Table variant="unstyled">
+              <Thead>
+                <Tr>
+                  {["параметры", "значение"].map(el => (
+                    <TH key={el}>{el}</TH>
+                  ))}
+                </Tr>
+              </Thead>
+              <Tbody>
+                {product?.features?.map(el => (
+                  <Tr key={el.featureId}>
+                    <TD>{el.name}</TD>
+                    <TD>{el.value}</TD>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
           <div>
             <Subtitle>Описание</Subtitle>
             <div>{product?.info}</div>
