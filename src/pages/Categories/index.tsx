@@ -42,7 +42,7 @@ export const CategoriesPage: FC = () => {
       <Button colorScheme="facebook" onClick={create.onOpen}>Создать категорию</Button>
       <TableContainer>
         <Table
-          variant="simple"
+          variant="unstyled"
           style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
           <Thead>
             <Tr borderRadius={3}>
@@ -60,7 +60,7 @@ export const CategoriesPage: FC = () => {
                 category={category}
                 onEdit={edit.onOpen}
                 onRemove={() => {}}
-                deep={1}
+                deep={0}
                 key={v4()}
               />
             ))}

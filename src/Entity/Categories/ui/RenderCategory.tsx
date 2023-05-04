@@ -1,6 +1,6 @@
 import { type Category } from "types"
 
-import { Flex, Td, chakra, Button, Badge } from "@chakra-ui/react"
+import { Flex, Td, chakra, Button, Badge, Box } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "assets/collapse.svg"
 import { type MouseEvent, type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
@@ -9,7 +9,7 @@ interface IRenderCategory {
   category: Category
   onRemove: (id: number) => void
   onEdit: () => void
-  deep?: number
+  deep: number
 }
 
 const TD = chakra(Td, {
@@ -22,8 +22,7 @@ const TD = chakra(Td, {
 })
 
 export const RenderCategory = (props: IRenderCategory) => {
-
-  const { category, onEdit, onRemove, deep = 0 } = props
+  const { category, onEdit, onRemove, deep } = props
 
   const [isOpen, SetIsOpen] = useState(false)
 
@@ -37,26 +36,57 @@ export const RenderCategory = (props: IRenderCategory) => {
     onEdit()
   }
 
-  const { name, id, features, parentCategory, parentCategoryId, products } =
-    category
+  const { name, id } = category
 
   return (
     <>
-      <tr>
+      <tr style={{ height: "100%" }}>
         {category.childCategories?.length ? (
-          <TD>
-            <Collapse
-              style={{ marginLeft: deep * 30 }}
-              className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
-                isOpen ? "rotate-90" : "rotate-0"
-              }`}
-              onClick={e => {
-                SetIsOpen(prev => !prev)
-              }}
-            />
-          </TD>
+          <Td
+            style={{
+              padding: 0,
+              margin: 0,
+              height: "100%",
+            }}>
+            <Flex
+              align={"center"}
+              justify={"center"}
+              style={{
+                marginLeft: deep * 10,
+                width: "100%",
+                height: "100%",
+                background: "#fff",
+                borderRadius: "10px 0 0 10px",
+              }}>
+              <Collapse
+                className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
+                  isOpen ? "rotate-90" : "rotate-0"
+                }`}
+                onClick={e => {
+                  SetIsOpen(prev => !prev)
+                }}
+              />
+            </Flex>
+          </Td>
         ) : (
-          <TD></TD>
+          <Td
+            style={{
+              padding: 0,
+              margin: 0,
+              height: "100%",
+            }}>
+            <Flex
+              align={"center"}
+              justify={"center"}
+              style={{
+                marginLeft: deep * 10,
+                width: "100%",
+                height: "100%",
+                background: "#fff",
+                borderRadius: "10px 0 0 10px",
+              }}>
+            </Flex>
+          </Td>
         )}
         {[id, name].map(el => (
           <TD key={v4()}>{el}</TD>
@@ -64,13 +94,15 @@ export const RenderCategory = (props: IRenderCategory) => {
         <TD>
           <Flex gap={3}>
             {category.features?.map(f => (
-              <Badge colorScheme='green' key={v4()}>{f.name}</Badge>
+              <Badge colorScheme="green" key={v4()}>
+                {f.name}
+              </Badge>
             ))}
           </Flex>
         </TD>
         <TD>
           <Button
-            colorScheme='facebook'
+            colorScheme="facebook"
             onClick={e => {
               handlerRemove(e, id!)
             }}>
@@ -78,12 +110,19 @@ export const RenderCategory = (props: IRenderCategory) => {
           </Button>
         </TD>
         <TD>
-          <Button onClick={handlerEdit} colorScheme="facebook">edit</Button>
+          <Button onClick={handlerEdit} colorScheme="facebook">
+            edit
+          </Button>
         </TD>
       </tr>
       {isOpen
         ? category?.childCategories?.map(el => (
-            <RenderCategory {...props} key={v4()} category={el} />
+            <RenderCategory
+              {...props}
+              key={v4()}
+              deep={deep + 5}
+              category={el}
+            />
           ))
         : null}
     </>
