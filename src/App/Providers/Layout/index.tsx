@@ -1,4 +1,4 @@
-import { Sidebar } from "modules/Sidebar"
+import { Sidebar } from "widgets/Sidebar"
 
 import { Header } from "widgets/Header"
 

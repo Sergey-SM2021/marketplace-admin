@@ -1,9 +1,9 @@
 import { type ProductResponseDTO } from "types"
 
-import { Counter } from "modules/Product/components/Counter"
-import { FullMedia } from "modules/Product/components/FullMedia"
-import { Header } from "modules/Product/components/Header"
-import { Slider } from "modules/Product/components/Slider"
+import { Counter } from "pages/Product/components/Counter"
+import { FullMedia } from "pages/Product/components/FullMedia"
+import { Header } from "pages/Product/components/Header"
+import { Slider } from "pages/Product/components/Slider"
 
 import { $product, getProductById } from "Entity/Product/model/model"
 
