@@ -1,3 +1,5 @@
+import { type Category } from "types"
+
 import { useCategoriesTree } from "Entity/Categories/hooks/useCategoriesTree"
 import { RenderCategory } from "Entity/Categories/utils"
 
@@ -14,8 +16,7 @@ import {
   chakra,
   useDisclosure,
 } from "@chakra-ui/react"
-import { CreateCategory } from "features/createCategory/ui/createCategory"
-import { EditCategory } from "features/editCategory/ui/EditCategory"
+import { EditCategory } from "features/editCategory/ui/editCategory"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
 import { v4 } from "uuid"
@@ -38,9 +39,16 @@ export const CategoriesPage: FC = () => {
 
   const [RemoveCategoryId, setRemoveCategoryId] = useState<null | number>(null)
 
+  const [editCategory, setEditCategory] = useState<null | Category>(null)
+
   const handlerRemoveCategory = (id: number) => {
     setRemoveCategoryId(id)
     remove.onOpen()
+  }
+
+  const handlerEditCategory = (category: Category) => {
+    setEditCategory(category)
+    edit.onOpen()
   }
 
   return (
@@ -50,8 +58,23 @@ export const CategoriesPage: FC = () => {
         isOpen={remove.isOpen}
         onClose={remove.onClose}
       />
-      <EditCategory isOpen={edit.isOpen} onClose={edit.onClose} />
-      <CreateCategory isOpen={create.isOpen} onClose={create.onClose} />
+      {create.isOpen ? (
+        <EditCategory
+          method="POST"
+          title="Создать Категорию"
+          isOpen={create.isOpen}
+          onClose={create.onClose}
+        />
+      ) : null}
+      {edit.isOpen ? (
+        <EditCategory
+          method="PUT"
+          category={editCategory}
+          title="Редактировать категорию"
+          isOpen={edit.isOpen}
+          onClose={edit.onClose}
+        />
+      ) : null}
       <Button colorScheme="facebook" onClick={create.onOpen}>
         Создать категорию
       </Button>
@@ -73,7 +96,7 @@ export const CategoriesPage: FC = () => {
             {categories.map(category => (
               <RenderCategory
                 category={category}
-                onEdit={edit.onOpen}
+                onEdit={handlerEditCategory}
                 onRemove={handlerRemoveCategory}
                 deep={0}
                 key={v4()}

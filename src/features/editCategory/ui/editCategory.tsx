@@ -1,6 +1,8 @@
-import { type CreateCategoryCommand } from "types"
+import { type Category, type CreateCategoryCommand } from "types"
 
+import { updateCategory } from "Entity/Categories/api"
 import { addCategory } from "Entity/Categories/store/store"
+import { $params, getParams } from "Entity/Params/store/store"
 
 import {
   Modal,
@@ -23,30 +25,46 @@ import {
   TagLabel,
   ModalCloseButton,
 } from "@chakra-ui/react"
+import { useStore } from "effector-react"
 import { useCategories } from "hooks/hooks"
 import { type FC, useEffect } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
-import { $params, getParams } from "Entity/Params/store/store"
-import { useStore } from "effector-react"
-
-interface ICategoryModal {
-  isOpen: boolean
-  onClose: () => void
-}
 
 interface IForm extends Omit<CreateCategoryCommand, "features"> {
   features: Array<{ id: number; value: string }>
   param: string
 }
 
-export const CreateCategory: FC<ICategoryModal> = ({
+interface ICategoryModal {
+  isOpen: boolean
+  onClose: () => void
+  title: string
+  method: "POST" | "PUT"
+  category?: Category | null
+}
+
+export const EditCategory: FC<ICategoryModal> = ({
   onClose,
+  title,
   isOpen,
+  method,
+  category,
 }) => {
+  const params = useStore($params)
+
   const categories = useCategories()
 
   const { register, control, handleSubmit, watch, getValues, setValue } =
-    useForm<IForm>()
+    useForm<IForm>({
+      defaultValues: {
+        name: category?.name,
+        features: category?.features?.map(el => ({
+          id: el.id,
+          value: el.name,
+        })),
+        parentCategoryId: category?.parentCategoryId,
+      },
+    })
 
   const parentCategoryIdWatcher = watch("parentCategoryId")
 
@@ -60,10 +78,14 @@ export const CreateCategory: FC<ICategoryModal> = ({
   }, [parentCategoryIdWatcher])
 
   const onSubmit = (values: IForm) => {
+    if (method === "POST") {
     addCategory({ ...values, features: values.features.map(f => f.value) })
+    } else {
+      updateCategory({ ...values })
+    }
     onClose()
   }
-  
+
   const addParam = () => {
     const value = getValues()
     if (value.param.length) {
@@ -71,18 +93,16 @@ export const CreateCategory: FC<ICategoryModal> = ({
       append({ value: value.param, id: Math.random() })
     }
   }
-  
+
   const handlerRemoveParam = (id: number) => {
     remove(fields.findIndex(el => el.id === id))
   }
-  
-  const params = useStore($params)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Создать новую категорию</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
@@ -109,21 +129,23 @@ export const CreateCategory: FC<ICategoryModal> = ({
                     <Input {...register("param")} />
                     <Button onClick={addParam}>Добавить</Button>
                   </HStack>
-                  {params.length || fields.length ? <Flex pt={5} gap={3}>
-                    {params.map(param => (
-                      <Tag key={param.id}>{param.name}</Tag>
-                    ))}
-                    {fields.map(field => (
-                      <Tag colorScheme="green" key={field.id}>
-                        <TagLabel>{field.value}</TagLabel>
-                        <TagCloseButton
-                          onClick={() => {
-                            handlerRemoveParam(field.id)
-                          }}
-                        />
-                      </Tag>
-                    ))}
-                  </Flex> : null}
+                  {params.length || fields.length ? (
+                    <Flex pt={5} gap={3}>
+                      {params.map(param => (
+                        <Tag key={param.id}>{param.name}</Tag>
+                      ))}
+                      {fields.map(field => (
+                        <Tag colorScheme="green" key={field.id}>
+                          <TagLabel>{field.value}</TagLabel>
+                          <TagCloseButton
+                            onClick={() => {
+                              handlerRemoveParam(field.id)
+                            }}
+                          />
+                        </Tag>
+                      ))}
+                    </Flex>
+                  ) : null}
                   <FormErrorMessage>not valid field</FormErrorMessage>
                 </Flex>
               </VStack>

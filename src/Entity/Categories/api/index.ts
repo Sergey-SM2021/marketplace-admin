@@ -4,6 +4,7 @@ import {
   type Category,
   type CategoryResponseDTO,
   type CreateCategoryCommand,
+  type EditCategoryCommand,
 } from "types"
 import { type CreateProductCommand } from "types/models/CreateProductCommand"
 
@@ -17,12 +18,6 @@ const ConvertCatToCustomCat = (cat: Category): Category => {
         ? cat.childCategories.map(chCat => ConvertCatToCustomCat(chCat))
         : [],
   }
-}
-
-interface IUpdateCategory {
-  categoryId: number
-  name: string
-  parentCategoryId: number
 }
 
 const instance = axios.create({
@@ -54,7 +49,7 @@ export const removeCategory = async (id: number) => {
     )
   ).data
 }
-export const updateCategory = async (category: IUpdateCategory) => {
+export const updateCategory = async (category: EditCategoryCommand) => {
   return (await instance.put(`AdminPanel/EditCategory`, category)).data
 }
 export const createProduct = async (payload: CreateProductCommand) => {

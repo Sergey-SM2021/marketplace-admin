@@ -8,7 +8,7 @@ import { v4 } from "uuid"
 interface IRenderCategory {
   category: Category
   onRemove: (id: number) => void
-  onEdit: () => void
+  onEdit: (category: Category) => void
   deep: number
 }
 
@@ -26,9 +26,9 @@ export const RenderCategory = (props: IRenderCategory) => {
 
   const [isOpen, SetIsOpen] = useState(false)
 
-  const handlerEdit = (e: SyntheticEvent) => {
+  const handlerEdit = (e: SyntheticEvent, category: Category) => {
     e.stopPropagation()
-    onEdit()
+    onEdit(category)
   }
 
   const { name, id } = category
@@ -104,7 +104,11 @@ export const RenderCategory = (props: IRenderCategory) => {
           </Button>
         </TD>
         <TD>
-          <Button onClick={handlerEdit} colorScheme="facebook">
+          <Button
+            onClick={(e) => {
+              handlerEdit(e,category)
+            }}
+            colorScheme="facebook">
             edit
           </Button>
         </TD>

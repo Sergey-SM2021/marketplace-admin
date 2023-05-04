@@ -2,7 +2,7 @@ import { $params, getParams } from "../../store/store"
 
 import { HStack, Input, Text } from "@chakra-ui/react"
 import { useStore } from "effector-react"
-import { type FormEvent, useEffect, type RefObject } from "react"
+import { type FormEvent, useEffect } from "react"
 
 interface IParamsListByCategoryId {
   categoryId: number
