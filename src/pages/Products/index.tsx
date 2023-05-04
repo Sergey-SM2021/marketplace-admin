@@ -69,6 +69,10 @@ export const ProductsPage = () => {
     },
   })
 
+  const handlerProductClick = (id: number) => {
+    nav(`/product/${id}`)
+  }
+
   return (
     <>
       <RemoveProduct
@@ -99,7 +103,9 @@ export const ProductsPage = () => {
             </Thead>
             <Tbody>
               {products.map(product => (
-                <Tr key={product.id}>
+                <Tr
+                  key={product.id}
+                  onClick={() => handlerProductClick(product.id)}>
                   {[product.id, product.name, product.price].map(el => (
                     <TD key={el}>{el}</TD>
                   ))}

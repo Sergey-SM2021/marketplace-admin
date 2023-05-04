@@ -1,5 +1,4 @@
 import { CategoriesPage } from "pages/Categories"
-import { ItemsPage } from "pages/Items"
 import { ProductPage } from "pages/ProductPage"
 import { ProductsPage } from "pages/Products"
 
@@ -17,7 +16,7 @@ export const $privateRoutes = [
         element: <CategoriesPage />,
       },
       {
-        path: "/admin/product/:id",
+        path: "/product/:id",
         element: <ProductPage />,
       },
       {
