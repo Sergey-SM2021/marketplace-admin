@@ -1,7 +1,9 @@
-import { type FC, useEffect } from "react"
-import Swiper, { Thumbs, Mousewheel, Keyboard } from "swiper"
+import { type FC, useState } from "react"
+import { Thumbs, Mousewheel, Keyboard, type Swiper as SwiperType } from "swiper"
 import "swiper/css"
 import "swiper/css/thumbs"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { v4 } from "uuid"
 
 interface ISlider {
   onScaleing: () => void
@@ -16,51 +18,53 @@ const media = [
 ]
 
 export const Slider: FC<ISlider> = ({ onScaleing, onAddMedia }) => {
-  useEffect(() => {
-    const swiperNav = new Swiper(".swiper-nav", {
-      slidesPerView: 3,
-      autoHeight: true,
-      direction: "vertical",
-      mousewheel: true,
-      keyboard: true,
-      modules: [Mousewheel, Keyboard],
-      slidesPerGroup: 1,
-      spaceBetween: 15,
-      noSwipingSelector: "#a",
-    })
-    new Swiper(".swiper-intro", {
-      thumbs: { swiper: swiperNav },
-      keyboard: true,
-      slidesPerGroup: 1,
-      modules: [Thumbs, Keyboard],
-    })
-  }, [])
+  const [swiper, setSwiper] = useState<SwiperType>()
+
+  const navigation = {
+    slidesPerView: 3,
+    autoHeight: true,
+    mousewheel: true,
+    keyboard: true,
+    modules: [Mousewheel, Keyboard],
+    slidesPerGroup: 1,
+    spaceBetween: 15,
+    noSwipingSelector: "#a",
+  }
+
+  const main = {
+    thumbs: { swiper },
+    keyboard: true,
+    slidesPerGroup: 1,
+    modules: [Thumbs, Keyboard],
+  }
+
   return (
     <div className="flex gap-[15px] w-full">
-      <div className="swiper swiper-nav" style={{ width: 200 }}>
-        <div className="swiper-wrapper">
+      <div style={{ width: 200, height: "100%" }}>
+        <Swiper
+          {...navigation}
+          direction="vertical"
+          onSwiper={sw => {
+            setSwiper(sw)
+          }}
+          style={{ height: "100%" }}>
           {media.map(el => (
-            <div className="swiper-slide">
+            <SwiperSlide key={v4()}>
               <img className="w-full h-full object-cover" src={el} alt="" />
-            </div>
+            </SwiperSlide>
           ))}
-          <div className="swiper-slide" id="a" onClick={onAddMedia}>
-            <div className="w-full bg-red h-[200px] flex justify-center items-center">
-              <div>+</div>
-            </div>
-          </div>
-        </div>
+        </Swiper>
       </div>
       <div
         className="swiper swiper-intro"
         style={{ width: "600px", minHeight: 300 }}>
-        <div className="swiper-wrapper">
+        <Swiper {...main}>
           {media.map(el => (
-            <div className="swiper-slide">
+            <SwiperSlide key={v4()}>
               <img className="w-full h-full object-cover" src={el} alt="" />
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
     </div>
   )
