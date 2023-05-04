@@ -32,7 +32,6 @@ export const CategoriesPage: FC = () => {
   const create = useDisclosure()
   const edit = useDisclosure()
 
-
   const categories = useCategoriesTree()
 
   return (

@@ -2,6 +2,7 @@ import { type Category } from "types"
 import { addNestedCat } from "./addNestedCat"
 
 describe("addCategoryInChildCategoriesById", () => {
+  
   it(`addCategoryInChildCategoriesById вернёт изменённую категорию. Мы добавим категорию в child.childCategories`, () => {
     const cat1: Category = {
       name: "Мебель",
@@ -17,10 +18,12 @@ describe("addCategoryInChildCategoriesById", () => {
     }
 
     const result: Category = { ...cat1, childCategories: [cat2] }
+
     const newCat = addNestedCat(cat1, cat2)
     expect(newCat.childCategories?.length).toBe(1)
     expect(newCat).toEqual(result)
   })
+
   it(`addCategoryInChildCategoriesById вернёт изменённую категорию.
   Мы добавим категорию в дочернюю категорию дочерней категории.`, () => {
     const cat1: Category = {

@@ -1,11 +1,10 @@
 import {
+  type CategoryResponse,
   type Category,
   type CreateCategoryCommand,
-  type CreateProductCommand,
 } from "types"
 import { type CategoryResponseDTO } from "types/models/CategoryResponseDTO"
 
-// import { setIsOpenMode } from "./store.ts.spec"
 import * as api from "../api"
 import { removeNestedCat } from "../utils"
 import { addNestedCat } from "../utils/addNestedCat/addNestedCat"
@@ -38,13 +37,8 @@ export const removeCategoryById = categoriesDomain.createEffect<number, string>(
 
 export const addCategory = categoriesDomain.createEffect<
   CreateCategoryCommand,
-  Category
+  CategoryResponse
 >(api.createCategory)
-
-export const createProduct = categoriesDomain.createEffect<
-  CreateProductCommand,
-  void
->(api.createProduct)
 
 export const getCategories = categoriesDomain.createEffect<
   void,
@@ -54,14 +48,6 @@ export const getCategories = categoriesDomain.createEffect<
 export const updateCategory = categoriesDomain.createEffect<Category, Category>(
   api.editCategory
 )
-
-export const getParamsByCategory = categoriesDomain.createEffect(
-  api.getParamsByCategory
-)
-
-// export const $params = categoriesDomain
-//   .createStore([])
-//   .on(getParamsByCategory.doneData, (state, payload) => payload)
 
 export const $categories = categoriesDomain
   .createStore<CategoryResponseDTO[]>([])
@@ -83,10 +69,13 @@ export const $categoriesTree = categoriesDomain
     return state.map(s => removeNestedCat(s, params))
   })
   .on(addCategory.doneData, (state, payload) => {
-    if (payload.parentCategoryId === null) {
-      return [...state, { ...payload, childCategories: [] }]
+    if (payload?.category?.parentCategoryId === null) {
+      return [...state, { ...payload.category, childCategories: [] }]
     }
-    return state.map(el => addNestedCat(el, payload))
+    const result = state.map(el =>
+      addNestedCat(el, payload.category as Category)
+    )
+    return result
   })
   .on(updateCategory.done, (state, { params, result }) => {
     function rec(cat: Category) {
