@@ -14,10 +14,11 @@ import {
   chakra,
   useDisclosure,
 } from "@chakra-ui/react"
-import { type FC } from "react"
-import { v4 } from "uuid"
 import { CreateCategory } from "features/createCategory/ui/createCategory"
 import { EditCategory } from "features/editCategory/ui/EditCategory"
+import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
+import { useState, type FC } from "react"
+import { v4 } from "uuid"
 
 const TH = chakra(Th, {
   baseStyle: {
@@ -31,14 +32,29 @@ const TH = chakra(Th, {
 export const CategoriesPage: FC = () => {
   const create = useDisclosure()
   const edit = useDisclosure()
+  const remove = useDisclosure()
 
   const categories = useCategoriesTree()
 
+  const [RemoveCategoryId, setRemoveCategoryId] = useState<null | number>(null)
+
+  const handlerRemoveCategory = (id: number) => {
+    setRemoveCategoryId(id)
+    remove.onOpen()
+  }
+
   return (
     <Box p={3}>
+      <RemoveCategory
+        categoryId={RemoveCategoryId as number}
+        isOpen={remove.isOpen}
+        onClose={remove.onClose}
+      />
       <EditCategory isOpen={edit.isOpen} onClose={edit.onClose} />
       <CreateCategory isOpen={create.isOpen} onClose={create.onClose} />
-      <Button colorScheme="facebook" onClick={create.onOpen}>Создать категорию</Button>
+      <Button colorScheme="facebook" onClick={create.onOpen}>
+        Создать категорию
+      </Button>
       <TableContainer>
         <Table
           variant="unstyled"
@@ -58,7 +74,7 @@ export const CategoriesPage: FC = () => {
               <RenderCategory
                 category={category}
                 onEdit={edit.onOpen}
-                onRemove={() => {}}
+                onRemove={handlerRemoveCategory}
                 deep={0}
                 key={v4()}
               />
