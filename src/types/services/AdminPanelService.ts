@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+/* tslint:disable */
 /* eslint-disable */
 import type { CategoryResponse } from '../models/CategoryResponse';
 import type { ChangeCountProductCommand } from '../models/ChangeCountProductCommand';

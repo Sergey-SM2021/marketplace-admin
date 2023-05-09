@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type EditFeatureCommand = {
+export type FeatureIdValue = {
     id?: number;
-    name?: string | null;
+    value?: string | null;
 };
 

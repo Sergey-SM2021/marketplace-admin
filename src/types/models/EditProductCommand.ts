@@ -1,5 +1,8 @@
 /* istanbul ignore file */
+/* tslint:disable */
 /* eslint-disable */
+
+import type { FeatureIdValue } from './FeatureIdValue';
 
 export type EditProductCommand = {
     productId?: number;
@@ -7,6 +10,6 @@ export type EditProductCommand = {
     categoryId?: number | null;
     info?: string | null;
     price?: number | null;
-    featureValue?: Record<string, string | null> | null;
+    featureValue?: Array<FeatureIdValue> | null;
 };
 

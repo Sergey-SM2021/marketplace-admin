@@ -1,8 +1,11 @@
 /* istanbul ignore file */
+/* tslint:disable */
 /* eslint-disable */
 import type { CategoryResponseDTO } from '../models/CategoryResponseDTO';
 import type { CategoryResponseTreeDTO } from '../models/CategoryResponseTreeDTO';
 import type { Feature } from '../models/Feature';
+import type { GetProductsResponse } from '../models/GetProductsResponse';
+import type { ProductFilterPrompt } from '../models/ProductFilterPrompt';
 import type { ProductResponseDTO } from '../models/ProductResponseDTO';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -13,13 +16,31 @@ export class ShopService {
 
     /**
      * Получить список всех продуктов
-     * @returns ProductResponseDTO Success
+     * Sort
+     * 0 - ByName
+     * 1 - ByPrice
+     * 2 - ByCount
+     * 3 - ByRating
+     * @param pageSize
+     * @param pageIndex
+     * @param requestBody
+     * @returns GetProductsResponse Success
      * @throws ApiError
      */
-    public static getShopGetProducts(): CancelablePromise<Array<ProductResponseDTO>> {
+    public static postShopGetProducts(
+        pageSize?: number,
+        pageIndex?: number,
+        requestBody?: ProductFilterPrompt,
+    ): CancelablePromise<GetProductsResponse> {
         return __request(OpenAPI, {
-            method: 'GET',
+            method: 'POST',
             url: '/Shop/GetProducts',
+            query: {
+                'pageSize': pageSize,
+                'pageIndex': pageIndex,
+            },
+            body: requestBody,
+            mediaType: 'application/json-patch+json',
         });
     }
 

@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+/* tslint:disable */
 /* eslint-disable */
 export { ApiError } from './core/ApiError';
 export { CancelablePromise, CancelError } from './core/CancelablePromise';
@@ -17,12 +18,16 @@ export type { EditCategoryCommand } from './models/EditCategoryCommand';
 export type { EditFeatureCommand } from './models/EditFeatureCommand';
 export type { EditProductCommand } from './models/EditProductCommand';
 export type { Feature } from './models/Feature';
+export type { FeatureIdValue } from './models/FeatureIdValue';
 export type { FeatureResponseDTO } from './models/FeatureResponseDTO';
 export type { FeaturesResponse } from './models/FeaturesResponse';
 export type { FeatureValue } from './models/FeatureValue';
+export type { GetProductsResponse } from './models/GetProductsResponse';
 export type { Product } from './models/Product';
+export type { ProductFilterPrompt } from './models/ProductFilterPrompt';
 export type { ProductResponse } from './models/ProductResponse';
 export type { ProductResponseDTO } from './models/ProductResponseDTO';
+export type { Prompt } from './models/Prompt';
 
 export { AdminPanelService } from './services/AdminPanelService';
 export { ShopService } from './services/ShopService';
