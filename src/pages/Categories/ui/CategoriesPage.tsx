@@ -2,23 +2,30 @@ import { type Category } from "types"
 
 import { useCategoriesTree } from "Entity/Categories/hooks/useCategoriesTree"
 import { RenderCategory } from "Entity/Categories/utils"
+import { useParams } from "Entity/Params/hooks/useParams"
 
 import {
+  Badge,
   Box,
   Button,
+  CloseButton,
   Flex,
+  Grid,
+  HStack,
+  Input,
   Table,
   TableContainer,
   Tbody,
   Th,
   Thead,
   Tr,
+  VStack,
   chakra,
   useDisclosure,
 } from "@chakra-ui/react"
 import { EditCategory } from "features/editCategory/ui/editCategory"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
-import { useState, type FC } from "react"
+import { useState, type FC, type FormEvent } from "react"
 import { v4 } from "uuid"
 
 const TH = chakra(Th, {
@@ -51,6 +58,18 @@ const CategoriesPage: FC = () => {
     edit.onOpen()
   }
 
+  const params = useParams()
+
+  const [param, setParam] = useState<string>("")
+
+  const filterFeatures = (e: FormEvent<HTMLInputElement>) => {
+    setParam(e.currentTarget.value)
+  }
+
+  const createParam = () => {
+    alert(JSON.stringify(param))
+  }
+
   return (
     <Box p={3}>
       <RemoveCategory
@@ -78,33 +97,52 @@ const CategoriesPage: FC = () => {
       <Button colorScheme="facebook" onClick={create.onOpen}>
         Создать категорию
       </Button>
-      <TableContainer>
-        <Table
-          variant="unstyled"
-          style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
-          <Thead>
-            <Tr borderRadius={3}>
-              {["", "id", "наименование", "парметры"].map(el => (
-                <TH key={el}>{el}</TH>
+      <Flex gap={3}>
+        <TableContainer flexGrow={1}>
+          <Table
+            variant="unstyled"
+            style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
+            <Thead>
+              <Tr borderRadius={3}>
+                {["", "id", "наименование", "парметры"].map(el => (
+                  <TH key={el}>{el}</TH>
+                ))}
+                <TH colSpan={2}>
+                  <Flex justify={"center"}>action</Flex>
+                </TH>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {categories.map(category => (
+                <RenderCategory
+                  category={category}
+                  onEdit={handlerEditCategory}
+                  onRemove={handlerRemoveCategory}
+                  deep={0}
+                  key={v4()}
+                />
               ))}
-              <TH colSpan={2}>
-                <Flex justify={"center"}>action</Flex>
-              </TH>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {categories.map(category => (
-              <RenderCategory
-                category={category}
-                onEdit={handlerEditCategory}
-                onRemove={handlerRemoveCategory}
-                deep={0}
-                key={v4()}
-              />
+            </Tbody>
+          </Table>
+        </TableContainer>
+        <VStack bg={"white"} mt={"1em"} mb={"1em"} p={3} borderRadius={5}>
+          <HStack>
+            <CloseButton />
+            <Input value={param} onChange={filterFeatures} />
+            <Button onClick={createParam}>add</Button>
+          </HStack>
+          <Grid
+            templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
+            w={"full"}
+            gap={6}>
+            {params.map(p => (
+              <Box key={p.id}>
+                <Badge>{p.name}</Badge>
+              </Box>
             ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          </Grid>
+        </VStack>
+      </Flex>
     </Box>
   )
 }

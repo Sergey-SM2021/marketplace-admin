@@ -1,11 +1,19 @@
-import { $params, getParams } from "../store/store"
+import { $params, getParams, getParamsByCategory } from "../store/store"
 
 import { useStore } from "effector-react"
 import { useEffect } from "react"
 
-export const useParams = (params: number) => {
+export const useParams = () => {
   useEffect(() => {
-    getParams(params)
+    getParams()
+  }, [])
+
+  return useStore($params)
+}
+
+export const useParamsByCategory = (params: number) => {
+  useEffect(() => {
+    getParamsByCategory(params)
   }, [])
 
   return useStore($params)

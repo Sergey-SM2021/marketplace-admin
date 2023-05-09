@@ -7,3 +7,7 @@ const instance = axios.create({
 export const getParamsByCategory = async (id: number) => {
   return (await instance.get(`Shop/GetFeaturesByCategory/${id}`)).data
 }
+
+export const getParams = async () => {
+  return (await instance.get("Shop/GetFeatures")).data
+}

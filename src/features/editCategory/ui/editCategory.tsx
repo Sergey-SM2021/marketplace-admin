@@ -2,7 +2,7 @@ import { type Category, type CreateCategoryCommand } from "types"
 
 import { updateCategory } from "Entity/Categories/api"
 import { addCategory } from "Entity/Categories/store/store"
-import { $params, getParams } from "Entity/Params/store/store"
+import { $params, getParamsByCategory } from "Entity/Params/store/store"
 
 import {
   Modal,
@@ -74,7 +74,7 @@ export const EditCategory: FC<ICategoryModal> = ({
   })
 
   useEffect(() => {
-    getParams(parentCategoryIdWatcher as number)
+    getParamsByCategory(parentCategoryIdWatcher as number)
   }, [parentCategoryIdWatcher])
 
   const onSubmit = (values: IForm) => {
