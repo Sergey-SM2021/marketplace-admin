@@ -1,1 +1,1 @@
-export { RoutesProvider } from "./ui/RouterProvider"
+export { RoutesProvider } from "./ui"

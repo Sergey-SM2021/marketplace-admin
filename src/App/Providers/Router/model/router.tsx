@@ -1,7 +1,6 @@
 import { CategoriesPage } from "pages/Categories"
 import { ProductPage } from "pages/ProductPage"
 import { ProductsPage } from "pages/Products"
-import { Settings } from "pages/Settings"
 
 import { Layout } from "App/Providers/Layout"
 import { Navigate, createBrowserRouter } from "react-router-dom"
@@ -38,10 +37,6 @@ export const routes = createBrowserRouter([
       {
         path: "/admin/notifications-list",
         element: <div>/admin/notifications-list</div>,
-      },
-      {
-        path: "/admin/settings",
-        element: <Settings />,
       },
     ],
   },
