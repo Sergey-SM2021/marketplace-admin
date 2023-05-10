@@ -1,23 +1,15 @@
-import { Sidebar } from "widgets/Sidebar"
-
-import { Header } from "widgets/Header"
-
+import { Flex } from "@chakra-ui/react"
 import { type FC, type PropsWithChildren } from "react"
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet } from "react-router-dom"
+import { Header } from "widgets/Header"
 
 interface ILayout extends PropsWithChildren {}
 
 export const Layout: FC<ILayout> = () => {
-  const { pathname } = useLocation()
   return (
-    <div className="flex bg-gray min-h-screen h-full">
-      {pathname.includes("/products") ? (
-        <Sidebar />
-      ) : null}
-      <div className="flex-auto">
-        <Header />
-        <Outlet />
-      </div>
-    </div>
+    <Flex flexDirection={"column"} h={"100vh"} bg={"gray.300"} w={"full"}>
+      <Header></Header>
+      <Outlet />
+    </Flex>
   )
 }

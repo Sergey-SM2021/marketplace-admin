@@ -16,6 +16,9 @@ import {
   Input,
   Table,
   TableContainer,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   Tbody,
   Th,
   Thead,
@@ -74,7 +77,7 @@ const CategoriesPage: FC = () => {
   }
 
   return (
-    <Box p={3}>
+    <Flex flexDirection={"column"} flex={"1 1 auto"} p={3}>
       <RemoveCategory
         categoryId={RemoveCategoryId as number}
         isOpen={remove.isOpen}
@@ -97,10 +100,12 @@ const CategoriesPage: FC = () => {
           onClose={edit.onClose}
         />
       ) : null}
-      <Button colorScheme="facebook" onClick={create.onOpen}>
-        Создать категорию
-      </Button>
-      <Flex gap={3}>
+      <Box>
+        <Button colorScheme="facebook" onClick={create.onOpen}>
+          Создать категорию
+        </Button>
+      </Box>
+      <Flex gap={3} flexGrow={"1"}>
         <TableContainer flexGrow={1}>
           <Table
             variant="unstyled"
@@ -140,19 +145,22 @@ const CategoriesPage: FC = () => {
             gap={6}>
             {params.map(p => (
               <Box key={p.id}>
-                <Badge
-                draggable
+                <Tag
+                  size={"lg"}
+                  _hover={{ cursor: "grab" }}
+                  draggable
                   onDragStart={() => {
                     setCurrentParam(p)
                   }}>
-                  {p.name}
-                </Badge>
+                  <TagLabel>{p.name}</TagLabel>
+                  <TagCloseButton />
+                </Tag>
               </Box>
             ))}
           </Grid>
         </VStack>
       </Flex>
-    </Box>
+    </Flex>
   )
 }
 
