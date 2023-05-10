@@ -1,6 +1,6 @@
 import { type CreateProductCommand } from "types"
 
-import { ParamsListByCategoryId } from "Entity/Params/ui/ParamsList/ParamsList"
+import { ParamsListByCategoryId } from "Entity/Params/ui/ParamsByCategory/ParamsByCategory"
 
 import { useCategories } from "../../../hooks/hooks"
 

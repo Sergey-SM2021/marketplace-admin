@@ -77,7 +77,7 @@ const ProductsPage = () => {
     <>
       <RemoveProduct
         isOpen={remove.isOpen}
-        productId={productIdToRemove}
+        productId={productIdToRemove as number}
         onClose={remove.onClose}
       />
       <CreateProduct onClose={create.onClose} isOpen={create.isOpen} />
@@ -105,7 +105,9 @@ const ProductsPage = () => {
               {products.map(product => (
                 <Tr
                   key={product.id}
-                  onClick={() => handlerProductClick(product.id)}>
+                  onClick={() => {
+                    handlerProductClick(product.id as number)
+                  }}>
                   {[product.id, product.name, product.price].map(el => (
                     <TD key={el}>{el}</TD>
                   ))}

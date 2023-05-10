@@ -33,18 +33,17 @@ export const RenderCategory = (props: IRenderCategory) => {
 
   const { name, id } = category
 
+  const onDragOver = (e: SyntheticEvent<HTMLTableRowElement>) => {
+    e.preventDefault()
+  }
+
+  const onDrop = (e: SyntheticEvent<HTMLTableRowElement>) => {
+    e.preventDefault()
+  }
+
   return (
     <>
-      <tr
-        style={{ height: "100%" }}
-        onDragOver={e => {
-          e.preventDefault()
-        }}
-        onDrop={e => {
-          e.preventDefault()
-          e.stopPropagation()
-          alert("[eq")
-        }}>
+      <tr style={{ height: "100%" }} onDragOver={onDragOver} onDrop={onDrop}>
         {category.childCategories?.length ? (
           <Td
             style={{
@@ -74,15 +73,15 @@ export const RenderCategory = (props: IRenderCategory) => {
           </Td>
         ) : (
           <Td
-            style={{
-              padding: 0,
-              margin: 0,
+            p={0}
+            m={0}
+            sx={{
               height: "100%",
             }}>
             <Flex
               align={"center"}
               justify={"center"}
-              style={{
+              sx={{
                 marginLeft: deep * 10,
                 width: "100%",
                 height: "100%",

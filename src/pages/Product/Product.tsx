@@ -10,12 +10,10 @@ import { Slider } from "./components/Slider"
 import { $productStore, getProductById } from "./store/store"
 
 import { useStore } from "effector-react"
-import { type FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-interface IProduct {}
-
-export const Product: FC<IProduct> = () => {
+export const Product = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const product = useStore<ProductResponseDTO | null>($productStore)
   const { id } = useParams()
@@ -34,10 +32,10 @@ export const Product: FC<IProduct> = () => {
     return null
   }
   const RenderRow = () =>
-    ((product?.features?.map(el => ({
+    product?.features?.map(el => ({
       cols: [<div>edit</div>, <div>{el.name}</div>, <div>{el.value}</div>],
       id: 9,
-    }))) != null) || []
+    })) != null || []
   const handlerAddMedia = () => {}
   return (
     <>
