@@ -1,4 +1,4 @@
-import { type Category } from "types"
+import { Feature, type Category } from "types"
 
 import { useCategoriesTree } from "Entity/Categories/hooks/useCategoriesTree"
 import { RenderCategory } from "Entity/Categories/utils"
@@ -42,6 +42,8 @@ const CategoriesPage: FC = () => {
   const create = useDisclosure()
   const edit = useDisclosure()
   const remove = useDisclosure()
+
+  const [currentParam, setCurrentParam] = useState<Feature | undefined>()
 
   const categories = useCategoriesTree()
 
@@ -138,7 +140,13 @@ const CategoriesPage: FC = () => {
             gap={6}>
             {params.map(p => (
               <Box key={p.id}>
-                <Badge>{p.name}</Badge>
+                <Badge
+                draggable
+                  onDragStart={() => {
+                    setCurrentParam(p)
+                  }}>
+                  {p.name}
+                </Badge>
               </Box>
             ))}
           </Grid>

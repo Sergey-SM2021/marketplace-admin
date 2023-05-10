@@ -35,7 +35,16 @@ export const RenderCategory = (props: IRenderCategory) => {
 
   return (
     <>
-      <tr style={{ height: "100%" }}>
+      <tr
+        style={{ height: "100%" }}
+        onDragOver={e => {
+          e.preventDefault()
+        }}
+        onDrop={e => {
+          e.preventDefault()
+          e.stopPropagation()
+          alert("[eq")
+        }}>
         {category.childCategories?.length ? (
           <Td
             style={{
@@ -105,8 +114,8 @@ export const RenderCategory = (props: IRenderCategory) => {
         </TD>
         <TD>
           <Button
-            onClick={(e) => {
-              handlerEdit(e,category)
+            onClick={e => {
+              handlerEdit(e, category)
             }}
             colorScheme="facebook">
             edit
