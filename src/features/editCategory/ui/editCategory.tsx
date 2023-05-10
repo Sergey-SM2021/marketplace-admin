@@ -2,7 +2,6 @@ import { type Category, type CreateCategoryCommand } from "types"
 
 import { updateCategory } from "Entity/Categories/api"
 import { addCategory } from "Entity/Categories/store/store"
-import { $params, getParamsByCategory } from "Entity/Params/store/store"
 
 import {
   Modal,
@@ -29,6 +28,8 @@ import { useStore } from "effector-react"
 import { useCategories } from "hooks/hooks"
 import { type FC, useEffect } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
+import { $params } from "Entity/Params/store/params"
+import { getParamsByCategory } from "Entity/Params/store/paramsByCategory"
 
 interface IForm extends Omit<CreateCategoryCommand, "features"> {
   features: Array<{ id: number; value: string }>

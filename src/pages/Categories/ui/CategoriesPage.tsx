@@ -3,6 +3,7 @@ import { type Category } from "types"
 import { useCategoriesTree } from "Entity/Categories/hooks/useCategoriesTree"
 import { RenderCategory } from "Entity/Categories/utils"
 import { useParams } from "Entity/Params/hooks/useParams"
+import { createParam } from "Entity/Params/store/params"
 
 import {
   Badge,
@@ -60,14 +61,14 @@ const CategoriesPage: FC = () => {
 
   const params = useParams()
 
-  const [param, setParam] = useState<string>("")
+  const [paramName, setParamName] = useState<string>("")
 
   const filterFeatures = (e: FormEvent<HTMLInputElement>) => {
-    setParam(e.currentTarget.value)
+    setParamName(e.currentTarget.value)
   }
 
-  const createParam = () => {
-    alert(JSON.stringify(param))
+  const handlerCreateParam = () => {
+    createParam(paramName)
   }
 
   return (
@@ -128,8 +129,8 @@ const CategoriesPage: FC = () => {
         <VStack bg={"white"} mt={"1em"} mb={"1em"} p={3} borderRadius={5}>
           <HStack>
             <CloseButton />
-            <Input value={param} onChange={filterFeatures} />
-            <Button onClick={createParam}>add</Button>
+            <Input value={paramName} onChange={filterFeatures} />
+            <Button onClick={handlerCreateParam}>add</Button>
           </HStack>
           <Grid
             templateColumns="repeat(auto-fill, minmax(100px, 1fr))"

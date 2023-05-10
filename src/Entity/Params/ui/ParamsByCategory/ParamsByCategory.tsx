@@ -1,4 +1,5 @@
-import { $params, getParamsByCategory } from "../../store/store"
+import { $params } from "Entity/Params/store/params"
+import { getParamsByCategory } from "Entity/Params/store/paramsByCategory"
 
 import { HStack, Input, Text } from "@chakra-ui/react"
 import { useStore } from "effector-react"
