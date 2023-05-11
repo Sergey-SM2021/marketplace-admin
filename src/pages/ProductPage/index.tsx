@@ -1,15 +1,15 @@
 import { type ProductResponseDTO } from "types"
 
+import { $product, getProductById } from "Entity/Product/model/model"
+
 import { Counter } from "pages/Product/components/Counter"
 import { FullMedia } from "pages/Product/components/FullMedia"
 import { Header } from "pages/Product/components/Header"
 import { Slider } from "pages/Product/components/Slider"
 
-import { $product, getProductById } from "Entity/Product/model/model"
-
-import { Button, Subtitle } from "ui"
-
 import {
+  Button,
+  Heading,
   Table,
   TableContainer,
   Tbody,
@@ -22,8 +22,6 @@ import {
 import { useStore } from "effector-react"
 import { type FC, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-
-interface IProduct {}
 
 const TH = chakra(Th, {
   baseStyle: {
@@ -106,7 +104,7 @@ export const ProductPage: FC<IProduct> = () => {
             </Table>
           </TableContainer>
           <div>
-            <Subtitle>Описание</Subtitle>
+            <Heading>Описание</Heading>
             <div>{product?.info}</div>
           </div>
         </div>

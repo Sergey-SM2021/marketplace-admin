@@ -1,7 +1,6 @@
-import { Button, Subtitle } from "ui"
-
+import { Button, Heading } from "@chakra-ui/react"
 import { type FC } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 interface IHeader {
   productName: string
@@ -16,7 +15,7 @@ export const Header: FC<IHeader> = ({ productName }) => {
     <div className="flex gap-4 items-end mb-4">
       <Button onClick={handlerBack}>back</Button>
       <div>
-        <Subtitle>{productName}</Subtitle>
+        <Heading>{productName}</Heading>
       </div>
     </div>
   )
