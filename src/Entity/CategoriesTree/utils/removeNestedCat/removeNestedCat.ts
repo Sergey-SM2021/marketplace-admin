@@ -1,4 +1,4 @@
-import { type Category } from "types"
+import { type Category } from "Shared/types"
 
 export const removeNestedCat = (where: Category, id: number): Category => {
   if ((where.childCategories != null) && (where.childCategories.length > 0)) {

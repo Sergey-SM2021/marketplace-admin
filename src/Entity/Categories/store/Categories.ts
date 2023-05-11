@@ -1,4 +1,4 @@
-import { type CategoryResponseDTO } from "types/models/CategoryResponseDTO"
+import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
 
 import * as api from "../api/Categories"
 

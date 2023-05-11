@@ -1,4 +1,4 @@
-import { type Feature } from "types"
+import { type Feature } from "Shared/types"
 
 import * as api from "../api/api"
 

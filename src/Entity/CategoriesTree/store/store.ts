@@ -2,8 +2,8 @@ import {
   type CategoryResponse,
   type Category,
   type CreateCategoryCommand,
-} from "types"
-import { type CategoryResponseDTO } from "types/models/CategoryResponseDTO"
+} from "Shared/types"
+import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
 
 import * as api from "../api"
 import { removeNestedCat } from "../utils"

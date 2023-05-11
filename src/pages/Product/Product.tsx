@@ -1,4 +1,4 @@
-import { type ProductResponseDTO } from "types"
+import { type ProductResponseDTO } from "Shared/types"
 
 import { Button, Subtitle } from "ui"
 

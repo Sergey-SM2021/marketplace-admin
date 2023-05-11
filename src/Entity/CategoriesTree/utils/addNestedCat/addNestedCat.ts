@@ -1,6 +1,6 @@
 // возвращает категорию у которой в category.childsCategories добавленна категория
 // рекурсивно, по id
-import { type Category } from "types"
+import { type Category } from "Shared/types"
 
 // addCategoryInChildCategoriesById
 export const addNestedCat = (where: Category, what: Category): Category => {

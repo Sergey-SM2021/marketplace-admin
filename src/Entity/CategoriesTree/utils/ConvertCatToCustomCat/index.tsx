@@ -1,4 +1,4 @@
-import { type Category } from "types"
+import { type Category } from "Shared/types"
 
 export const ConvertCatToCustomCat = (cat: Category): Category => {
   return {

@@ -1,4 +1,4 @@
-import { type CreateProductCommand } from "types"
+import { type CreateProductCommand } from "Shared/types"
 
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { ParamsListByCategoryId } from "Entity/Params/ui/ParamsByCategory/ParamsByCategory"

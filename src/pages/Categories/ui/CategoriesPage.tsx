@@ -1,4 +1,4 @@
-import { type Feature, type Category } from "types"
+import { type Feature, type Category } from "Shared/types"
 
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
 import { RenderCategory } from "Entity/CategoriesTree/utils"

@@ -1,4 +1,4 @@
-import { type ProductResponseDTO } from "types"
+import { type ProductResponseDTO } from "Shared/types"
 
 import { $product, getProductById } from "Entity/Product/model/model"
 

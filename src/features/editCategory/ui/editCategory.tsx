@@ -1,4 +1,4 @@
-import { type Category, type CreateCategoryCommand } from "types"
+import { type Category, type CreateCategoryCommand } from "Shared/types"
 
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { updateCategory, addCategory } from "Entity/CategoriesTree/store/store"

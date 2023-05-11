@@ -1,4 +1,4 @@
-import { type GetProductsResponse, type ProductResponseDTO } from "types"
+import { type GetProductsResponse, type ProductResponseDTO } from "Shared/types"
 
 import * as api from "../api/api"
 

@@ -1,7 +1,7 @@
 import {
   type CreateProductCommand,
   type GetProductsResponse,
-} from "types"
+} from "Shared/types"
 
 import axios from "axios"
 

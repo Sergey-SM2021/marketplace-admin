@@ -1,4 +1,4 @@
-import { type Category } from "types"
+import { type Category } from "Shared/types"
 
 export const appandCategoriesChild = (root: Category, child: Category) => {
   if (root.childCategories != null && root.id === child.parentCategoryId) {

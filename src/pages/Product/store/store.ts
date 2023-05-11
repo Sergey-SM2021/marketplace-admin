@@ -1,4 +1,4 @@
-import { Product, type ProductResponseDTO } from "types"
+import { Product, type ProductResponseDTO } from "Shared/types"
 
 import { createDomain } from "effector"
 import { api } from "../api"

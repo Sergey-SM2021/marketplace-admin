@@ -5,8 +5,8 @@ import {
   type CategoryResponseDTO,
   type CreateCategoryCommand,
   type EditCategoryCommand,
-} from "types"
-import { type CreateProductCommand } from "types/models/CreateProductCommand"
+} from "Shared/types"
+import { type CreateProductCommand } from "Shared/types/models/CreateProductCommand"
 
 import { ConvertCatToCustomCat } from "../utils/ConvertCatToCustomCat"
 

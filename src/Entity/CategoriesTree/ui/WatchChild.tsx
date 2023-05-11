@@ -1,4 +1,4 @@
-import { type Category } from "types"
+import { type Category } from "Shared/types"
 
 import { Button } from "ui"
 
