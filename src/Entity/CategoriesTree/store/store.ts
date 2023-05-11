@@ -35,6 +35,11 @@ export const updateCategory = categoriesDomain.createEffect<Category, Category>(
   api.editCategory
 )
 
+export const removeCategoryParam = categoriesDomain.createEffect<
+  number,
+  string
+>(api.removeCategoryParam)
+
 export const $categoriesTree = categoriesDomain
   .createStore<CategoryResponseTreeDTO[]>([])
   .on(getCategoriesTree.doneData, (state, payload) =>

@@ -1,3 +1,5 @@
+import { removeCategoryParam } from "../store/store"
+
 import {
   Flex,
   Td,
@@ -49,7 +51,7 @@ export const RenderCategory = (props: IRenderCategory) => {
   }
 
   const handlerRemoveParam = (id: number) => {
-    console.log(id)
+    removeCategoryParam(id)
   }
 
   return (
