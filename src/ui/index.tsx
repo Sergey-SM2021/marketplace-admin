@@ -1,6 +1,0 @@
-export { Title } from "./Title"
-export { Add } from "./Add"
-export { Modal } from "./Modal"
-export { Field } from "./Field"
-export { Table } from "./Table"
-export type { ITable } from "./Table"
