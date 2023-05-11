@@ -1,12 +1,11 @@
 import { type Feature, type Category } from "types"
 
-import { useCategoriesTree } from "Entity/Categories/hooks/useCategoriesTree"
-import { RenderCategory } from "Entity/Categories/utils"
+import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
+import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { useParams } from "Entity/Params/hooks/useParams"
 import { createParam } from "Entity/Params/store/params"
 
 import {
-  Badge,
   Box,
   Button,
   CloseButton,

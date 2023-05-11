@@ -1,8 +1,7 @@
 import { type CreateProductCommand } from "types"
 
+import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { ParamsListByCategoryId } from "Entity/Params/ui/ParamsByCategory/ParamsByCategory"
-
-import { useCategories } from "../../../hooks/hooks"
 
 import {
   HStack,

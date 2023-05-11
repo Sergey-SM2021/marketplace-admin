@@ -1,12 +1,14 @@
-import { $categories, getCategories } from "Entity/Categories/store/store"
+import { $categories, getCategories } from "../store/Categories"
 
 import { useStore } from "effector-react"
 import { useEffect } from "react"
 
 export const useCategories = () => {
+  const categories = useStore($categories)
+
   useEffect(() => {
     getCategories()
   }, [])
 
-  return useStore($categories)
+  return categories
 }

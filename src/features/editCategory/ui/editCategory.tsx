@@ -1,7 +1,9 @@
 import { type Category, type CreateCategoryCommand } from "types"
 
-import { updateCategory } from "Entity/Categories/api"
-import { addCategory } from "Entity/Categories/store/store"
+import { useCategories } from "Entity/Categories/hooks/useCategories"
+import { updateCategory, addCategory } from "Entity/CategoriesTree/store/store"
+import { $params } from "Entity/Params/store/params"
+import { getParamsByCategory } from "Entity/Params/store/paramsByCategory"
 
 import {
   Modal,
@@ -25,11 +27,8 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react"
 import { useStore } from "effector-react"
-import { useCategories } from "hooks/hooks"
 import { type FC, useEffect } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
-import { $params } from "Entity/Params/store/params"
-import { getParamsByCategory } from "Entity/Params/store/paramsByCategory"
 
 interface IForm extends Omit<CreateCategoryCommand, "features"> {
   features: Array<{ id: number; value: string }>
@@ -80,7 +79,7 @@ export const EditCategory: FC<ICategoryModal> = ({
 
   const onSubmit = (values: IForm) => {
     if (method === "POST") {
-    addCategory({ ...values, features: values.features.map(f => f.value) })
+      addCategory({ ...values, features: values.features.map(f => f.value) })
     } else {
       updateCategory({ ...values })
     }
