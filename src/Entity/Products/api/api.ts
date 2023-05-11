@@ -1,4 +1,7 @@
-import { type ProductResponseDTO, type CreateProductCommand } from "types"
+import {
+  type CreateProductCommand,
+  type GetProductsResponse,
+} from "types"
 
 import axios from "axios"
 
@@ -15,5 +18,24 @@ export const removeProduct = async (id: number) => {
 }
 
 export const getProducts = async () => {
-  return (await instance.get<ProductResponseDTO[]>("Shop/GetProducts")).data
+  return (
+    await instance.post<GetProductsResponse>(
+      "Shop/GetProducts?pageSize=10&pageIndex=1",
+      {
+        price: {
+          from: 0,
+          to: 10000000,
+        },
+        rating: {
+          from: 0,
+          to: 0,
+        },
+        count: {
+          from: 0,
+          to: 0,
+        },
+        categoryIds: [],
+      }
+    )
+  ).data
 }
