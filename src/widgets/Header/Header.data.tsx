@@ -1,7 +1,6 @@
+import { ReactComponent as Items } from "Shared/assets/items.svg"
+import { ReactComponent as Products } from "Shared/assets/products.svg"
 import { v4 } from "uuid"
-
-import { ReactComponent as Items } from "assets/items.svg"
-import { ReactComponent as Products } from "assets/products.svg"
 
 export const navLinks = [
   {

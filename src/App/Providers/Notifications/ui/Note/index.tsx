@@ -1,13 +1,14 @@
-import { type FC, memo, useEffect } from "react"
 import style from "./index.module.scss"
-import { ReactComponent as Accept } from "assets/accept.svg"
-import { ReactComponent as Cancel } from "assets/cancle.svg"
+
+import { ReactComponent as Accept } from "Shared/assets/accept.svg"
+import { ReactComponent as Cancel } from "Shared/assets/cancle.svg"
+import { type FC, memo, useEffect } from "react"
 
 export interface INotification {
   id: number
   text: string
-  onAccept: (id:number) => void
-  unMount: (id:number) => void
+  onAccept: (id: number) => void
+  unMount: (id: number) => void
 }
 
 export const Note: FC<INotification> = memo(

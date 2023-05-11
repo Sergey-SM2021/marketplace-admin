@@ -1,8 +1,8 @@
 import { navLinks } from "./Header.data"
 
 import { Box, Button, Flex, HStack, Spacer } from "@chakra-ui/react"
-import { ReactComponent as Shop } from "assets/goShop.svg"
-import { ReactComponent as Profile } from "assets/profile0.svg"
+import { ReactComponent as Shop } from "Shared/assets/goShop.svg"
+import { ReactComponent as Profile } from "Shared/assets/profile0.svg"
 import { memo } from "react"
 import { Link } from "react-router-dom"
 

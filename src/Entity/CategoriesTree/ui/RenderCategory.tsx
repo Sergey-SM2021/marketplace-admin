@@ -5,12 +5,11 @@ import {
   Td,
   chakra,
   Button,
-  Badge,
   Tag,
   TagLabel,
   TagCloseButton,
 } from "@chakra-ui/react"
-import { ReactComponent as Collapse } from "assets/collapse.svg"
+import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
 import { type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
 
