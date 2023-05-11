@@ -1,5 +1,3 @@
-import { type Category } from "Shared/types"
-
 import {
   Flex,
   Td,
@@ -10,6 +8,7 @@ import {
   TagCloseButton,
 } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
+import { type Category } from "Shared/types"
 import { type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
 
@@ -49,8 +48,8 @@ export const RenderCategory = (props: IRenderCategory) => {
     e.preventDefault()
   }
 
-  const handlerRemoveParam = () => {
-    
+  const handlerRemoveParam = (id: number) => {
+    console.log(id)
   }
 
   return (
@@ -110,7 +109,11 @@ export const RenderCategory = (props: IRenderCategory) => {
             {category.features?.map(f => (
               <Tag colorScheme="green" key={v4()}>
                 <TagLabel>{f.name}</TagLabel>
-                <TagCloseButton onClick={handlerRemoveParam}/>
+                <TagCloseButton
+                  onClick={() => {
+                    handlerRemoveParam(f.featureId as number)
+                  }}
+                />
               </Tag>
             ))}
           </Flex>

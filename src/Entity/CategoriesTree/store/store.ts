@@ -1,22 +1,21 @@
-import {
-  type CategoryResponse,
-  type Category,
-  type CreateCategoryCommand,
-} from "Shared/types"
-import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
-
 import * as api from "../api"
 import { removeNestedCat } from "../utils"
 import { addNestedCat } from "../utils/addNestedCat/addNestedCat"
 
+import {
+  type CategoryResponse,
+  type Category,
+  type CreateCategoryCommand,
+  CategoryResponseTreeDTO,
+} from "Shared/types"
+import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
 import { createDomain } from "effector"
 
 const categoriesDomain = createDomain()
 
-export const getCategoriesTree = categoriesDomain.createEffect<
-  void,
-  Category[]
->(api.getCategoriesTree)
+export const getCategoriesTree = categoriesDomain.createEffect(
+  api.getCategoriesTree
+)
 
 export const removeCategoryById = categoriesDomain.createEffect<number, string>(
   api.removeCategory
@@ -37,8 +36,8 @@ export const updateCategory = categoriesDomain.createEffect<Category, Category>(
 )
 
 export const $categoriesTree = categoriesDomain
-  .createStore<Category[]>([])
-  .on(getCategoriesTree.doneData, (_, payload) =>
+  .createStore<CategoryResponseTreeDTO[]>([])
+  .on(getCategoriesTree.doneData, (state, payload) =>
     payload.map(category => ({ ...category, isOpen: false }))
   )
   .on(removeCategoryById.done, (state, { params }) => {

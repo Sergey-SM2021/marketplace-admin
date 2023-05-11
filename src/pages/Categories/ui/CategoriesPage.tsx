@@ -1,5 +1,3 @@
-import { type Feature, type Category } from "Shared/types"
-
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
 import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { useParams } from "Entity/Params/hooks/useParams"
@@ -26,6 +24,7 @@ import {
   chakra,
   useDisclosure,
 } from "@chakra-ui/react"
+import { type Feature, type Category } from "Shared/types"
 import { EditCategory } from "features/editCategory/ui/editCategory"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC, type FormEvent } from "react"
@@ -126,7 +125,7 @@ const CategoriesPage: FC = () => {
                   onEdit={handlerEditCategory}
                   onRemove={handlerRemoveCategory}
                   deep={0}
-                  key={v4()}
+                  key={category.id}
                 />
               ))}
             </Tbody>

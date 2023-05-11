@@ -1,15 +1,14 @@
+import { ConvertCatToCustomCat } from "../utils/ConvertCatToCustomCat"
+
 import {
   type CategoryResponse,
   type CancelablePromise,
   type Category,
-  type CategoryResponseDTO,
   type CreateCategoryCommand,
   type EditCategoryCommand,
+  type CategoryResponseTreeDTO,
 } from "Shared/types"
 import { type CreateProductCommand } from "Shared/types/models/CreateProductCommand"
-
-import { ConvertCatToCustomCat } from "../utils/ConvertCatToCustomCat"
-
 import axios from "axios"
 
 const instance = axios.create({
@@ -17,12 +16,9 @@ const instance = axios.create({
 })
 
 export const getCategoriesTree = async () => {
-  const data = (
-    await instance.get<CancelablePromise<CategoryResponseDTO[]>>(
-      "Shop/GetCategoriesTree"
-    )
-  ).data
-  return (await data).map(cat => ConvertCatToCustomCat(cat))
+  return (
+    await instance.get<CategoryResponseTreeDTO[]>("Shop/GetCategoriesTree")
+  ).data.map(cat => ConvertCatToCustomCat(cat))
 }
 
 export const createCategory = async (payload: CreateCategoryCommand) => {
@@ -44,12 +40,15 @@ export const removeCategory = async (id: number) => {
 export const updateCategory = async (category: EditCategoryCommand) => {
   return (await instance.put(`AdminPanel/EditCategory`, category)).data
 }
+
 export const createProduct = async (payload: CreateProductCommand) => {
   return (await instance.post("AdminPanel/CreateProduct", payload)).data
 }
+
 export const getCategories = async () => {
   return (await instance.get("Shop/GetCategories")).data
 }
+
 export const editCategory = async (category: Category) => {
   return (await instance.put<Category>("AdminPanel/EditCategory", category))
     .data
