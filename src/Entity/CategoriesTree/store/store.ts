@@ -6,7 +6,7 @@ import {
   type CategoryResponse,
   type Category,
   type CreateCategoryCommand,
-  CategoryResponseTreeDTO,
+  type CategoryResponseTreeDTO,
 } from "Shared/types"
 import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
 import { createDomain } from "effector"
