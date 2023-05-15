@@ -14,7 +14,7 @@ export const getParams = async () => {
 
 export const createParam = async (name: string) =>
   (
-    await instance.post("AdminPanel/CreateCategoryFeatures", {
+    await instance.post("AdminPanel/CreateFeature", {
       name,
     })
   ).data
