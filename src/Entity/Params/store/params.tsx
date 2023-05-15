@@ -1,7 +1,6 @@
-import { type Feature } from "Shared/types"
-
 import * as api from "../api/api"
 
+import { type Feature } from "Shared/types"
 import { createDomain } from "effector"
 
 const params = createDomain()

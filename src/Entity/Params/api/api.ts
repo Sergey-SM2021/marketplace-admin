@@ -17,4 +17,4 @@ export const createParam = async (name: string) =>
     await instance.post("AdminPanel/CreateFeature", {
       name,
     })
-  ).data
+  ).data.feature
