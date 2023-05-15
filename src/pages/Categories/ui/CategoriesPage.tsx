@@ -1,4 +1,5 @@
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
+import { addCategory } from "Entity/CategoriesTree/store/store"
 import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
 
@@ -16,9 +17,11 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react"
 import { type Category } from "Shared/types"
+import { CategoryTamplate, IForm } from "Shared/ui/CategoryTamplate/index"
 import { EditCategory } from "features/editCategory/ui/editCategory"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
+import { useCategories } from "Entity/Categories/hooks/useCategories"
 
 const TH = chakra(Th, {
 	baseStyle: {
@@ -34,7 +37,8 @@ const CategoriesPage: FC = () => {
 	const edit = useDisclosure()
 	const remove = useDisclosure()
 
-	const categories = useCategoriesTree()
+	const categoriesTree = useCategoriesTree()
+	const categories = useCategories()
 
 	const [RemoveCategoryId, setRemoveCategoryId] = useState<null | number>(null)
 
@@ -50,6 +54,10 @@ const CategoriesPage: FC = () => {
 		edit.onOpen()
 	}
 
+	const handlerCreateCategory = ({ name, parentCategoryId }: IForm) => {
+		addCategory({ name, parentCategoryId, features:[] })
+	}
+
 	return (
 		<Flex flexDirection={"column"} flex={"1 1 auto"} p={3}>
 			<RemoveCategory
@@ -58,8 +66,9 @@ const CategoriesPage: FC = () => {
 				onClose={remove.onClose}
 			/>
 			{create.isOpen ? (
-				<EditCategory
-					method="POST"
+				<CategoryTamplate
+					categories={categories}
+					submitHandler={handlerCreateCategory}
 					title="Создать Категорию"
 					isOpen={create.isOpen}
 					onClose={create.onClose}
@@ -95,7 +104,7 @@ const CategoriesPage: FC = () => {
 							</Tr>
 						</Thead>
 						<Tbody>
-							{categories.map(category => (
+							{categoriesTree.map(category => (
 								<RenderCategory
 									category={category}
 									onEdit={handlerEditCategory}
