@@ -31,7 +31,7 @@ export const getCategories = categoriesDomain.createEffect<
   CategoryResponseDTO[]
 >(api.getCategories)
 
-export const updateCategory = categoriesDomain.createEffect<Category, Category>(
+export const updateCategory = categoriesDomain.createEffect(
 	api.editCategory
 )
 
@@ -67,8 +67,8 @@ export const $categoriesTree = categoriesDomain
 					rec(element)
 				})
 			}
-			return cat.id === result.id
-				? { ...result, isOpen: false, childCategories: result.childCategories }
+			return cat.id === result.category?.id
+				? { ...result.category, isOpen: false, childCategories: result.category?.childCategories }
 				: cat
 		}
 

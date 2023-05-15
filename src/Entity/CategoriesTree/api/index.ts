@@ -50,8 +50,8 @@ export const getCategories = async () => {
 	return (await instance.get("Shop/GetCategories")).data
 }
 
-export const editCategory = async (category: Category) => {
-	return (await instance.put<Category>("AdminPanel/EditCategory", category))
+export const editCategory = async (category: EditCategoryCommand) => {
+	return (await instance.put<CategoryResponse>("AdminPanel/EditCategory", category))
 		.data
 }
 

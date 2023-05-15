@@ -1,5 +1,6 @@
+import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
-import { addCategory } from "Entity/CategoriesTree/store/store"
+import { addCategory, updateCategory } from "Entity/CategoriesTree/store/store"
 import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
 
@@ -18,10 +19,8 @@ import {
 } from "@chakra-ui/react"
 import { type Category } from "Shared/types"
 import { CategoryTamplate, IForm } from "Shared/ui/CategoryTamplate/index"
-import { EditCategory } from "features/editCategory/ui/editCategory"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
-import { useCategories } from "Entity/Categories/hooks/useCategories"
 
 const TH = chakra(Th, {
 	baseStyle: {
@@ -34,7 +33,6 @@ const TH = chakra(Th, {
 
 const CategoriesPage: FC = () => {
 	const create = useDisclosure()
-	const edit = useDisclosure()
 	const remove = useDisclosure()
 
 	const categoriesTree = useCategoriesTree()
@@ -42,7 +40,7 @@ const CategoriesPage: FC = () => {
 
 	const [RemoveCategoryId, setRemoveCategoryId] = useState<null | number>(null)
 
-	const [editCategory, setEditCategory] = useState<null | Category>(null)
+	const [category, setCategory] = useState<undefined | Category>()
 
 	const handlerRemoveCategory = (id: number) => {
 		setRemoveCategoryId(id)
@@ -50,12 +48,19 @@ const CategoriesPage: FC = () => {
 	}
 
 	const handlerEditCategory = (category: Category) => {
-		setEditCategory(category)
-		edit.onOpen()
+		setCategory(category)
+		create.onOpen()
 	}
 
 	const handlerCreateCategory = ({ name, parentCategoryId }: IForm) => {
-		addCategory({ name, parentCategoryId, features:[] })
+		category
+			? updateCategory({ name, parentCategoryId, categoryId: category.id })
+			: addCategory({ name, parentCategoryId, features: [] })
+	}
+
+	const handlerCloseModal = () => {
+		setCategory(undefined)
+		create.onClose()
 	}
 
 	return (
@@ -71,16 +76,8 @@ const CategoriesPage: FC = () => {
 					submitHandler={handlerCreateCategory}
 					title="Создать Категорию"
 					isOpen={create.isOpen}
-					onClose={create.onClose}
-				/>
-			) : null}
-			{edit.isOpen ? (
-				<EditCategory
-					method="PUT"
-					category={editCategory}
-					title="Редактировать категорию"
-					isOpen={edit.isOpen}
-					onClose={edit.onClose}
+					onClose={handlerCloseModal}
+					category={category}
 				/>
 			) : null}
 			<Box>
