@@ -12,5 +12,5 @@ export const getProductById = productDomain.createEffect<
 >(api.getProductById)
 
 export const $product = productDomain
-  .createStore<ProductResponseDTO | null>(null)
-  .on(getProductById.doneData, (state, payload) => payload)
+	.createStore<ProductResponseDTO | null>(null)
+	.on(getProductById.doneData, (state, payload) => payload)

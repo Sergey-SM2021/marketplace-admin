@@ -4,11 +4,11 @@ import { useStore } from "effector-react"
 import { useEffect } from "react"
 
 export const useCategoriesTree = () => {
-  const categories = useStore($categoriesTree)
+	const categories = useStore($categoriesTree)
   
-  useEffect(() => {
-    getCategoriesTree()
-  }, [])
+	useEffect(() => {
+		getCategoriesTree()
+	}, [])
 
-  return categories
+	return categories
 }

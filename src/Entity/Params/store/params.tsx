@@ -12,8 +12,11 @@ export const createParam = params.createEffect(api.createParam)
 export const filterParams = params.createEvent<Feature>()
 
 export const $params = params
-  .createStore<Feature[]>([])
-  .on(filterParams, (state, payload) =>
-    state.filter(el => el.id !== payload.id)
-  )
-  .on(getParams.doneData, (state, payload) => payload)
+	.createStore<Feature[]>([])
+	.on(filterParams, (state, payload) =>
+		state.filter(el => el.id !== payload.id)
+	)
+	.on(getParams.doneData, (state, payload) => payload)
+	.on(createParam.doneData, (state, payload) =>
+		payload ? [...state, payload] : state
+	)

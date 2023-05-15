@@ -6,12 +6,12 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { Suspense } from "react"
 
 export const App = () => {
-  return (
-    <ChakraProvider>
-      <Suspense>
-        <RoutesProvider />
-      </Suspense>
-      <Notifications />
-    </ChakraProvider>
-  )
+	return (
+		<ChakraProvider>
+			<Suspense>
+				<RoutesProvider />
+			</Suspense>
+			<Notifications />
+		</ChakraProvider>
+	)
 }

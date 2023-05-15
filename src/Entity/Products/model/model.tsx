@@ -14,11 +14,11 @@ export const getProducts = productDomain.createEffect<
 >(api.getProducts)
 
 export const $products = productDomain
-  .createStore<ProductResponseDTO[]>([])
-  .on(
-    getProducts.doneData,
-    (state, payload) => payload.products as ProductResponseDTO[]
-  )
-  .on(removeProduct.done, (state, { params, result }) =>
-    state.filter(el => el.id !== params)
-  )
+	.createStore<ProductResponseDTO[]>([])
+	.on(
+		getProducts.doneData,
+		(state, payload) => payload.products as ProductResponseDTO[]
+	)
+	.on(removeProduct.done, (state, { params, result }) =>
+		state.filter(el => el.id !== params)
+	)

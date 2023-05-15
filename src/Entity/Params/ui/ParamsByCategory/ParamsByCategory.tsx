@@ -11,27 +11,27 @@ interface IParamsListByCategoryId {
 }
 
 export const ParamsListByCategoryId = ({
-  categoryId,
-  featureValue,
+	categoryId,
+	featureValue,
 }: IParamsListByCategoryId) => {
-  const params = useStore($params)
+	const params = useStore($params)
 
-  useEffect(() => {
-    getParamsByCategory(categoryId)
-  }, [categoryId])
+	useEffect(() => {
+		getParamsByCategory(categoryId)
+	}, [categoryId])
 
-  const handlerChange = (e: FormEvent<HTMLInputElement>) => {
-    featureValue.current = { ...featureValue.current, 3: "lsdkcdm" }
-  }
+	const handlerChange = (e: FormEvent<HTMLInputElement>) => {
+		featureValue.current = { ...featureValue.current, 3: "lsdkcdm" }
+	}
 
-  return (
-    <>
-      {params.map(param => (
-        <HStack key={param.id}>
-          <Text>{param.name}</Text>
-          <Input value={featureValue[3]} onChange={handlerChange} />
-        </HStack>
-      ))}
-    </>
-  )
+	return (
+		<>
+			{params.map(param => (
+				<HStack key={param.id}>
+					<Text>{param.name}</Text>
+					<Input value={featureValue[3]} onChange={handlerChange} />
+				</HStack>
+			))}
+		</>
+	)
 }

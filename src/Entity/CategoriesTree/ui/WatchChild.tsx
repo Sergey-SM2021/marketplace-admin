@@ -10,22 +10,24 @@ interface IWatchChild {
   action: () => void
 }
 
-export const WatchChild: FC<IWatchChild> = memo(({ categories, action, index }) => {
-  const [value, setValue] = useState(false)
+export const WatchChild = memo(({ categories, action, index }: IWatchChild) => {
+	const [value, setValue] = useState(false)
 
-  if (!categories?.length) {
-    return null
-  }
+	if (!categories?.length) {
+		return null
+	}
 
-  const onClick = (e: SyntheticEvent) => {
-    setValue(prev => !prev)
-    e.stopPropagation()
-    action()
-  }
+	const onClick = (e: SyntheticEvent) => {
+		setValue(prev => !prev)
+		e.stopPropagation()
+		action()
+	}
 
-  return (
-    <Button onClick={onClick} isDangerous={value} disabled={value}>
+	return (
+		<Button onClick={onClick} isDangerous={value} disabled={value}>
       whatch children
-    </Button>
-  )
+		</Button>
+	)
 })
+
+WatchChild.displayName = "WatchChild"

@@ -2,7 +2,7 @@ import style from "./index.module.scss"
 
 import { ReactComponent as Accept } from "Shared/assets/accept.svg"
 import { ReactComponent as Cancel } from "Shared/assets/cancle.svg"
-import { type FC, memo, useEffect } from "react"
+import { memo, useEffect } from "react"
 
 export interface INotification {
   id: number
@@ -11,33 +11,33 @@ export interface INotification {
   unMount: (id: number) => void
 }
 
-export const Note: FC<INotification> = memo(
-  ({ id, onAccept, text, unMount }) => {
-    useEffect(() => {
-      setTimeout(() => {
-        unMount(id)
-      }, 3600)
-    }, [])
+export const Note = memo(({ id, onAccept, text, unMount }: INotification) => {
+	useEffect(() => {
+		setTimeout(() => {
+			unMount(id)
+		}, 3600)
+	}, [])
 
-    const handlerAccept = () => {
-      onAccept(id)
-      unMount(id)
-    }
+	const handlerAccept = () => {
+		onAccept(id)
+		unMount(id)
+	}
 
-    const handlerClose = () => {
-      unMount(id)
-    }
+	const handlerClose = () => {
+		unMount(id)
+	}
 
-    return (
-      <div className={style.note}>
-        {text}
-        <div className={style.note__accept} onClick={handlerAccept}>
-          <Accept className={style.note__icon} />
-        </div>
-        <div className={style.note__cancel} onClick={handlerClose}>
-          <Cancel className={style.note__icon} />
-        </div>
-      </div>
-    )
-  }
-)
+	return (
+		<div className={style.note}>
+			{text}
+			<div className={style.note__accept} onClick={handlerAccept}>
+				<Accept className={style.note__icon} />
+			</div>
+			<div className={style.note__cancel} onClick={handlerClose}>
+				<Cancel className={style.note__icon} />
+			</div>
+		</div>
+	)
+})
+
+Note.displayName = "Note"

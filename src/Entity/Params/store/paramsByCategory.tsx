@@ -7,12 +7,12 @@ import { createDomain } from "effector"
 const ParamsByCategory = createDomain()
 
 export const getParamsByCategory = ParamsByCategory.createEffect(
-  api.getParamsByCategory
+	api.getParamsByCategory
 )
 
 export const $paramsByCategory = ParamsByCategory.createStore<Feature[]>([]).on(
-  getParamsByCategory.doneData,
-  (state, payload) => {
-    return payload
-  }
+	getParamsByCategory.doneData,
+	(state, payload) => {
+		return payload
+	}
 )

@@ -7,28 +7,30 @@ import { memo } from "react"
 import { Link } from "react-router-dom"
 
 export const Header = memo(() => {
-  return (
-    <Box p={3} background={"facebook.900"}>
-      <Flex>
-        <HStack>
-          <Link to="/admin/profile">
-            <Profile className="fill-white" />
-          </Link>
-          <Link to="/">
-            <Shop className="fill-white" />
-          </Link>
-        </HStack>
-        <Spacer />
-        <HStack className="flex gap-4">
-          {navLinks.map(item => (
-            <Link to={item.link} key={item.id}>
-              <Button leftIcon={item.icon} colorScheme="purple">
-                {item.text}
-              </Button>
-            </Link>
-          ))}
-        </HStack>
-      </Flex>
-    </Box>
-  )
+	return (
+		<Box p={3} background={"facebook.900"}>
+			<Flex>
+				<HStack>
+					<Link to="/admin/profile">
+						<Profile className="fill-white" />
+					</Link>
+					<Link to="/">
+						<Shop className="fill-white" />
+					</Link>
+				</HStack>
+				<Spacer />
+				<HStack className="flex gap-4">
+					{navLinks.map(item => (
+						<Link to={item.link} key={item.id}>
+							<Button leftIcon={item.icon} colorScheme="purple">
+								{item.text}
+							</Button>
+						</Link>
+					))}
+				</HStack>
+			</Flex>
+		</Box>
+	)
 })
+
+Header.displayName = "Header"

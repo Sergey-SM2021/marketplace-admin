@@ -12,5 +12,5 @@ export const getCategories = categoriesDomain.createEffect<
 >(api.getCategories)
 
 export const $categories = categoriesDomain
-  .createStore<CategoryResponseDTO[]>([])
-  .on(getCategories.doneData, (_, payload) => payload)
+	.createStore<CategoryResponseDTO[]>([])
+	.on(getCategories.doneData, (_, payload) => payload)

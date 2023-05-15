@@ -11,11 +11,11 @@ export const addNotification =
 export const removeNotification = notificationsDomain.createEvent<number>()
 
 export const $notifications = notificationsDomain
-  .createStore<TNotification[]>([])
-  .on(addNotification, (state, payload: Omit<TNotification, "id">) => [
-    ...state,
-    { ...payload, id: Math.random() },
-  ])
-  .on(removeNotification, (state, payload) =>
-    state.filter(note => note.id !== payload)
-  )
+	.createStore<TNotification[]>([])
+	.on(addNotification, (state, payload: Omit<TNotification, "id">) => [
+		...state,
+		{ ...payload, id: Math.random() },
+	])
+	.on(removeNotification, (state, payload) =>
+		state.filter(note => note.id !== payload)
+	)
