@@ -3,7 +3,6 @@ import { ConvertCatToCustomCat } from "../utils/ConvertCatToCustomCat"
 import {
 	type CategoryResponse,
 	type CancelablePromise,
-	type Category,
 	type CreateCategoryCommand,
 	type EditCategoryCommand,
 	type CategoryResponseTreeDTO,

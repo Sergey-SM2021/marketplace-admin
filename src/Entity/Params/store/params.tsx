@@ -9,6 +9,8 @@ export const getParams = params.createEffect(api.getParams)
 
 export const createParam = params.createEffect(api.createParam)
 
+export const removeParam = params.createEffect(api.removeParam)
+
 export const filterParams = params.createEvent<Feature>()
 
 export const $params = params
@@ -20,3 +22,5 @@ export const $params = params
 	.on(createParam.doneData, (state, payload) =>
 		payload ? [...state, payload] : state
 	)
+	.on(removeParam.done, (state, {params,result}) => [...state.filter(el => el.id !== params)])
+	

@@ -18,3 +18,6 @@ export const createParam = async (name: string) =>
 			name,
 		})
 	).data.feature
+
+export const removeParam = async (id: number) =>
+	(await instance.delete<string>(`AdminPanel/DeleteFeature/${id}`)).data

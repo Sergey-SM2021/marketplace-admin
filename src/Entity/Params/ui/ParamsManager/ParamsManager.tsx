@@ -1,4 +1,5 @@
 import { useParams } from "Entity/Params/hooks/useParams"
+import { createParam, removeParam } from "Entity/Params/store/params"
 
 import {
 	Box,
@@ -14,7 +15,6 @@ import {
 } from "@chakra-ui/react"
 import { type Feature } from "Shared/types"
 import { type FormEvent, useState } from "react"
-import { createParam } from "Entity/Params/store/params"
 
 export const ParamsManager = () => {
 	const [currentParam, setCurrentParam] = useState<Feature | undefined>()
@@ -27,14 +27,23 @@ export const ParamsManager = () => {
 		setParamName(e.currentTarget.value)
 	}
 
-	const handlerCreateParam = () => {
-		createParam(paramName)
+	const handlerCreateParam = async () => {
+		await createParam(paramName)
+		setParamName("")
+	}
+
+	const handlerClear = () => {
+		setParamName("")
+	}
+
+	const handlerRemoveParam = (id:number) => {
+		removeParam(id)
 	}
 
 	return (
 		<VStack bg={"white"} mt={"1em"} mb={"1em"} p={3} borderRadius={5}>
 			<HStack>
-				<CloseButton />
+				<CloseButton onClick={handlerClear}/>
 				<Input value={paramName} onChange={filterFeatures} />
 				<Button onClick={handlerCreateParam}>add</Button>
 			</HStack>
@@ -52,7 +61,7 @@ export const ParamsManager = () => {
 								setCurrentParam(p)
 							}}>
 							<TagLabel>{p.name}</TagLabel>
-							<TagCloseButton />
+							<TagCloseButton onClick={() => handlerRemoveParam(p.id as number)}/>
 						</Tag>
 					</Box>
 				))}
