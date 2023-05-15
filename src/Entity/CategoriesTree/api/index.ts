@@ -12,7 +12,7 @@ import { type CreateProductCommand } from "Shared/types/models/CreateProductComm
 import axios from "axios"
 
 const instance = axios.create({
-  baseURL: "http://jenya123-001-site1.dtempurl.com/",
+  baseURL: "http://shopyshopy-001-site1.atempurl.com/",
 })
 
 export const getCategoriesTree = async () => {

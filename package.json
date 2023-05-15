@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@codemirror)/'",
     "eject": "react-scripts eject",
-    "types": "openapi --input http://jenya123-001-site1.dtempurl.com/swagger/v1/swagger.json --output src/types"
+    "types": "openapi --input http://shopyshopy-001-site1.atempurl.com/swagger/v1/swagger.json --output src/types"
   },
   "eslintConfig": {
     "extends": [
