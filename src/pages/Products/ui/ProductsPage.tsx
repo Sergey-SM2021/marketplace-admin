@@ -1,4 +1,3 @@
-import { ProductTamplate } from "Entity/Product/ui/ProductTamplate/ui/ProductTamplate"
 import { useProducts } from "Entity/Products/hooks/useProducts"
 
 import {
@@ -16,6 +15,7 @@ import {
 	useDisclosure,
 	chakra,
 } from "@chakra-ui/react"
+import { CreateProduct } from "features/createProduct"
 import { EditProduct } from "features/editProduct/ui/editProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, type MouseEvent } from "react"
@@ -32,8 +32,6 @@ const ProductsPage = () => {
 		nav(-1)
 	}
 
-	const create = useDisclosure()
-
 	const remove = useDisclosure()
 
 	const edit = useDisclosure()
@@ -44,11 +42,6 @@ const ProductsPage = () => {
 		e.stopPropagation()
 		SetProductIdToRemove(id)
 		remove.onOpen()
-	}
-
-	const handlerEdit = (e: MouseEvent<HTMLButtonElement>) => {
-		e.stopPropagation()
-		create.onOpen()
 	}
 
 	const TH = chakra(Th, {
@@ -73,15 +66,6 @@ const ProductsPage = () => {
 		nav(`/product/${id}`)
 	}
 
-	const handlerClose = () => {
-		create.onClose()
-	}
-
-	const handlerSubmit = () => {
-		alert("submit")
-	}
-
-
 	return (
 		<>
 			<RemoveProduct
@@ -89,16 +73,11 @@ const ProductsPage = () => {
 				productId={productIdToRemove as number}
 				onClose={remove.onClose}
 			/>
-			<ProductTamplate
-				isOpen={create.isOpen}
-				onClose={handlerClose}
-				onSubmit={handlerSubmit}
-			/>
 			<EditProduct onClose={edit.onClose} isOpen={edit.isOpen} />
 			<Box p={3}>
 				<HStack>
 					<Button onClick={handlerBackClick}>Назад</Button>
-					<Button onClick={create.onOpen}>Создать новый продукт</Button>
+					<CreateProduct />					
 				</HStack>
 				{!isLoading ? (
 					<TableContainer>
@@ -134,7 +113,7 @@ const ProductsPage = () => {
 											</Button>
 										</TD>
 										<TD>
-											<Button onClick={handlerEdit}>Edit</Button>
+											<Button>Edit</Button>
 										</TD>
 									</Tr>
 								))}

@@ -1,5 +1,4 @@
 import { type ProductResponseDTO } from "Shared/types"
-
 import axios from "axios"
 
 const instance = axios.create({
@@ -7,6 +6,7 @@ const instance = axios.create({
 })
 
 export const getProductById = async (id: number) => {
-	return (await instance.get<ProductResponseDTO>(`Shop/GetProductById?Id=${id}`))
-		.data
+	return (
+		await instance.get<ProductResponseDTO>(`Shop/GetProductById?Id=${id}`)
+	).data
 }

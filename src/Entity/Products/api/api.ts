@@ -2,7 +2,6 @@ import {
 	type CreateProductCommand,
 	type GetProductsResponse,
 } from "Shared/types"
-
 import axios from "axios"
 
 const instance = axios.create({
@@ -10,7 +9,9 @@ const instance = axios.create({
 })
 
 export const createProduct = async (product: CreateProductCommand) => {
-	return (await instance.post("AdminPanel/CreateProduct", product)).data
+	return (
+		await instance.post("AdminPanel/CreateProduct", product)
+	).data
 }
 
 export const removeProduct = async (id: number) => {

@@ -4,10 +4,12 @@ import { getParamsByCategory } from "../store/paramsByCategory"
 import { useStore } from "effector-react"
 import { useEffect } from "react"
 
-export const useParamsByCategory = (params: number) => {
+export const useParamsByCategory = (params?: number) => {
 	useEffect(() => {
-		getParamsByCategory(params)
-	}, [])
+		if (params) {
+			getParamsByCategory(params)
+		}
+	}, [params])
 
-	return useStore($params)
+	return params ? useStore($params) : []
 }
