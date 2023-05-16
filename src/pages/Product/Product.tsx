@@ -1,4 +1,3 @@
-import { AttributesTable } from "./ui/AttributesTable"
 import { Counter } from "./ui/Counter"
 import { FullMedia } from "./ui/FullMedia"
 import { Header } from "./ui/Header"
@@ -52,7 +51,7 @@ export const Product = () => {
 							<Button>Remove</Button>
 						</div>
 					</div>
-					<AttributesTable
+					{/* <AttributesTable
 						BodyTableRowClickHandler={handlerRowClick}
 						BodyTableRows={
 							product?.features?.map(el => ({
@@ -65,7 +64,7 @@ export const Product = () => {
 							})) != null || []
 						}
 						HeaderTableRow={["", "key", "value"]}
-					/>
+					/> */}
 					<div>
 						<Heading>Описание</Heading>
 						<div>{product?.info}</div>

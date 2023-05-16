@@ -47,13 +47,12 @@ export const EditCategory: FC<ICategoryModal> = ({
 	title,
 	isOpen,
 	method,
-	category,
 }) => {
 	const params = useStore($params)
 
 	const categories = useCategories()
 
-	const { register, control, handleSubmit, watch, getValues, setValue } =useForm<IForm>({defaultValues: {name: category?.name,features: category?.features?.map(el => ({id: el.id,value: el.name,})),parentCategoryId: category?.parentCategoryId,},})
+	const { register, control, handleSubmit, watch, getValues, setValue } =useForm<IForm>()
 
 	const parentCategoryIdWatcher = watch("parentCategoryId")
 
