@@ -1,4 +1,4 @@
-import { CreateProductCommand } from "types"
+import { CreateProductCommand } from "Shared/types"
 
 export interface ICreateNewItem {
   isOpen: boolean

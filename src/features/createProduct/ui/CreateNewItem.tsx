@@ -8,5 +8,5 @@ interface ICreateProduct {
 }
 
 export const CreateProduct: FC<ICreateProduct> = ({ onClose, isOpen }) => {
-	return <Modal action="create" isOpen={isOpen} onClose={onClose} />
+	return <Modal isOpen={isOpen} onClose={onClose} />
 }

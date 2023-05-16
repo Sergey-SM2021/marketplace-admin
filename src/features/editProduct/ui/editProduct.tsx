@@ -8,5 +8,5 @@ interface ICreateNewItem {
 }
 
 export const EditProduct: FC<ICreateNewItem> = ({ onClose, isOpen }) => {
-	return <Modal action="edit" isOpen={isOpen} onClose={onClose} />
+	return <Modal isOpen={isOpen} onClose={onClose} />
 }

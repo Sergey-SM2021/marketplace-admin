@@ -1,4 +1,4 @@
-import { type FeaturesResponse } from "types"
+import { type FeaturesResponse } from "Shared/types"
 
 import axios from "axios"
 

@@ -74,7 +74,7 @@ const ProductsPage = () => {
 	}
 
 	const handlerClose = () => {
-		alert("alert")
+		create.onClose()
 	}
 
 	const handlerSubmit = () => {
@@ -89,7 +89,7 @@ const ProductsPage = () => {
 				onClose={remove.onClose}
 			/>
 			<ProductTamplate
-				isOpen={true}
+				isOpen={create.isOpen}
 				onClose={handlerClose}
 				onSubmit={handlerSubmit}
 			/>

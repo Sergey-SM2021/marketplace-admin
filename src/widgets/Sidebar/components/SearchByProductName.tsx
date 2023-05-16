@@ -1,10 +1,10 @@
-import { Search, Subtitle } from "ui"
+import { Heading, Input } from "@chakra-ui/react"
 
 export const FilterByRegularName = () => {
 	return (
 		<div>
-			<Subtitle>Find by name</Subtitle>
-			<Search />
+			<Heading>Find by name</Heading>
+			<Input />
 		</div>
 	)
 }

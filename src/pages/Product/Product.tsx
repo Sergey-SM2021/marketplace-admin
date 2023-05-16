@@ -1,8 +1,8 @@
-import { AttributesTable } from "./components/AttributesTable"
-import { Counter } from "./components/Counter"
-import { FullMedia } from "./components/FullMedia"
-import { Header } from "./components/Header"
-import { Slider } from "./components/Slider"
+import { AttributesTable } from "./ui/AttributesTable"
+import { Counter } from "./ui/Counter"
+import { FullMedia } from "./ui/FullMedia"
+import { Header } from "./ui/Header"
+import { Slider } from "./ui/Slider"
 import { $productStore, getProductById } from "./store/store"
 
 import { Button, Heading } from "@chakra-ui/react"
