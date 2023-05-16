@@ -17,7 +17,6 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.42.1",
     "react-router-dom": "^6.7.0",
-    "react-scripts": "5.0.1",
     "sass": "^1.57.1",
     "swiper": "^9.0.5",
     "uuid": "^9.0.0",
@@ -27,10 +26,7 @@
     "web-vitals": "^3.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@codemirror)/'",
-    "eject": "react-scripts eject",
+    "start": "vite",
     "types": "openapi --input http://shopyshopy-001-site1.atempurl.com/swagger/v1/swagger.json --output src/Shared/types",
     "lint": "eslint --fix ./src/*"
   },
@@ -53,15 +49,15 @@
     ]
   },
   "devDependencies": {
+    "@hookform/devtools": "^4.3.0",
     "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "@hookform/devtools": "^4.3.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
