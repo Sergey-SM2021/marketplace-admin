@@ -1,10 +1,10 @@
-import { Range, Subtitle } from "ui"
+import { Heading, Slider } from "@chakra-ui/react"
 
 export const FilterByPrice = () => {
 	return (
 		<div>
-			<Subtitle>Price</Subtitle>
-			<Range />
+			<Heading>Price</Heading>
+			<Slider />
 		</div>
 	)
 }

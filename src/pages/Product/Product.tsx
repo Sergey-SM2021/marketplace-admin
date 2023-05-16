@@ -27,6 +27,12 @@ export const Product = () => {
 	const handlerUnScaleing = () => {
 		setIsOpen(false)
 	}
+	const handlerRowClick = () => {
+		alert("handlerRowClick")
+	}
+	const addMediaHandler = () => {
+		alert("handlerRowClick")
+	}
 	if (!id) {
 		return null
 	}
@@ -36,7 +42,7 @@ export const Product = () => {
 			<div className="w-full min-h-full p-4">
 				<Header productName={product?.name ?? "name"} />
 				<div className="bg-white rounded p-4 grid grid-cols-3 gap-4">
-					<Slider onAddMedia={() => {}} onScaleing={handlerScaleing} />
+					<Slider onAddMedia={addMediaHandler} onScaleing={handlerScaleing} />
 					<div>
 						<div>price: {product?.price}</div>
 						<div>id: {product?.id}</div>
@@ -47,7 +53,7 @@ export const Product = () => {
 						</div>
 					</div>
 					<AttributesTable
-						BodyTableRowClickHandler={() => {}}
+						BodyTableRowClickHandler={handlerRowClick}
 						BodyTableRows={
 							product?.features?.map(el => ({
 								cols: [

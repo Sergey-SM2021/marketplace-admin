@@ -73,6 +73,14 @@ const ProductsPage = () => {
 		nav(`/product/${id}`)
 	}
 
+	const handlerClose = () => {
+		alert("alert")
+	}
+
+	const handlerSubmit = () => {
+		alert("submit")
+	}
+
 	return (
 		<>
 			<RemoveProduct
@@ -80,7 +88,11 @@ const ProductsPage = () => {
 				productId={productIdToRemove as number}
 				onClose={remove.onClose}
 			/>
-			<ProductTamplate isOpen={true} onClose={() => {}} onSubmit={() => {}} />
+			<ProductTamplate
+				isOpen={true}
+				onClose={handlerClose}
+				onSubmit={handlerSubmit}
+			/>
 			<EditProduct onClose={edit.onClose} isOpen={edit.isOpen} />
 			<Box p={3}>
 				<HStack>

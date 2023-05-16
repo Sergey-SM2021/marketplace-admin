@@ -33,7 +33,7 @@ import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 export const ProductTamplate: FC<ICreateNewItem> = ({ onClose, isOpen, onSubmit }) => {
 	const categories = useCategories()
 
-	const {value, increment, decrement} = useCounter()
+	const {value} = useCounter()
 
 	const { control, handleSubmit, register, watch } =
     useForm<CreateProductCommand>()

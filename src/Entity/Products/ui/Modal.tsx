@@ -1,5 +1,3 @@
-import { type CreateProductCommand } from "Shared/types"
-
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { ParamsListByCategoryId } from "Entity/Params/ui/ParamsByCategory/ParamsByCategory"
 
@@ -24,13 +22,13 @@ import {
 	Select,
 } from "@chakra-ui/react"
 import { DevTool } from "@hookform/devtools"
+import { type CreateProductCommand } from "Shared/types"
 import { type FC, useRef } from "react"
 import { useForm } from "react-hook-form"
 
 interface ICreateNewItem {
   isOpen: boolean
   onClose: () => void
-  action: "create" | "edit"
 }
 
 export interface SubmitedValue
@@ -38,7 +36,7 @@ export interface SubmitedValue
   featureValue: any
 }
 
-export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen, action }) => {
+export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen }) => {
 	const categories = useCategories()
 
 	const { control, handleSubmit, register, watch } =
@@ -48,7 +46,7 @@ export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen, action }) => {
 
 	const featureValue = useRef(null)
 
-	const onSubmit = (value: SubmitedValue) => {
+	const onSubmit = (value: CreateProductCommand) => {
 		// product.model.createProduct({
 		//   ...value,
 		//   count: Number(value.count),
@@ -56,7 +54,7 @@ export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen, action }) => {
 		//   price: Number(value.categoryId),
 		// })
 		// #TODO: if action === "create" ? post : put
-		console.log(featureValue)
+		console.log(value)
 	}
 
 	return (

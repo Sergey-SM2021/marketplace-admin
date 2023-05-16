@@ -53,17 +53,7 @@ export const EditCategory: FC<ICategoryModal> = ({
 
 	const categories = useCategories()
 
-	const { register, control, handleSubmit, watch, getValues, setValue } =
-    useForm<IForm>({
-    	defaultValues: {
-    		name: category?.name,
-    		features: category?.features?.map(el => ({
-    			id: el.id,
-    			value: el.name,
-    		})),
-    		parentCategoryId: category?.parentCategoryId,
-    	},
-    })
+	const { register, control, handleSubmit, watch, getValues, setValue } =useForm<IForm>({defaultValues: {name: category?.name,features: category?.features?.map(el => ({id: el.id,value: el.name,})),parentCategoryId: category?.parentCategoryId,},})
 
 	const parentCategoryIdWatcher = watch("parentCategoryId")
 
@@ -117,7 +107,7 @@ export const EditCategory: FC<ICategoryModal> = ({
 									<Select {...register("parentCategoryId")}>
 										<option value={undefined}></option>
 										{categories.map(cat => (
-											<option value={cat.id}>{cat.name}</option>
+											<option key={cat.id} value={cat.id}>{cat.name}</option>
 										))}
 									</Select>
 									<FormErrorMessage>not valid field</FormErrorMessage>

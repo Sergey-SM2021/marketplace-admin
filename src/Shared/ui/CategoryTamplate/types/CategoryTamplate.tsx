@@ -1,4 +1,4 @@
-import { Category } from "types"
+import { Category } from "Shared/types"
 
 export interface IForm {
   name: string

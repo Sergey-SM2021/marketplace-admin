@@ -17,7 +17,7 @@ const media = [
 	"https://static.batnorton.com/image/42231-627ba80dafaab0.64946494/1462x2048-1_2542632289.jpg",
 ]
 
-export const Slider: FC<ISlider> = ({ onScaleing, onAddMedia }) => {
+export const Slider: FC<ISlider> = () => {
 	const [swiper, setSwiper] = useState<SwiperType>()
 
 	const navigation = {

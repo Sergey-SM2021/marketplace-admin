@@ -22,4 +22,5 @@ module.exports = {
 		quotes: ["error", "double"],
 		semi: ["error", "never"],
 	},
+	ignorePatterns: ["node_modules","src/Shared/types/*"]
 }

@@ -13,7 +13,6 @@ import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
 import { type Category } from "Shared/types"
 import { type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
-import { updateCategory } from "../store/store"
 
 interface IRenderCategory {
   category: Category
@@ -115,7 +114,7 @@ export const RenderCategory = (props: IRenderCategory) => {
 								<TagLabel>{f.name}</TagLabel>
 								<TagCloseButton
 									onClick={() => {
-										handlerRemoveParam(f.featureId as number)
+										handlerRemoveParam(f.id as number)
 									}}
 								/>
 							</Tag>
@@ -126,7 +125,7 @@ export const RenderCategory = (props: IRenderCategory) => {
 					<Button
 						colorScheme="facebook"
 						onClick={() => {
-							onRemove(id)
+							onRemove(id as number)
 						}}>
             remove
 					</Button>

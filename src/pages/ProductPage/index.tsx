@@ -1,5 +1,3 @@
-import { type ProductResponseDTO } from "Shared/types"
-
 import { $product, getProductById } from "Entity/Product/model/model"
 
 import { Counter } from "pages/Product/components/Counter"
@@ -19,8 +17,9 @@ import {
 	Tr,
 	chakra,
 } from "@chakra-ui/react"
+import { type ProductResponseDTO } from "Shared/types"
 import { useStore } from "effector-react"
-import { type FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 const TH = chakra(Th, {
@@ -66,7 +65,9 @@ export const ProductPage = () => {
 		return null
 	}
 
-	const handlerAddMedia = () => {}
+	const handlerAddMedia = () => {
+		alert("hi")
+	}
 
 	return (
 		<>
@@ -80,8 +81,8 @@ export const ProductPage = () => {
 						<div>id: {product?.id}</div>
 						<Counter />
 						<div className="grid gap-4 grid-cols-2">
-							<Button isDangerous={true}>Edit</Button>
-							<Button isDangerous={true}>Remove</Button>
+							<Button>Edit</Button>
+							<Button>Remove</Button>
 						</div>
 					</div>
 					<TableContainer>
