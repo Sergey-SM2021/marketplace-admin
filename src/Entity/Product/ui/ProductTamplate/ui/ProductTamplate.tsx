@@ -26,14 +26,18 @@ import {
 } from "@chakra-ui/react"
 import { DevTool } from "@hookform/devtools"
 import { type CreateProductCommand } from "Shared/types"
+import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 import { type FC, useRef } from "react"
 import { useForm } from "react-hook-form"
-import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 
-export const ProductTamplate: FC<ICreateNewItem> = ({ onClose, isOpen, onSubmit }) => {
+export const ProductTamplate: FC<ICreateNewItem> = ({
+	onClose,
+	isOpen,
+	onSubmit,
+}) => {
 	const categories = useCategories()
 
-	const {value} = useCounter()
+	const { value } = useCounter()
 
 	const { control, handleSubmit, register, watch } =
     useForm<CreateProductCommand>()
@@ -70,7 +74,6 @@ export const ProductTamplate: FC<ICreateNewItem> = ({ onClose, isOpen, onSubmit 
 										<Spacer />
 										<Input width="auto" {...register("name")} />
 										<Spacer />
-										<Button colorScheme="teal">edit</Button>
 									</Flex>
 									<Flex align={"center"} gap={2}>
 										<Text>Категория</Text>
@@ -83,14 +86,12 @@ export const ProductTamplate: FC<ICreateNewItem> = ({ onClose, isOpen, onSubmit 
 											))}
 										</Select>
 										<Spacer />
-										<Button colorScheme="teal">edit</Button>
 									</Flex>
 									<Flex align={"center"}>
 										<Text>Цена</Text>
 										<Spacer />
 										<Input width="auto" {...register("price")} />
 										<Spacer />
-										<Button colorScheme="teal">edit</Button>
 									</Flex>
                   useCategories
 									<Flex gap={2} align={"center"}>
@@ -98,14 +99,15 @@ export const ProductTamplate: FC<ICreateNewItem> = ({ onClose, isOpen, onSubmit 
 										<Spacer />
 										<Textarea {...register("info")} />
 										<Spacer />
-										<Button colorScheme="teal">edit</Button>
 									</Flex>
 								</Stack>
 							</Flex>
 						</ModalBody>
 						<ModalFooter>
 							<HStack>
-								<Button colorScheme={"red"}>Отмена</Button>
+								<Button colorScheme={"red"} onClick={onClose}>
+                  Отмена
+								</Button>
 								<Button colorScheme={"blue"} type={"submit"}>
                   Сохранить
 								</Button>

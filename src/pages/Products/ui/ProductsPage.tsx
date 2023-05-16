@@ -38,7 +38,7 @@ const ProductsPage = () => {
 
 	const edit = useDisclosure()
 
-	const products = useProducts()
+	const { products, isLoading } = useProducts()
 
 	const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
 		e.stopPropagation()
@@ -81,6 +81,7 @@ const ProductsPage = () => {
 		alert("submit")
 	}
 
+
 	return (
 		<>
 			<RemoveProduct
@@ -99,46 +100,50 @@ const ProductsPage = () => {
 					<Button onClick={handlerBackClick}>Назад</Button>
 					<Button onClick={create.onOpen}>Создать новый продукт</Button>
 				</HStack>
-				<TableContainer>
-					<Table
-						variant="simple"
-						style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
-						<Thead>
-							<Tr>
-								{["id", "name", "price"].map(el => (
-									<TH key={el}>{el}</TH>
-								))}
-								<TH colSpan={2}>
-									<Flex justify={"center"}>action</Flex>
-								</TH>
-							</Tr>
-						</Thead>
-						<Tbody>
-							{products.map(product => (
-								<Tr
-									key={product.id}
-									onClick={() => {
-										handlerProductClick(product.id as number)
-									}}>
-									{[product.id, product.name, product.price].map(el => (
-										<TD key={el}>{el}</TD>
+				{!isLoading ? (
+					<TableContainer>
+						<Table
+							variant="simple"
+							style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
+							<Thead>
+								<Tr>
+									{["id", "name", "price"].map(el => (
+										<TH key={el}>{el}</TH>
 									))}
-									<TD>
-										<Button
-											onClick={e => {
-												handlerRemove(e, product.id as number)
-											}}>
-                      Delete
-										</Button>
-									</TD>
-									<TD>
-										<Button onClick={handlerEdit}>Edit</Button>
-									</TD>
+									<TH colSpan={2}>
+										<Flex justify={"center"}>action</Flex>
+									</TH>
 								</Tr>
-							))}
-						</Tbody>
-					</Table>
-				</TableContainer>
+							</Thead>
+							<Tbody>
+								{products.map(product => (
+									<Tr
+										key={product.id}
+										onClick={() => {
+											handlerProductClick(product.id as number)
+										}}>
+										{[product.id, product.name, product.price].map(el => (
+											<TD key={el}>{el}</TD>
+										))}
+										<TD>
+											<Button
+												onClick={e => {
+													handlerRemove(e, product.id as number)
+												}}>
+                        Delete
+											</Button>
+										</TD>
+										<TD>
+											<Button onClick={handlerEdit}>Edit</Button>
+										</TD>
+									</Tr>
+								))}
+							</Tbody>
+						</Table>
+					</TableContainer>
+				) : (
+					<div>прелоадер</div>
+				)}
 			</Box>
 		</>
 	)

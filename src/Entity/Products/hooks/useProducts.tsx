@@ -1,13 +1,15 @@
+import { $products, getProducts } from "../model/model"
+
 import { useStore } from "effector-react"
 import { useEffect } from "react"
-import { $products, getProducts } from "../model/model"
 
 export const useProducts = () => {
 	const products = useStore($products)
+	const isLoading = useStore(getProducts.pending)
 
 	useEffect(() => {
 		getProducts()
 	}, [])
 
-	return products
+	return { products, isLoading }
 }
