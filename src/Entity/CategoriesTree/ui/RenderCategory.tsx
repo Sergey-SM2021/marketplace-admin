@@ -13,6 +13,7 @@ import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
 import { type Category } from "Shared/types"
 import { type SyntheticEvent, useState } from "react"
 import { v4 } from "uuid"
+import { updateCategory } from "../store/store"
 
 interface IRenderCategory {
   category: Category
@@ -48,6 +49,7 @@ export const RenderCategory = (props: IRenderCategory) => {
 
 	const onDrop = (e: SyntheticEvent<HTMLTableRowElement>) => {
 		e.preventDefault()
+		// updateCategory({})
 	}
 
 	const handlerRemoveParam = (id: number) => {

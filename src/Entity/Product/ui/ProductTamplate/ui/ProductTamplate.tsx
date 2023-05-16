@@ -1,8 +1,7 @@
-import { type CreateProductCommand } from "Shared/types"
-
+import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { ParamsListByCategoryId } from "Entity/Params/ui/ParamsByCategory/ParamsByCategory"
 
-import { useCategories } from "../../../hooks/hooks"
+import { ICreateNewItem } from "../type/ProductTamplate"
 
 import {
 	HStack,
@@ -23,42 +22,25 @@ import {
 	Input,
 	Textarea,
 	Select,
+	useCounter,
 } from "@chakra-ui/react"
 import { DevTool } from "@hookform/devtools"
+import { type CreateProductCommand } from "Shared/types"
 import { type FC, useRef } from "react"
 import { useForm } from "react-hook-form"
+import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 
-interface ICreateNewItem {
-  isOpen: boolean
-  onClose: () => void
-  action: "create" | "edit"
-}
-
-export interface SubmitedValue
-  extends Omit<Record<keyof CreateProductCommand, string>, "featureValue"> {
-  featureValue: any
-}
-
-export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen, action }) => {
+export const ProductTamplate: FC<ICreateNewItem> = ({ onClose, isOpen, onSubmit }) => {
 	const categories = useCategories()
 
+	const {value, increment, decrement} = useCounter()
+
 	const { control, handleSubmit, register, watch } =
-    useForm<CreateProductCommand>({ defaultValues: { count: 1 } })
+    useForm<CreateProductCommand>()
 
 	const categoryId = watch("categoryId")
 
 	const featureValue = useRef(null)
-
-	const onSubmit = (value: SubmitedValue) => {
-		// product.model.createProduct({
-		//   ...value,
-		//   count: Number(value.count),
-		//   categoryId: Number(value.categoryId),
-		//   price: Number(value.categoryId),
-		// })
-		// #TODO: if action === "create" ? post : put
-		console.log(featureValue)
-	}
 
 	return (
 		<ChakraModal isOpen={isOpen} onClose={onClose} size={"5xl"}>
@@ -79,12 +61,7 @@ export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen, action }) => {
 										categoryId={categoryId ?? 51}
 									/>
 									<Spacer />
-									<HStack>
-										<Text>Количество</Text>
-										<Input width="auto" htmlSize={2} {...register("count")} />
-										<Button colorScheme={"red"}>+</Button>
-										<Button colorScheme={"blue"}>-</Button>
-									</HStack>
+									<Counter count={value} />
 								</Stack>
 								<Spacer />
 								<Stack>
@@ -115,6 +92,7 @@ export const Modal: FC<ICreateNewItem> = ({ onClose, isOpen, action }) => {
 										<Spacer />
 										<Button colorScheme="teal">edit</Button>
 									</Flex>
+                  useCategories
 									<Flex gap={2} align={"center"}>
 										<Text>Описание</Text>
 										<Spacer />

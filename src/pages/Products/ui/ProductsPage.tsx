@@ -1,3 +1,4 @@
+import { ProductTamplate } from "Entity/Product/ui/ProductTamplate/ui/ProductTamplate"
 import { useProducts } from "Entity/Products/hooks/useProducts"
 
 import {
@@ -15,7 +16,6 @@ import {
 	useDisclosure,
 	chakra,
 } from "@chakra-ui/react"
-import { CreateProduct } from "features/createProduct/ui/CreateNewItem"
 import { EditProduct } from "features/editProduct/ui/editProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, type MouseEvent } from "react"
@@ -80,7 +80,7 @@ const ProductsPage = () => {
 				productId={productIdToRemove as number}
 				onClose={remove.onClose}
 			/>
-			<CreateProduct onClose={create.onClose} isOpen={create.isOpen} />
+			<ProductTamplate isOpen={true} onClose={() => {}} onSubmit={() => {}} />
 			<EditProduct onClose={edit.onClose} isOpen={edit.isOpen} />
 			<Box p={3}>
 				<HStack>

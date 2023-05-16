@@ -28,22 +28,24 @@ export const ParamsManager = () => {
 	}
 
 	const handlerCreateParam = async () => {
-		await createParam(paramName)
-		setParamName("")
+		if (paramName.length) {
+			await createParam(paramName)
+			setParamName("")
+		}
 	}
 
 	const handlerClear = () => {
 		setParamName("")
 	}
 
-	const handlerRemoveParam = (id:number) => {
+	const handlerRemoveParam = (id: number) => {
 		removeParam(id)
 	}
 
 	return (
 		<VStack bg={"white"} mt={"1em"} mb={"1em"} p={3} borderRadius={5}>
 			<HStack>
-				<CloseButton onClick={handlerClear}/>
+				{paramName.length ? <CloseButton onClick={handlerClear} /> : null}
 				<Input value={paramName} onChange={filterFeatures} />
 				<Button onClick={handlerCreateParam}>add</Button>
 			</HStack>
@@ -61,7 +63,9 @@ export const ParamsManager = () => {
 								setCurrentParam(p)
 							}}>
 							<TagLabel>{p.name}</TagLabel>
-							<TagCloseButton onClick={() => handlerRemoveParam(p.id as number)}/>
+							<TagCloseButton
+								onClick={() => handlerRemoveParam(p.id as number)}
+							/>
 						</Tag>
 					</Box>
 				))}
