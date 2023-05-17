@@ -16,7 +16,6 @@ import {
 	chakra,
 } from "@chakra-ui/react"
 import { CreateProduct } from "features/createProduct"
-import { EditProduct } from "features/editProduct/ui/editProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, type MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
@@ -73,7 +72,6 @@ const ProductsPage = () => {
 				productId={productIdToRemove as number}
 				onClose={remove.onClose}
 			/>
-			<EditProduct onClose={edit.onClose} isOpen={edit.isOpen} />
 			<Box p={3}>
 				<HStack>
 					<Button onClick={handlerBackClick}>Назад</Button>
