@@ -25,4 +25,4 @@ export const $products = productDomain
 	.on(removeProduct.done, (state, { params }) =>
 		state.filter(el => el.id !== params)
 	)
-	.on(createProduct.doneData, (state, payload) => [...state, payload])
+	.on(createProduct.doneData, (state, payload) => [...state, payload.product])

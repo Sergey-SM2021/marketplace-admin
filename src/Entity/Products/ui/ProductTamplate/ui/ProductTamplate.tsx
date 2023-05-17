@@ -57,6 +57,11 @@ export const ProductTamplate = memo(
 			setValue("count", count)
 		}, [count])
 
+		const handlerSubmit = (values: Required<CreateProductCommand>) => {
+			onSubmit(values)
+			onClose()
+		}
+
 		return (
 			<ChakraModal isOpen={isOpen} onClose={onClose} size={"5xl"}>
 				<ModalOverlay />
@@ -65,7 +70,7 @@ export const ProductTamplate = memo(
 						<ModalCloseButton onClick={onClose} />
 						<Heading>Создать продукт</Heading>
 					</ModalHeader>
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<form onSubmit={handleSubmit(handlerSubmit)}>
 						<FormControl>
 							<ModalBody>
 								<Flex>
