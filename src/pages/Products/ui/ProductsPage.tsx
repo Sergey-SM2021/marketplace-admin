@@ -33,8 +33,6 @@ const ProductsPage = () => {
 
 	const remove = useDisclosure()
 
-	const edit = useDisclosure()
-
 	const { products, isLoading } = useProducts()
 
 	const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
@@ -65,8 +63,11 @@ const ProductsPage = () => {
 		nav(`/product/${id}`)
 	}
 
+	const {isOpen, onClose, onOpen} = useDisclosure()
+
 	return (
 		<>
+			<CreateProduct isOpen={isOpen} onClose={onClose}/>
 			<RemoveProduct
 				isOpen={remove.isOpen}
 				productId={productIdToRemove as number}
@@ -75,7 +76,7 @@ const ProductsPage = () => {
 			<Box p={3}>
 				<HStack>
 					<Button onClick={handlerBackClick}>Назад</Button>
-					<CreateProduct />					
+					<Button onClick={onOpen}>Создать продукт</Button>				
 				</HStack>
 				{!isLoading ? (
 					<TableContainer>
