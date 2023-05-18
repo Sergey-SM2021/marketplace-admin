@@ -19,6 +19,7 @@ import { CreateProduct } from "features/createProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, type MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
+import { createProduct } from "Entity/Products/model/model"
 
 const ProductsPage = () => {
 	const [productIdToRemove, SetProductIdToRemove] = useState<number | null>(
@@ -63,11 +64,16 @@ const ProductsPage = () => {
 		nav(`/product/${id}`)
 	}
 
-	const {isOpen, onClose, onOpen} = useDisclosure()
+	const { isOpen, onClose, onOpen } = useDisclosure()
 
 	return (
 		<>
-			<CreateProduct isOpen={isOpen} onClose={onClose}/>
+			<CreateProduct
+				action="создать"
+				isOpen={isOpen}
+				onClose={onClose}
+				onSubmit={data => {createProduct(data)}}
+			/>
 			<RemoveProduct
 				isOpen={remove.isOpen}
 				productId={productIdToRemove as number}
@@ -76,7 +82,7 @@ const ProductsPage = () => {
 			<Box p={3}>
 				<HStack>
 					<Button onClick={handlerBackClick}>Назад</Button>
-					<Button onClick={onOpen}>Создать продукт</Button>				
+					<Button onClick={onOpen}>Создать продукт</Button>
 				</HStack>
 				{!isLoading ? (
 					<TableContainer>

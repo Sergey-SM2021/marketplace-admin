@@ -3,11 +3,7 @@ import {
 	$paramsByCategory,
 	getParamsByCategory,
 } from "Entity/Params/store/paramsByCategory"
-import { createProduct } from "Entity/Products/model/model"
-import {
-	paramsWithValueType,
-	SubmitedValue,
-} from "Entity/Products/ui/ProductTamplate/type/ProductTamplate"
+import { paramsWithValueType } from "Entity/Products/ui/ProductTamplate/type/ProductTamplate"
 
 import { Flex, Spacer } from "@chakra-ui/react"
 import {
@@ -33,24 +29,23 @@ import { CreateProductCommand } from "Shared/types"
 import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 import { useCounter } from "Shared/utils/useCounter"
 import { useStore } from "effector-react"
-import { useEffect, memo, useState } from "react"
+import { useEffect, memo, useState, FormEvent } from "react"
 import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
 
 interface CreateProductProps {
-  onSubmit?: () => void
-  title?: string
-  buttontText?: string
+  onSubmit: (value: CreateProductCommand) => void
+  action: string
   isOpen: boolean
   onClose: () => void
 }
 
+type CreateProductFormType = Required<CreateProductCommand>
+
 export const CreateProduct = memo(
-	({ buttontText, onSubmit, title, isOpen, onClose }: CreateProductProps) => {
+	({ onSubmit, isOpen, onClose, action }: CreateProductProps) => {
 		const categories = useCategories()
-		const params = useStore($paramsByCategory)
 		const { handleSubmit, register, watch, setValue } =
-      useForm<Required<CreateProductCommand>>()
+      useForm<CreateProductFormType>()
 
 		const categoryId = watch("categoryId")
 
@@ -60,20 +55,17 @@ export const CreateProduct = memo(
 			}
 		}, [categoryId])
 
-		const handlerSubmit = (value: SubmitedValue) => {
-			createProduct({ ...value, featureValue: [{ id: 9, value: "jk" }] })
-			onClose()
-		}
-
 		const { increment, count, decrement } = useCounter()
+
+		const params = useStore($paramsByCategory)
 
 		const [paramsWithValue, setParamsWithValue] = useState<
       Array<paramsWithValueType>
-    >(params.map(p => ({ id: p.id, name: p.name, value: "" })))
+    >(params.map(p => ({ id: p.id, name: p.name as string, value: "" })))
 
 		useEffect(() => {
 			setParamsWithValue(
-				params.map(p => ({ id: p.id, name: p.name, value: "" }))
+				params.map(p => ({ id: p.id, name: p.name as string, value: "" }))
 			)
 		}, [params])
 
@@ -81,92 +73,113 @@ export const CreateProduct = memo(
 			setValue("count", count)
 		}, [count])
 
-		const [productIdToRemove, SetProductIdToRemove] = useState<number | null>(
-			null
-		)
+		const handlerSubmit = (value: CreateProductFormType) => {
+			onSubmit({
+				...value,
+				featureValue: paramsWithValue.map(({ id, value }) => ({ id, value })),
+			})
+			onClose()
+		}
 
-		const nav = useNavigate()
+		const handlerChangeParamField = (
+			paramId: number,
+			e: FormEvent<HTMLInputElement>
+		) => {
+			const index = paramsWithValue.findIndex(el => el.id === paramId)
+			setParamsWithValue(prev =>
+				prev.map((el, i) =>
+					i === index ? { ...el, value: e.target.value } : el
+				)
+			)
+		}
 
-
-		return (<ChakraModal isOpen={isOpen} onClose={onClose} size={"5xl"}>
-			<ModalOverlay />
-			<ModalContent>
-				<ModalHeader>
-					<ModalCloseButton onClick={onClose} />
-					<Heading>Создать продукт</Heading>
-				</ModalHeader>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FormControl>
-						<ModalBody>
-							<Flex>
-								<Stack>
-									<Text>Параметры</Text>
-									<VStack>
-										{paramsWithValue.map(param => (
-											<Flex key={param.id} align="center" gap={3}>
-												<Text>{param.name}</Text>
-												<Input />
-											</Flex>
-										))}
-									</VStack>
-									<Spacer />
-									<Counter
-										count={count}
-										onDecrement={decrement}
-										onIncrement={increment}
-									/>
-								</Stack>
-								<Spacer />
-								<Stack>
-									<Flex align={"center"} gap={2}>
-										<Text>Наименование</Text>
-										<Spacer />
-										<Input width="auto" {...register("name")} />
-										<Spacer />
-									</Flex>
-									<Flex align={"center"} gap={2}>
-										<Text>Категория</Text>
-										<Spacer />
-										<Select {...register("categoryId")}>
-											{categories.map(category => (
-												<option key={category.id} value={category.id}>
-													{category.name}
-												</option>
+		return (
+			<ChakraModal isOpen={isOpen} onClose={onClose} size={"5xl"}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>
+						<ModalCloseButton onClick={onClose} />
+						<Heading>{action} продукт</Heading>
+					</ModalHeader>
+					<form onSubmit={handleSubmit(handlerSubmit)}>
+						<FormControl>
+							<ModalBody>
+								<Flex>
+									<Stack>
+										<Text>Параметры</Text>
+										<VStack>
+											{paramsWithValue.map(param => (
+												<Flex key={param.id} align="center" gap={3}>
+													<Text>{param.name}</Text>
+													<Input
+														value={
+															paramsWithValue.find(el => el.id === param.id)
+																?.value
+														}
+														onChange={e => {
+															handlerChangeParamField(param.id, e)
+														}}
+													/>
+												</Flex>
 											))}
-										</Select>
+										</VStack>
 										<Spacer />
-									</Flex>
-									<Flex align={"center"}>
-										<Text>Цена</Text>
-										<Spacer />
-										<Input width="auto" {...register("price")} />
-										<Spacer />
-									</Flex>
-                    useCategories
-									<Flex gap={2} align={"center"}>
-										<Text>Описание</Text>
-										<Spacer />
-										<Textarea {...register("info")} />
-										<Spacer />
-									</Flex>
-								</Stack>
-							</Flex>
-						</ModalBody>
-						<ModalFooter>
-							<HStack>
-								<Button colorScheme={"red"} onClick={onClose}>
+										<Counter
+											count={count}
+											onDecrement={decrement}
+											onIncrement={increment}
+										/>
+									</Stack>
+									<Spacer />
+									<Stack>
+										<Flex align={"center"} gap={2}>
+											<Text>Наименование</Text>
+											<Spacer />
+											<Input width="auto" {...register("name")} />
+											<Spacer />
+										</Flex>
+										<Flex align={"center"} gap={2}>
+											<Text>Категория</Text>
+											<Spacer />
+											<Select {...register("categoryId")}>
+												{categories.map(category => (
+													<option key={category.id} value={category.id}>
+														{category.name}
+													</option>
+												))}
+											</Select>
+											<Spacer />
+										</Flex>
+										<Flex align={"center"}>
+											<Text>Цена</Text>
+											<Spacer />
+											<Input width="auto" {...register("price")} />
+											<Spacer />
+										</Flex>
+										<Flex gap={2} align={"center"}>
+											<Text>Описание</Text>
+											<Spacer />
+											<Textarea {...register("info")} />
+											<Spacer />
+										</Flex>
+									</Stack>
+								</Flex>
+							</ModalBody>
+							<ModalFooter>
+								<HStack>
+									<Button colorScheme={"red"} onClick={onClose}>
                     Отмена
-								</Button>
-								<Button colorScheme={"blue"} type={"submit"}>
-                    Создать
-								</Button>
-							</HStack>
-						</ModalFooter>
-					</FormControl>
-				</form>
-			</ModalContent>
+									</Button>
+									<Button colorScheme={"blue"} type={"submit"}>
+										{action} продукт
+									</Button>
+								</HStack>
+							</ModalFooter>
+						</FormControl>
+					</form>
+				</ModalContent>
         CreateNewItem
-		</ChakraModal>
+			</ChakraModal>
 		)
 	}
 )

@@ -14,11 +14,11 @@ export interface ICreateNewItem {
 }
 
 export interface SubmitedValue extends Omit<Required<CreateProductCommand>, "featureValue"> {
-  featureValue: paramsWithValueType
+  featureValue: paramsWithValueType[]
 }
 
 export interface paramsWithValueType {
-  name: string | null
+  name: string
   id: number
   value: string
 }
