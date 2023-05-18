@@ -1,6 +1,6 @@
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
-import { addCategory, updateCategory } from "Entity/CategoriesTree/store/store"
+import { addCategory, getCategoriesTree, updateCategory } from "Entity/CategoriesTree/store/store"
 import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
 
@@ -8,12 +8,14 @@ import {
 	Box,
 	Button,
 	Flex,
+	Skeleton,
 	Table,
 	TableContainer,
 	Tbody,
 	Th,
 	Thead,
 	Tr,
+	VStack,
 	chakra,
 	useDisclosure,
 } from "@chakra-ui/react"
@@ -21,6 +23,8 @@ import { type Category } from "Shared/types"
 import { CategoryTamplate, IForm } from "Shared/ui/CategoryTamplate/index"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
+import { useStore } from "effector-react"
+import { v4 } from "uuid"
 
 const TH = chakra(Th, {
 	baseStyle: {
@@ -37,6 +41,7 @@ const CategoriesPage: FC = () => {
 
 	const categoriesTree = useCategoriesTree()
 	const categories = useCategories()
+	const isLoading = useStore(getCategoriesTree.pending)
 
 	const [RemoveCategoryId, setRemoveCategoryId] = useState<null | number>(null)
 
@@ -86,33 +91,44 @@ const CategoriesPage: FC = () => {
 				</Button>
 			</Box>
 			<Flex gap={3} flexGrow={"1"}>
-				<TableContainer flexGrow={1}>
-					<Table
-						variant="unstyled"
-						style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
-						<Thead>
-							<Tr borderRadius={3}>
-								{["", "id", "наименование", "парметры"].map(el => (
-									<TH key={el}>{el}</TH>
+				{!isLoading ? (
+					<TableContainer flexGrow={1}>
+						<Table
+							variant="unstyled"
+							style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
+							<Thead>
+								<Tr borderRadius={3}>
+									{["", "id", "наименование", "парметры"].map(el => (
+										<TH key={el}>{el}</TH>
+									))}
+									<TH colSpan={2}>
+										<Flex justify={"center"}>action</Flex>
+									</TH>
+								</Tr>
+							</Thead>
+							<Tbody>
+								{categoriesTree.map(category => (
+									<RenderCategory
+										category={category}
+										onEdit={handlerEditCategory}
+										onRemove={handlerRemoveCategory}
+										deep={0}
+										key={category.id}
+									/>
 								))}
-								<TH colSpan={2}>
-									<Flex justify={"center"}>action</Flex>
-								</TH>
-							</Tr>
-						</Thead>
-						<Tbody>
-							{categoriesTree.map(category => (
-								<RenderCategory
-									category={category}
-									onEdit={handlerEditCategory}
-									onRemove={handlerRemoveCategory}
-									deep={0}
-									key={category.id}
-								/>
-							))}
-						</Tbody>
-					</Table>
-				</TableContainer>
+							</Tbody>
+						</Table>
+					</TableContainer>
+				) : (
+					<VStack gap={5} mt={3} flexGrow={1}>
+						<Skeleton w={"full"}>Header</Skeleton>
+						{new Array(10).fill("").map(el => (
+							<Skeleton key={v4()} w={"full"} h={39}>
+                Row
+							</Skeleton>
+						))}
+					</VStack>
+				)}
 				<ParamsManager />
 			</Flex>
 		</Flex>

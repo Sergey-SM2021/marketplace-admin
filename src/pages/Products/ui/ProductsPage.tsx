@@ -15,12 +15,15 @@ import {
 	Box,
 	useDisclosure,
 	chakra,
+	Skeleton,
+	VStack,
 } from "@chakra-ui/react"
 import { EditProductCommand, Product } from "Shared/types"
 import { CreateProduct } from "features/createProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, type MouseEvent, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { v4 } from "uuid"
 
 const TH = chakra(Th, {
 	baseStyle: {
@@ -164,7 +167,10 @@ const ProductsPage = () => {
 						</Table>
 					</TableContainer>
 				) : (
-					<div>прелоадер</div>
+					<VStack gap={5} mt={3}>
+						<Skeleton w={"full"}>Header</Skeleton>
+						{new Array(10).fill("").map(el => <Skeleton key={v4()} w={"full"} h={39}>Row</Skeleton>)}
+					</VStack>
 				)}
 			</Box>
 		</>
