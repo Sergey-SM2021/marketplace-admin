@@ -1,5 +1,5 @@
 import { useProducts } from "Entity/Products/hooks/useProducts"
-import { createProduct } from "Entity/Products/model/model"
+import { createProduct, updateProduct } from "Entity/Products/model/model"
 
 import {
 	Button,
@@ -16,7 +16,7 @@ import {
 	useDisclosure,
 	chakra,
 } from "@chakra-ui/react"
-import { Product } from "Shared/types"
+import { EditProductCommand, Product } from "Shared/types"
 import { CreateProduct } from "features/createProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, type MouseEvent, useEffect } from "react"
@@ -67,35 +67,49 @@ const ProductsPage = () => {
 		nav(`/product/${id}`)
 	}
 
-	const { isOpen, onClose, onOpen } = useDisclosure()
+	const create = useDisclosure()
 
 	const edit = useDisclosure()
 
 	const handlerEdit = (e: MouseEvent, product: Product) => {
 		e.stopPropagation()
 		setEditProduct(product)
-		edit.onOpen()
+	}
+
+	useEffect(() => {
+		if (editProduct) {
+			edit.onOpen()
+		}
+	}, [editProduct])
+
+	const onEdit = (product: EditProductCommand) => {
+		updateProduct({ ...product, productId: product.productId })
 	}
 
 	return (
 		<>
-			<CreateProduct
-				action="создать"
-				isOpen={isOpen}
-				onClose={onClose}
-				onSubmit={data => {
-					createProduct(data)
-				}}
-			/>
-			<CreateProduct
-				action="Изменить"
-				isOpen={edit.isOpen}
-				onClose={edit.onClose}
-				onSubmit={data => {
-					alert(JSON.stringify(data))
-				}}
-				product={editProduct}
-			/>
+			{create.isOpen ? (
+				<CreateProduct
+					action="создать"
+					isOpen={create.isOpen}
+					onClose={create.onClose}
+					onSubmit={data => {
+						createProduct(data)
+					}}
+				/>
+			) : null}
+			{edit.isOpen ? (
+				<CreateProduct
+					action="Изменить"
+					isOpen={edit.isOpen}
+					onClose={() => {
+						edit.onClose()
+						setEditProduct()
+					}}
+					onSubmit={onEdit}
+					product={editProduct}
+				/>
+			) : null}
 			<RemoveProduct
 				isOpen={remove.isOpen}
 				productId={productIdToRemove as number}
@@ -104,7 +118,7 @@ const ProductsPage = () => {
 			<Box p={3}>
 				<HStack>
 					<Button onClick={handlerBackClick}>Назад</Button>
-					<Button onClick={onOpen}>Создать продукт</Button>
+					<Button onClick={create.onOpen}>Создать продукт</Button>
 				</HStack>
 				{!isLoading ? (
 					<TableContainer>

@@ -11,6 +11,7 @@ const productDomain = createDomain()
 
 export const createProduct = productDomain.createEffect(api.createProduct)
 export const removeProduct = productDomain.createEffect(api.removeProduct)
+export const updateProduct = productDomain.createEffect(api.updateProduct)
 export const getProducts = productDomain.createEffect<
   void,
   GetProductsResponse
@@ -25,4 +26,7 @@ export const $products = productDomain
 	.on(removeProduct.done, (state, { params }) =>
 		state.filter(el => el.id !== params)
 	)
+	// .on(updateProduct.done, (state, payload) =>
+	// 	[...state.]
+	// )
 	.on(createProduct.doneData, (state, payload) => [...state, payload.product])

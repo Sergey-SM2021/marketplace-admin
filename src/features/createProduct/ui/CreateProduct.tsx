@@ -25,19 +25,24 @@ import {
 	Select,
 	VStack,
 } from "@chakra-ui/react"
-import { CreateProductCommand, Product } from "Shared/types"
+import { DevTool } from "@hookform/devtools"
+import {
+	CreateProductCommand,
+	EditProductCommand,
+	ProductResponseDTO,
+} from "Shared/types"
 import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 import { useCounter } from "Shared/utils/useCounter"
 import { useStore } from "effector-react"
 import { useEffect, memo, useState, FormEvent } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 interface CreateProductProps {
-  onSubmit: (value: CreateProductCommand) => void
+  onSubmit: (value: CreateProductCommand | EditProductCommand) => void
   action: string
   isOpen: boolean
   onClose: () => void
-  product?: Product
+  product?: ProductResponseDTO
 }
 
 type CreateProductFormType = Required<CreateProductCommand>
@@ -45,20 +50,19 @@ type CreateProductFormType = Required<CreateProductCommand>
 export const CreateProduct = memo(
 	({ onSubmit, isOpen, onClose, action, product }: CreateProductProps) => {
 		// form'a типа props для submit'a
-		const { handleSubmit, register, watch, setValue, reset} =
+		const { handleSubmit, register, watch, setValue, control } =
       useForm<CreateProductFormType>({
       	defaultValues: {
-      		name: product?.name
+      		categoryId: product?.categoryId,
+      		// featureValue,
+      		info: product?.info ?? "",
+      		name: product?.name ?? "",
+      		price: product?.price ?? 0,
       	},
       })
 
-	  useEffect(()=>{
-			reset({name:product?.name})
-	  },[product, reset])
-
-		const categoryId = watch("categoryId")
-
-		const { increment, count, decrement } = useCounter()
+		const categoryId = watch("categoryId") || product?.categoryId
+		const { increment, count, decrement } = useCounter(product?.count)
 
 		useEffect(() => {
 			setValue("count", count)
@@ -67,6 +71,7 @@ export const CreateProduct = memo(
 		// запрос за новыми параметрами при смене categoryId
 		useEffect(() => {
 			if (categoryId) {
+				console.log(categoryId)
 				getParamsByCategory(categoryId)
 			}
 		}, [categoryId])
@@ -75,15 +80,35 @@ export const CreateProduct = memo(
 
 		const [paramsWithValue, setParamsWithValue] = useState<
       Array<paramsWithValueType>
-    >(params.map(p => ({ id: p.id, name: p.name as string, value: "" })))
+    >(
+    	product
+    		? product?.features?.map(f => ({
+    			id: f.featureId,
+    			name: f.name,
+    			value: f.value,
+    		}))
+    		: params.map(p => ({ id: p.id, name: p.name as string, value: "" }))
+    )
 
 		useEffect(() => {
 			setParamsWithValue(
-				params.map(p => ({ id: p.id, name: p.name as string, value: "" }))
+				params.map(p => ({
+					id: p.id,
+					name: p.name as string,
+					value:
+            product?.features?.find(el => el.featureId === p.id)?.value ?? "",
+				}))
 			)
 		}, [params])
 
 		const handlerSubmit = (value: CreateProductFormType) => {
+			if (product) {
+				onSubmit({
+					...value,
+					productId: product.id,
+					featureValue: paramsWithValue.map(({ id, value }) => ({ id, value })),
+				})
+			}
 			onSubmit({
 				...value,
 				featureValue: paramsWithValue.map(({ id, value }) => ({ id, value })),
@@ -108,6 +133,7 @@ export const CreateProduct = memo(
 
 		return (
 			<ChakraModal isOpen={isOpen} onClose={onClose} size={"5xl"}>
+				<DevTool control={control} />
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>
@@ -154,13 +180,20 @@ export const CreateProduct = memo(
 										<Flex align={"center"} gap={2}>
 											<Text>Категория</Text>
 											<Spacer />
-											<Select {...register("categoryId")}>
-												{categories.map(category => (
-													<option key={category.id} value={category.id}>
-														{category.name}
-													</option>
-												))}
-											</Select>
+											<Controller
+												control={control}
+												name="categoryId"
+												render={({ field }) => (
+													<Select {...field}>
+														{categories.map(category => (
+															<option key={category.id} value={category.id}>
+																{category.name}
+																{category.id}
+															</option>
+														))}
+													</Select>
+												)}
+											/>
 											<Spacer />
 										</Flex>
 										<Flex align={"center"}>

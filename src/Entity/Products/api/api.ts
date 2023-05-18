@@ -1,4 +1,5 @@
 import {
+	EditProductCommand,
 	type CreateProductCommand,
 	type GetProductsResponse,
 } from "Shared/types"
@@ -9,10 +10,11 @@ const instance = axios.create({
 })
 
 export const createProduct = async (product: CreateProductCommand) => {
-	return (
-		await instance.post("AdminPanel/CreateProduct", product)
-	).data
+	return (await instance.post("AdminPanel/CreateProduct", product)).data
 }
+
+export const updateProduct = async (product: EditProductCommand) =>
+	(await instance.put("AdminPanel/EditProduct", product)).data.product
 
 export const removeProduct = async (id: number) => {
 	return (await instance.delete(`AdminPanel/DeleteProduct/${id}`)).data
