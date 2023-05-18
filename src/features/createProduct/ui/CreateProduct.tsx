@@ -25,7 +25,7 @@ import {
 	Select,
 	VStack,
 } from "@chakra-ui/react"
-import { CreateProductCommand } from "Shared/types"
+import { CreateProductCommand, Product } from "Shared/types"
 import { Counter } from "Shared/ui/CategoryTamplate/ui/Counter"
 import { useCounter } from "Shared/utils/useCounter"
 import { useStore } from "effector-react"
@@ -37,25 +37,39 @@ interface CreateProductProps {
   action: string
   isOpen: boolean
   onClose: () => void
+  product?: Product
 }
 
 type CreateProductFormType = Required<CreateProductCommand>
 
 export const CreateProduct = memo(
-	({ onSubmit, isOpen, onClose, action }: CreateProductProps) => {
-		const categories = useCategories()
-		const { handleSubmit, register, watch, setValue } =
-      useForm<CreateProductFormType>()
+	({ onSubmit, isOpen, onClose, action, product }: CreateProductProps) => {
+		// form'a типа props для submit'a
+		const { handleSubmit, register, watch, setValue, reset} =
+      useForm<CreateProductFormType>({
+      	defaultValues: {
+      		name: product?.name
+      	},
+      })
+
+	  useEffect(()=>{
+			reset({name:product?.name})
+	  },[product, reset])
 
 		const categoryId = watch("categoryId")
 
+		const { increment, count, decrement } = useCounter()
+
+		useEffect(() => {
+			setValue("count", count)
+		}, [count])
+
+		// запрос за новыми параметрами при смене categoryId
 		useEffect(() => {
 			if (categoryId) {
 				getParamsByCategory(categoryId)
 			}
 		}, [categoryId])
-
-		const { increment, count, decrement } = useCounter()
 
 		const params = useStore($paramsByCategory)
 
@@ -68,10 +82,6 @@ export const CreateProduct = memo(
 				params.map(p => ({ id: p.id, name: p.name as string, value: "" }))
 			)
 		}, [params])
-
-		useEffect(() => {
-			setValue("count", count)
-		}, [count])
 
 		const handlerSubmit = (value: CreateProductFormType) => {
 			onSubmit({
@@ -92,6 +102,9 @@ export const CreateProduct = memo(
 				)
 			)
 		}
+
+		// получаем категории для selecta
+		const categories = useCategories()
 
 		return (
 			<ChakraModal isOpen={isOpen} onClose={onClose} size={"5xl"}>

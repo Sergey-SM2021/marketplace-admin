@@ -1,4 +1,5 @@
 import { useProducts } from "Entity/Products/hooks/useProducts"
+import { createProduct } from "Entity/Products/model/model"
 
 import {
 	Button,
@@ -15,16 +16,36 @@ import {
 	useDisclosure,
 	chakra,
 } from "@chakra-ui/react"
+import { Product } from "Shared/types"
 import { CreateProduct } from "features/createProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
-import { useState, type MouseEvent } from "react"
+import { useState, type MouseEvent, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { createProduct } from "Entity/Products/model/model"
+
+const TH = chakra(Th, {
+	baseStyle: {
+		background: "#96f",
+		color: "#fff",
+		_first: { borderRadius: "10px 0 0 10px" },
+		_last: { borderRadius: "0 10px 10px 0" },
+	},
+})
+
+const TD = chakra(Td, {
+	baseStyle: {
+		background: "#fff",
+		color: "#000",
+		_first: { borderRadius: "10px 0 0 10px" },
+		_last: { borderRadius: "0 10px 10px 0" },
+	},
+})
 
 const ProductsPage = () => {
 	const [productIdToRemove, SetProductIdToRemove] = useState<number | null>(
 		null
 	)
+
+	const [editProduct, setEditProduct] = useState<Product>()
 
 	const nav = useNavigate()
 
@@ -42,29 +63,19 @@ const ProductsPage = () => {
 		remove.onOpen()
 	}
 
-	const TH = chakra(Th, {
-		baseStyle: {
-			background: "#96f",
-			color: "#fff",
-			_first: { borderRadius: "10px 0 0 10px" },
-			_last: { borderRadius: "0 10px 10px 0" },
-		},
-	})
-
-	const TD = chakra(Td, {
-		baseStyle: {
-			background: "#fff",
-			color: "#000",
-			_first: { borderRadius: "10px 0 0 10px" },
-			_last: { borderRadius: "0 10px 10px 0" },
-		},
-	})
-
 	const handlerProductClick = (id: number) => {
 		nav(`/product/${id}`)
 	}
 
 	const { isOpen, onClose, onOpen } = useDisclosure()
+
+	const edit = useDisclosure()
+
+	const handlerEdit = (e: MouseEvent, product: Product) => {
+		e.stopPropagation()
+		setEditProduct(product)
+		edit.onOpen()
+	}
 
 	return (
 		<>
@@ -72,7 +83,18 @@ const ProductsPage = () => {
 				action="создать"
 				isOpen={isOpen}
 				onClose={onClose}
-				onSubmit={data => {createProduct(data)}}
+				onSubmit={data => {
+					createProduct(data)
+				}}
+			/>
+			<CreateProduct
+				action="Изменить"
+				isOpen={edit.isOpen}
+				onClose={edit.onClose}
+				onSubmit={data => {
+					alert(JSON.stringify(data))
+				}}
+				product={editProduct}
 			/>
 			<RemoveProduct
 				isOpen={remove.isOpen}
@@ -118,7 +140,9 @@ const ProductsPage = () => {
 											</Button>
 										</TD>
 										<TD>
-											<Button>Edit</Button>
+											<Button onClick={e => handlerEdit(e, product)}>
+                        Edit
+											</Button>
 										</TD>
 									</Tr>
 								))}
