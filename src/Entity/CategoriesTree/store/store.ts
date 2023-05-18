@@ -7,9 +7,10 @@ import {
 	type Category,
 	type CreateCategoryCommand,
 	type CategoryResponseTreeDTO,
+	Feature,
 } from "Shared/types"
 import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
-import { createDomain } from "effector"
+import { createDomain, sample } from "effector"
 
 const categoriesDomain = createDomain()
 
@@ -31,26 +32,50 @@ export const getCategories = categoriesDomain.createEffect<
   CategoryResponseDTO[]
 >(api.getCategories)
 
-export const updateCategory = categoriesDomain.createEffect(
-	api.editCategory
-)
+export const updateCategory = categoriesDomain.createEffect(api.editCategory)
 
 export const removeCategoryParam = categoriesDomain.createEffect<
   number,
   string
 >(api.removeCategoryParam)
 
+export const SetParamToCategory = categoriesDomain.createEffect(
+	(src: Feature | null, clk: Category) => {
+		return { src, clk }
+	}
+)
+
+const halper = (cat: Category, id: number, param:Feature) => {
+	if (cat.id === id) {
+		cat.features?.push(param)
+	}
+	if (cat.childCategories) {
+		return cat.childCategories.map(el => halper(el))
+	}
+	return cat
+}
+
+
+
 export const $categoriesTree = categoriesDomain
 	.createStore<CategoryResponseTreeDTO[]>([])
+
+// .on(SetParamToCategory.doneData, (state, props) => {
+// 	const { clk: category, src: feature } = props
+// 	return state.forEach
+// })
+
 	.on(getCategoriesTree.doneData, (state, payload) =>
 		payload.map(category => ({ ...category, isOpen: false }))
 	)
+
 	.on(removeCategoryById.done, (state, { params }) => {
 		if (state.findIndex(el => el.id === params) !== -1) {
 			return state.filter(el => el.id !== params)
 		}
 		return state.map(s => removeNestedCat(s, params))
 	})
+
 	.on(addCategory.doneData, (state, payload) => {
 		if (payload?.category?.parentCategoryId === null) {
 			return [...state, { ...payload.category, childCategories: [] }]
@@ -60,6 +85,7 @@ export const $categoriesTree = categoriesDomain
 		)
 		return result
 	})
+
 	.on(updateCategory.done, (state, { params, result }) => {
 		function rec(cat: Category) {
 			if (cat.childCategories?.length) {
@@ -68,10 +94,35 @@ export const $categoriesTree = categoriesDomain
 				})
 			}
 			return cat.id === result.category?.id
-				? { ...result.category, isOpen: false, childCategories: result.category?.childCategories }
+				? {
+					...result.category,
+					isOpen: false,
+					childCategories: result.category?.childCategories,
+				}
 				: cat
 		}
 
 		const res = state.map(el => rec(el))
 		return res
 	})
+
+// --------------------------------------------------------------------------------
+
+export const addParamToAddInCategory = categoriesDomain.createEvent<Feature>()
+
+export const addParamToTree = categoriesDomain.createEvent<Category>()
+
+export const $paramToAddInToCategory = categoriesDomain
+	.createStore<Feature | null>(null)
+	.on(addParamToAddInCategory, (state, payload) => payload)
+
+// --------------------------------------------------------------------------------
+
+sample({
+	clock: addParamToTree,
+	fn(src: Feature | null, clk: Category) {
+		return { src, clk }
+	},
+	source: $paramToAddInToCategory,
+	target: SetParamToCategory,
+})

@@ -1,4 +1,4 @@
-import { removeCategoryParam } from "../store/store"
+import { addParamToAddInCategory, addParamToTree, removeCategoryParam } from "../store/store"
 
 import {
 	Flex,
@@ -8,10 +8,11 @@ import {
 	Tag,
 	TagLabel,
 	TagCloseButton,
+	Tr,
 } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
 import { type Category } from "Shared/types"
-import { type SyntheticEvent, useState } from "react"
+import { type SyntheticEvent, useState, memo } from "react"
 import { v4 } from "uuid"
 
 interface IRenderCategory {
@@ -30,7 +31,7 @@ const TD = chakra(Td, {
 	},
 })
 
-export const RenderCategory = (props: IRenderCategory) => {
+export const RenderCategory = memo((props: IRenderCategory) => {
 	const { category, onEdit, deep, onRemove } = props
 
 	const [isOpen, SetIsOpen] = useState(false)
@@ -46,9 +47,12 @@ export const RenderCategory = (props: IRenderCategory) => {
 		e.preventDefault()
 	}
 
-	const onDrop = (e: SyntheticEvent<HTMLTableRowElement>) => {
+	const onDrop = (
+		e: SyntheticEvent<HTMLTableRowElement>,
+		category: Category
+	) => {
 		e.preventDefault()
-		// updateCategory({})
+		addParamToTree(category)
 	}
 
 	const handlerRemoveParam = (id: number) => {
@@ -57,14 +61,14 @@ export const RenderCategory = (props: IRenderCategory) => {
 
 	return (
 		<>
-			<tr style={{ height: "100%" }} onDragOver={onDragOver} onDrop={onDrop}>
+			<Tr
+				h={"100%"}
+				onDragOver={onDragOver}
+				onDrop={e => {
+					onDrop(e, category)
+				}}>
 				{category.childCategories?.length ? (
-					<Td
-						style={{
-							padding: 0,
-							margin: 0,
-							height: "100%",
-						}}>
+					<Td p={0} m={0} h={"100%"}>
 						<Flex
 							align={"center"}
 							justify={"center"}
@@ -139,7 +143,7 @@ export const RenderCategory = (props: IRenderCategory) => {
             edit
 					</Button>
 				</TD>
-			</tr>
+			</Tr>
 			{isOpen
 				? category?.childCategories?.map(el => (
 					<RenderCategory
@@ -152,4 +156,6 @@ export const RenderCategory = (props: IRenderCategory) => {
 				: null}
 		</>
 	)
-}
+})
+
+RenderCategory.displayName = "RenderCategory"

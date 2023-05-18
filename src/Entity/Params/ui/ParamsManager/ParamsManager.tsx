@@ -13,11 +13,10 @@ import {
 	TagLabel,
 	VStack,
 } from "@chakra-ui/react"
-import { type Feature } from "Shared/types"
 import { type FormEvent, useState } from "react"
+import { addParamToAddInCategory } from "Entity/CategoriesTree/store/store"
 
 export const ParamsManager = () => {
-	const [currentParam, setCurrentParam] = useState<Feature | undefined>()
 
 	const params = useParams()
 
@@ -60,7 +59,7 @@ export const ParamsManager = () => {
 							_hover={{ cursor: "grab" }}
 							draggable
 							onDragStart={() => {
-								setCurrentParam(p)
+								addParamToAddInCategory(p)
 							}}>
 							<TagLabel>{p.name}</TagLabel>
 							<TagCloseButton
