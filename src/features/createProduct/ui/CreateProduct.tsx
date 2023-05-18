@@ -81,11 +81,11 @@ export const CreateProduct = memo(
 		const [paramsWithValue, setParamsWithValue] = useState<
       Array<paramsWithValueType>
     >(
-    	product
+    	product && product?.features
     		? product?.features?.map(f => ({
     			id: f.featureId,
     			name: f.name,
-    			value: f.value,
+    			value: f.value ?? "",
     		}))
     		: params.map(p => ({ id: p.id, name: p.name as string, value: "" }))
     )
@@ -188,7 +188,6 @@ export const CreateProduct = memo(
 														{categories.map(category => (
 															<option key={category.id} value={category.id}>
 																{category.name}
-																{category.id}
 															</option>
 														))}
 													</Select>
