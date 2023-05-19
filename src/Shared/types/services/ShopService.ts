@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+/* tslint:disable */
 /* eslint-disable */
 import type { CategoryResponseDTO } from '../models/CategoryResponseDTO';
 import type { CategoryResponseTreeDTO } from '../models/CategoryResponseTreeDTO';

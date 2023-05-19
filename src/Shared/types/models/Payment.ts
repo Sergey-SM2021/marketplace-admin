@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type EditFeatureCommand = {
+export type Payment = {
     id?: number;
-    name?: string | null;
+    paymentMethod?: string | null;
 };
 

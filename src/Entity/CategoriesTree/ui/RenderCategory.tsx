@@ -1,4 +1,4 @@
-import { addParamToAddInCategory, addParamToTree, removeCategoryParam } from "../store/store"
+import { addParamToTree, removeCategoryParam, updateCategory } from "../store/store"
 
 import {
 	Flex,

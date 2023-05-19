@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+/* tslint:disable */
 /* eslint-disable */
 import type { CategoryResponse } from '../models/CategoryResponse';
 import type { ChangeCountProductCommand } from '../models/ChangeCountProductCommand';
@@ -40,12 +41,12 @@ export class AdminPanelService {
      * @returns FeaturesResponse Success
      * @throws ApiError
      */
-    public static postAdminPanelCreateCategoryFeatures(
+    public static postAdminPanelCreateFeature(
         requestBody?: CreateCategoryFeaturesCommand,
     ): CancelablePromise<FeaturesResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/AdminPanel/CreateCategoryFeatures',
+            url: '/AdminPanel/CreateFeature',
             body: requestBody,
             mediaType: 'application/json-patch+json',
         });
