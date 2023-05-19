@@ -1,14 +1,11 @@
-import { Category } from "Shared/types"
+import { Category, EditCategoryCommand } from "Shared/types"
 
-export interface IForm {
-  name: string
-  parentCategoryId?: number
-}
+export type IForm = EditCategoryCommand
 
 export interface CategoryTamplateProps {
   isOpen: boolean
   onClose: () => void
-  title: string
+  actionName: "Изменить" | "Создать"
   submitHandler: (values: IForm) => void
   category?: Category
   categories: Array<Category>

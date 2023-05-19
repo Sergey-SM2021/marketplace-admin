@@ -116,6 +116,8 @@ export const updateCategoryParam = attach({
 			linkedFeatures: editCategoryCommand.linkedFeatures?.length
 				? [...editCategoryCommand.linkedFeatures, param?.id]
 				: [param?.id],
+			name: editCategoryCommand.name,
+			parentCategoryId: editCategoryCommand.parentCategoryId,
 		}
 	},
 })

@@ -23,11 +23,11 @@ import { useForm } from "react-hook-form"
 
 export const CategoryTamplate: FC<CategoryTamplateProps> = ({
 	onClose,
-	title,
 	isOpen,
 	submitHandler,
 	category,
 	categories,
+	actionName
 }) => {
 	const { register, handleSubmit } = useForm<IForm>({
 		defaultValues: {
@@ -45,7 +45,7 @@ export const CategoryTamplate: FC<CategoryTamplateProps> = ({
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader>{title}</ModalHeader>
+				<ModalHeader>{actionName} категорию</ModalHeader>
 				<ModalCloseButton />
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<FormControl>
@@ -76,7 +76,7 @@ export const CategoryTamplate: FC<CategoryTamplateProps> = ({
                   Отмена
 								</Button>
 								<Button colorScheme="blue" type="submit" isDisabled={false}>
-                  Создать
+									{actionName}
 								</Button>
 							</HStack>
 						</ModalFooter>

@@ -1,4 +1,7 @@
-import { removeCategoryParam, updateCategory, updateCategoryParam } from "../store/CategoriesTree"
+import {
+	removeCategoryParam,
+	updateCategoryParam,
+} from "../store/CategoriesTree"
 
 import {
 	Flex,
@@ -48,15 +51,14 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 		e.preventDefault()
 	}
 
-	const onDrop = (
-		e: SyntheticEvent<HTMLTableRowElement>,
-		ca	: Category
-	) => {
+	const onDrop = (e: SyntheticEvent<HTMLTableRowElement>) => {
 		e.preventDefault()
+		console.log(category)
 		const payload = {
 			categoryId: category.id,
 			linkedFeatures: category.features?.map(el => el.featureId),
 			name: category.name,
+			parentCategoryId: category.parentCategoryId
 		}
 		updateCategoryParam(payload)
 	}
@@ -67,12 +69,7 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 
 	return (
 		<>
-			<Tr
-				h={"100%"}
-				onDragOver={onDragOver}
-				onDrop={e => {
-					onDrop(e, category)
-				}}>
+			<Tr h={"100%"} onDragOver={onDragOver} onDrop={onDrop}>
 				{category.childCategories?.length ? (
 					<Td p={0} m={0} h={"100%"}>
 						<Flex
@@ -169,3 +166,17 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 })
 
 RenderCategory.displayName = "RenderCategory"
+
+await fetch("http://shopyshopy-001-site1.atempurl.com/AdminPanel/EditCategory", {
+	"credentials": "omit",
+	"headers": {
+		"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0",
+		"Accept": "application/json, text/plain, */*",
+		"Accept-Language": "en-US,en;q=0.5",
+		"Content-Type": "application/json"
+	},
+	"referrer": "http://localhost:5173/",
+	"body": "{\"categoryId\":23,\"linkedFeatures\":[30],\"name\":\"Ноутбуки\",\"parentCategoryId\":20}",
+	"method": "PUT",
+	"mode": "cors"
+})

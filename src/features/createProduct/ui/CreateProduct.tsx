@@ -71,7 +71,6 @@ export const CreateProduct = memo(
 		// запрос за новыми параметрами при смене categoryId
 		useEffect(() => {
 			if (categoryId) {
-				console.log(categoryId)
 				getParamsByCategory(categoryId)
 			}
 		}, [categoryId])

@@ -1,6 +1,12 @@
+// #FIXME: update дерева не происходит при изменении категории
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
-import { addCategory, getCategoriesTree, updateCategory } from "Entity/CategoriesTree/store/CategoriesTree"
+import {
+	addCategory,
+	getCategoriesTree,
+	updateCategory,
+} from "Entity/CategoriesTree/store/CategoriesTree"
+import { RenderCategory } from "Entity/CategoriesTree/ui/RenderCategory"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
 
 import {
@@ -20,11 +26,10 @@ import {
 } from "@chakra-ui/react"
 import { type Category } from "Shared/types"
 import { CategoryTamplate, IForm } from "Shared/ui/CategoryTamplate/index"
+import { useStore } from "effector-react"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
-import { useStore } from "effector-react"
 import { v4 } from "uuid"
-import { RenderCategory } from "Entity/CategoriesTree/ui/RenderCategory"
 
 const TH = chakra(Th, {
 	baseStyle: {
@@ -59,7 +64,14 @@ const CategoriesPage: FC = () => {
 
 	const handlerCreateCategory = ({ name, parentCategoryId }: IForm) => {
 		category
-			? updateCategory({ name, parentCategoryId, categoryId: category.id })
+			? updateCategory({
+				name,
+				parentCategoryId,
+				categoryId: category.id,
+				linkedFeatures: category.features?.length
+					? category.features?.map(el => el.id as number)
+					: [],
+			})
 			: addCategory({ name, parentCategoryId, features: [] })
 	}
 
@@ -79,7 +91,7 @@ const CategoriesPage: FC = () => {
 				<CategoryTamplate
 					categories={categories}
 					submitHandler={handlerCreateCategory}
-					title="Создать Категорию"
+					actionName={category ? "Изменить" : "Создать"}
 					isOpen={create.isOpen}
 					onClose={handlerCloseModal}
 					category={category}
