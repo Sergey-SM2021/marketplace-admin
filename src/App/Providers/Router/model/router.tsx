@@ -1,9 +1,10 @@
 import { CategoriesPage } from "pages/Categories"
+import { NotFound } from "pages/NotFound"
 import { ProductPage } from "pages/ProductPage"
 import { ProductsPage } from "pages/Products"
 
-import { Navigate, Outlet, createBrowserRouter } from "react-router-dom"
 import { Flex } from "@chakra-ui/layout"
+import { Outlet, createBrowserRouter } from "react-router-dom"
 import { Header } from "widgets/Header"
 
 export const routes = createBrowserRouter([
@@ -25,29 +26,13 @@ export const routes = createBrowserRouter([
 				element: <ProductPage />,
 			},
 			{
-				path: "/admin/products",
+				path: "/products",
 				element: <ProductsPage />,
 			},
 			{
-				path: "/admin/products/:id",
-				element: <ProductsPage />,
-			},
-			{
-				path: "/admin/profile",
-				element: <div>profile</div>,
-			},
-			{
-				path: "/admin/*",
-				element: <Navigate to={"/"} />,
-			},
-			{
-				path: "/admin/notifications-list",
-				element: <div>/admin/notifications-list</div>,
+				path: "*",
+				element: <NotFound />,
 			},
 		],
-	},
-	{
-		path: "*",
-		element: <div>error</div>,
 	},
 ])

@@ -11,7 +11,7 @@ export const Header = memo(() => {
 		<Box p={3} background={"facebook.900"}>
 			<Flex>
 				<HStack>
-					<Link to="/admin/profile">
+					<Link to="/profile">
 						<Profile className="fill-white" />
 					</Link>
 					<Link to="/">
