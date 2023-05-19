@@ -1,4 +1,4 @@
-import { addParamToTree, removeCategoryParam, updateCategory } from "../store/CategoriesTree"
+import { addParamToTree, removeCategoryParam } from "../store/CategoriesTree"
 
 import {
 	Flex,
@@ -9,6 +9,7 @@ import {
 	TagLabel,
 	TagCloseButton,
 	Tr,
+	Box,
 } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
 import { type Category } from "Shared/types"
@@ -79,14 +80,18 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 								background: "#fff",
 								borderRadius: "10px 0 0 10px",
 							}}>
-							<Collapse
-								className={`hover:cursor-pointer bg-purple-transparent transition rounded-full ${
-									isOpen ? "rotate-90" : "rotate-0"
-								}`}
-								onClick={e => {
-									SetIsOpen(prev => !prev)
-								}}
-							/>
+							<Box
+								transform={isOpen ? "rotate(90deg)" : "rotate(180deg)"}
+								transition={".5s"}
+								bg={"gray.100"}
+								borderRadius={"full"}
+								_hover={{cursor:"pointer", bg: "gray.300"}}>
+								<Collapse
+									onClick={e => {
+										SetIsOpen(prev => !prev)
+									}}
+								/>
+							</Box>
 						</Flex>
 					</Td>
 				) : (
@@ -99,11 +104,11 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 						<Flex
 							align={"center"}
 							justify={"center"}
+							w={"100%"}
+							h={"100%"}
+							bg={"#fff"}
 							sx={{
 								marginLeft: deep * 10,
-								width: "100%",
-								height: "100%",
-								background: "#fff",
 								borderRadius: "10px 0 0 10px",
 							}}></Flex>
 					</Td>
