@@ -39,31 +39,43 @@ export const removeCategoryParam = categoriesDomain.createEffect<
   string
 >(api.removeCategoryParam)
 
-export const SetParamToCategory = categoriesDomain.createEffect(
-	(src: Feature | null, clk: Category) => {
-		return { src, clk }
-	}
-)
+export const SetParamToCategory = categoriesDomain.createEffect<
+  {
+    src: Feature | null
+    clk: Category
+  },
+  {
+    src: Feature | null
+    clk: Category
+  }
+>(({ src, clk }) => {
+	return { src, clk }
+})
 
-const halper = (cat: Category, id: number, param:Feature) => {
-	if (cat.id === id) {
-		cat.features?.push(param)
+// принимает (категорию, id категории в которую нужно добавить параметр, параметр, который нужно добавить), возвращает копию категории
+const halper = (cat: Category, id: number, param: Feature): Category => {
+
+	if(cat.id === id){
+		cat.features = cat.features ? [...cat.features, param] : [param]
 	}
-	if (cat.childCategories) {
-		return cat.childCategories.map(el => halper(el))
+
+	return {
+		...cat,
+		childCategories: cat.childCategories
+			? cat.childCategories.map(el => halper(el, id, param))
+			: [],
 	}
-	return cat
 }
-
-
 
 export const $categoriesTree = categoriesDomain
 	.createStore<CategoryResponseTreeDTO[]>([])
 
-// .on(SetParamToCategory.doneData, (state, props) => {
-// 	const { clk: category, src: feature } = props
-// 	return state.forEach
-// })
+	.on(SetParamToCategory.doneData, (state, props) => {
+		const { clk: category, src: feature } = props
+		return state.map(el =>
+			halper(el, category.id as number, feature as Feature)
+		)
+	})
 
 	.on(getCategoriesTree.doneData, (state, payload) =>
 		payload.map(category => ({ ...category, isOpen: false }))
