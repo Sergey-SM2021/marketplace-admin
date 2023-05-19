@@ -1,7 +1,6 @@
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
 import { addCategory, getCategoriesTree, updateCategory } from "Entity/CategoriesTree/store/CategoriesTree"
-import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
 
 import {
@@ -25,6 +24,7 @@ import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
 import { useStore } from "effector-react"
 import { v4 } from "uuid"
+import { RenderCategory } from "Entity/CategoriesTree/ui/RenderCategory"
 
 const TH = chakra(Th, {
 	baseStyle: {

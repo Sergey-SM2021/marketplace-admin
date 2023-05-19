@@ -11,6 +11,7 @@ import {
 } from "Shared/types"
 import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
 import { createDomain, sample } from "effector"
+import { halper } from "../utils/addParamsRecursive/addParamsRecursive"
 
 const categoriesDomain = createDomain()
 
@@ -51,21 +52,6 @@ export const SetParamToCategory = categoriesDomain.createEffect<
 >(({ src, clk }) => {
 	return { src, clk }
 })
-
-// принимает (категорию, id категории в которую нужно добавить параметр, параметр, который нужно добавить), возвращает копию категории
-const halper = (cat: Category, id: number, param: Feature): Category => {
-
-	if(cat.id === id){
-		cat.features = cat.features ? [...cat.features, param] : [param]
-	}
-
-	return {
-		...cat,
-		childCategories: cat.childCategories
-			? cat.childCategories.map(el => halper(el, id, param))
-			: [],
-	}
-}
 
 export const $categoriesTree = categoriesDomain
 	.createStore<CategoryResponseTreeDTO[]>([])
