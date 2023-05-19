@@ -1,4 +1,4 @@
-import { removeCategoryById } from "Entity/CategoriesTree/store/store"
+import { removeCategoryById } from "Entity/CategoriesTree/store/CategoriesTree"
 
 import {
 	AlertDialog,

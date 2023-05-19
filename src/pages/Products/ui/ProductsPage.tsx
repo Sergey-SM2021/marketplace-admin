@@ -1,5 +1,5 @@
 import { useProducts } from "Entity/Products/hooks/useProducts"
-import { createProduct, updateProduct } from "Entity/Products/model/model"
+import { createProduct, updateProduct } from "Entity/Products/model/products"
 
 import {
 	Button,

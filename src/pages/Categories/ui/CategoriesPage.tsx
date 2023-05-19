@@ -1,6 +1,6 @@
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
-import { addCategory, getCategoriesTree, updateCategory } from "Entity/CategoriesTree/store/store"
+import { addCategory, getCategoriesTree, updateCategory } from "Entity/CategoriesTree/store/CategoriesTree"
 import { RenderCategory } from "Entity/CategoriesTree/utils"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
 

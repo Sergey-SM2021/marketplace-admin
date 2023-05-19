@@ -1,4 +1,4 @@
-import { $categoriesTree, getCategoriesTree } from "../store/store"
+import { $categoriesTree, getCategoriesTree } from "../store/CategoriesTree"
 
 import { useStore } from "effector-react"
 import { useEffect } from "react"

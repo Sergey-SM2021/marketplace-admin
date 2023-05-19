@@ -14,7 +14,7 @@ import {
 	VStack,
 } from "@chakra-ui/react"
 import { type FormEvent, useState } from "react"
-import { addParamToAddInCategory } from "Entity/CategoriesTree/store/store"
+import { addParamToAddInCategory } from "Entity/CategoriesTree/store/CategoriesTree"
 
 export const ParamsManager = () => {
 

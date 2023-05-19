@@ -1,5 +1,5 @@
 import { useCategories } from "Entity/Categories/hooks/useCategories"
-import { updateCategory, addCategory } from "Entity/CategoriesTree/store/store"
+import { updateCategory, addCategory } from "Entity/CategoriesTree/store/CategoriesTree"
 import { $params } from "Entity/Params/store/params"
 import { getParamsByCategory } from "Entity/Params/store/paramsByCategory"
 

@@ -1,4 +1,4 @@
-import { $product, getProductById } from "Entity/Product/model/model"
+import { $product, getProductById } from "Entity/Product/model/product"
 
 import { Counter } from "pages/Product/ui/Counter"
 import { FullMedia } from "pages/Product/ui/FullMedia"

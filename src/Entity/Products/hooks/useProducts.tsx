@@ -1,4 +1,4 @@
-import { $products, getProducts } from "../model/model"
+import { $products, getProducts } from "../model/products"
 
 import { useStore } from "effector-react"
 import { useEffect } from "react"
