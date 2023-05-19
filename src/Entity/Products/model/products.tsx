@@ -26,7 +26,7 @@ export const $products = productDomain
 	.on(removeProduct.done, (state, { params }) =>
 		state.filter(el => el.id !== params)
 	)
-	// .on(updateProduct.done, (state, payload) =>
-	// 	[...state.]
-	// )
+	.on(updateProduct.doneData, (state, payload) =>
+		state.map(el => (el.id === payload?.id ? payload : el))
+	)
 	.on(createProduct.doneData, (state, payload) => [...state, payload.product])
