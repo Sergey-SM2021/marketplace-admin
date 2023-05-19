@@ -6,6 +6,7 @@ import { Suspense } from "react"
 export const App = () => {
 	return (
 		<ChakraProvider>
+			
 			<Suspense>
 				<RoutesProvider />
 			</Suspense>

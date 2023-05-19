@@ -9,8 +9,9 @@ import {
 	type CreateCategoryCommand,
 	type CategoryResponseTreeDTO,
 	Feature,
+	EditCategoryCommand,
 } from "Shared/types"
-import { createDomain, sample } from "effector"
+import { attach, createDomain } from "effector"
 
 const categoriesDomain = createDomain()
 
@@ -27,7 +28,10 @@ export const addCategory = categoriesDomain.createEffect<
   CategoryResponse
 >(api.createCategory)
 
-export const updateCategory = categoriesDomain.createEffect(api.editCategory)
+export const updateCategory = categoriesDomain.createEffect<
+  EditCategoryCommand,
+  CategoryResponse
+>(api.editCategory)
 
 export const removeCategoryParam = categoriesDomain.createEffect<
   number,
@@ -47,8 +51,6 @@ export const SetParamToCategory = categoriesDomain.createEffect<
 })
 
 export const addParamToAddInCategory = categoriesDomain.createEvent<Feature>()
-
-export const addParamToTree = categoriesDomain.createEvent<Category>()
 
 export const $categoriesTree = categoriesDomain
 	.createStore<CategoryResponseTreeDTO[]>([])
@@ -105,11 +107,15 @@ export const $paramToAddInToCategory = categoriesDomain
 	.createStore<Feature | null>(null)
 	.on(addParamToAddInCategory, (state, payload) => payload)
 
-sample({
-	clock: addParamToTree,
-	fn(src: Feature | null, clk: Category) {
-		return { src, clk }
-	},
+export const updateCategoryParam = attach({
 	source: $paramToAddInToCategory,
-	target: SetParamToCategory,
+	effect: updateCategory,
+	mapParams(editCategoryCommand: EditCategoryCommand, param: Feature | null) {
+		return {
+			categoryId: editCategoryCommand.categoryId,
+			linkedFeatures: editCategoryCommand.linkedFeatures?.length
+				? [...editCategoryCommand.linkedFeatures, param?.id]
+				: [param?.id],
+		}
+	},
 })

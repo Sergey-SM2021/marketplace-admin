@@ -1,4 +1,4 @@
-import { addParamToTree, removeCategoryParam } from "../store/CategoriesTree"
+import { removeCategoryParam, updateCategory, updateCategoryParam } from "../store/CategoriesTree"
 
 import {
 	Flex,
@@ -50,10 +50,15 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 
 	const onDrop = (
 		e: SyntheticEvent<HTMLTableRowElement>,
-		category: Category
+		ca	: Category
 	) => {
 		e.preventDefault()
-		addParamToTree(category)
+		const payload = {
+			categoryId: category.id,
+			linkedFeatures: category.features?.map(el => el.featureId),
+			name: category.name,
+		}
+		updateCategoryParam(payload)
 	}
 
 	const handlerRemoveParam = (id: number) => {
@@ -85,7 +90,7 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 								transition={".5s"}
 								bg={"gray.100"}
 								borderRadius={"full"}
-								_hover={{cursor:"pointer", bg: "gray.300"}}>
+								_hover={{ cursor: "pointer", bg: "gray.300" }}>
 								<Collapse
 									onClick={e => {
 										SetIsOpen(prev => !prev)
