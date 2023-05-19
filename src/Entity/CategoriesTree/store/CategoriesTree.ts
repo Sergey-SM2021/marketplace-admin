@@ -1,6 +1,7 @@
 import * as api from "../api"
 import { removeNestedCat } from "../utils"
 import { addNestedCat } from "../utils/addNestedCat/addNestedCat"
+import { halper } from "../utils/addParamsRecursive/addParamsRecursive"
 
 import {
 	type CategoryResponse,
@@ -9,9 +10,7 @@ import {
 	type CategoryResponseTreeDTO,
 	Feature,
 } from "Shared/types"
-import { type CategoryResponseDTO } from "Shared/types/models/CategoryResponseDTO"
 import { createDomain, sample } from "effector"
-import { halper } from "../utils/addParamsRecursive/addParamsRecursive"
 
 const categoriesDomain = createDomain()
 
@@ -28,11 +27,6 @@ export const addCategory = categoriesDomain.createEffect<
   CategoryResponse
 >(api.createCategory)
 
-export const getCategories = categoriesDomain.createEffect<
-  void,
-  CategoryResponseDTO[]
->(api.getCategories)
-
 export const updateCategory = categoriesDomain.createEffect(api.editCategory)
 
 export const removeCategoryParam = categoriesDomain.createEffect<
@@ -40,18 +34,21 @@ export const removeCategoryParam = categoriesDomain.createEffect<
   string
 >(api.removeCategoryParam)
 
+interface ISetParamToCategory {
+  src: Feature | null
+  clk: Category
+}
+
 export const SetParamToCategory = categoriesDomain.createEffect<
-  {
-    src: Feature | null
-    clk: Category
-  },
-  {
-    src: Feature | null
-    clk: Category
-  }
+  ISetParamToCategory,
+  ISetParamToCategory
 >(({ src, clk }) => {
 	return { src, clk }
 })
+
+export const addParamToAddInCategory = categoriesDomain.createEvent<Feature>()
+
+export const addParamToTree = categoriesDomain.createEvent<Category>()
 
 export const $categoriesTree = categoriesDomain
 	.createStore<CategoryResponseTreeDTO[]>([])
@@ -104,17 +101,9 @@ export const $categoriesTree = categoriesDomain
 		return res
 	})
 
-// --------------------------------------------------------------------------------
-
-export const addParamToAddInCategory = categoriesDomain.createEvent<Feature>()
-
-export const addParamToTree = categoriesDomain.createEvent<Category>()
-
 export const $paramToAddInToCategory = categoriesDomain
 	.createStore<Feature | null>(null)
 	.on(addParamToAddInCategory, (state, payload) => payload)
-
-// --------------------------------------------------------------------------------
 
 sample({
 	clock: addParamToTree,
