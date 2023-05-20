@@ -1,3 +1,5 @@
+// FIXME: при отсутствии параметров не должно быть надписи параметры
+// FIXME: отобоажать список категорий деревом
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import {
 	$paramsByCategory,

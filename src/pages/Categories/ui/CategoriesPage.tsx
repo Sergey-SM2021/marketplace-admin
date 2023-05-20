@@ -1,4 +1,7 @@
 // #FIXME: update дерева не происходит при изменении категории
+// #FIXME: Дерево сворачивается при добовлении параметра
+// #FIXME: после создания категории она не сразу попадает в лист категорий доступных быть родителем новой категории.
+// #FIXME: ТЕ я создал категорию один, создаю новую категорию но категории один нет среди доступных родителей
 import { useCategories } from "Entity/Categories/hooks/useCategories"
 import { useCategoriesTree } from "Entity/CategoriesTree/hooks/useCategoriesTree"
 import {

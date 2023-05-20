@@ -1,7 +1,7 @@
-import * as api from "../api/api"
+import * as api from "../api/Products"
 
 import { type GetProductsResponse, type ProductResponseDTO } from "Shared/types"
-import { createDomain } from "effector"
+import { createDomain, sample } from "effector"
 
 const productDomain = createDomain()
 
@@ -9,9 +9,10 @@ export const createProduct = productDomain.createEffect(api.createProduct)
 export const removeProduct = productDomain.createEffect(api.removeProduct)
 export const updateProduct = productDomain.createEffect(api.updateProduct)
 export const getProducts = productDomain.createEffect<
-  void,
+  number,
   GetProductsResponse
 >(api.getProducts)
+export const setStep = productDomain.createEvent<number>()
 
 export const $products = productDomain
 	.createStore<ProductResponseDTO[]>([])
@@ -25,3 +26,15 @@ export const $products = productDomain
 		}
 	})
 	.on(createProduct.doneData, (state, payload) => [...state, payload.product])
+
+export const $totalProducts = productDomain
+	.createStore(0)
+	.on(getProducts.doneData, (state, payload) => payload.totalItems)
+
+export const $step = productDomain.createStore(1).on(setStep, (state, payload) => payload)
+
+sample({
+	clock: $step,
+	source: $step, 
+	target: getProducts
+})

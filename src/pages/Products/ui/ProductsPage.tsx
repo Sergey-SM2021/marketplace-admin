@@ -1,18 +1,35 @@
-import { createProduct, updateProduct } from "Entity/Products/model/products"
+import { useProducts } from "Entity/Products/hooks/useProducts"
+import {
+	$step,
+	$totalProducts,
+	createProduct,
+	setStep,
+	updateProduct,
+} from "Entity/Products/model/products"
 
 import { useProductsLoading } from "../hooks/Products"
 import { ProductsTable } from "./ProductsTable"
 
 import { Button, HStack, Box, useDisclosure } from "@chakra-ui/react"
 import { EditProductCommand, Product } from "Shared/types"
+import { Pending } from "Shared/ui/Pending/Pending"
+import { useStore } from "effector-react"
 import { CreateProduct } from "features/createProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, useEffect, MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
-import { Pending } from "Shared/ui/Pending/Pending"
+import { v4 } from "uuid"
 
+//FIXME: RemoveProduct вполне можно обойтись и без пропсов - вынести всё в фичу
+
+//FIXME: После добавления продукта пагинация не сразу аптейдится
+
+//FIXME: обработка ели действие фейлится
+
+//FIXME: если мы отредактировали продукт, потом открыли его снова - у нас атрибуты пустые
 const ProductsPage = () => {
 	const [editProduct, setEditProduct] = useState<Product>()
+	const currentStep = useStore($step)
 	const nav = useNavigate()
 
 	const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
@@ -55,6 +72,14 @@ const ProductsPage = () => {
 		updateProduct({ ...product, productId: product.productId })
 	}
 
+	const { products, isLoading } = useProducts()
+
+	const pageCount = Math.ceil(useStore($totalProducts) / 5)
+
+	const handlerStep = (step: number) => {
+		setStep(step)
+	}
+
 	return (
 		<>
 			{productsLoading ? <Pending /> : null}
@@ -91,10 +116,17 @@ const ProductsPage = () => {
 					<Button onClick={create.onOpen}>Создать продукт</Button>
 				</HStack>
 				<ProductsTable
+					products={products}
+					isLoading={isLoading}
 					handlerEdit={handlerEdit}
 					handlerProductClick={handlerProductClick}
 					handlerRemove={handlerRemove}
 				/>
+				<HStack>
+					{new Array(pageCount).fill("").map((el, i) => (
+						<Button key={v4()} colorScheme={currentStep === i+1 ? "red" : "facebook"} onClick={() => handlerStep(i + 1)}>{i + 1}</Button>
+					))}
+				</HStack>
 			</Box>
 		</>
 	)

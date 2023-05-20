@@ -11,7 +11,7 @@ import {
 	Thead,
 	Tr,
 } from "@chakra-ui/react"
-import { Product } from "Shared/types"
+import { Product, ProductResponseDTO } from "Shared/types"
 import { Loader } from "Shared/ui/Loader/Loader"
 import { TD, TH } from "Shared/ui/TD"
 import { MouseEvent } from "react"
@@ -20,15 +20,17 @@ interface ProductsTableProps {
   handlerProductClick: (id: number) => void
   handlerRemove: (e: MouseEvent<HTMLButtonElement>, id: number) => void
   handlerEdit: (e: MouseEvent, product: Product) => void
+  products: ProductResponseDTO[]
+  isLoading: boolean
 }
 
 export const ProductsTable = ({
 	handlerEdit,
 	handlerProductClick,
 	handlerRemove,
+	products,
+	isLoading,
 }: ProductsTableProps) => {
-	const { products, isLoading } = useProducts()
-
 	if (isLoading) {
 		return <Loader />
 	}

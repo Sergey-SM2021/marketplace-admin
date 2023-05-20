@@ -1,4 +1,4 @@
-import * as api from "./api/api"
+import * as api from "./api/Products"
 import * as hooks from "./hooks/useProducts"
 import * as model from "./model/products"
 

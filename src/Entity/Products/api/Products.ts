@@ -15,16 +15,17 @@ export const createProduct = async (product: CreateProductCommand) => {
 }
 
 export const updateProduct = async (product: EditProductCommand) =>
-	(await instance.put<ProductResponse>("AdminPanel/EditProduct", product)).data.product
+	(await instance.put<ProductResponse>("AdminPanel/EditProduct", product)).data
+		.product
 
 export const removeProduct = async (id: number) => {
 	return (await instance.delete(`AdminPanel/DeleteProduct/${id}`)).data
 }
 
-export const getProducts = async () => {
+export const getProducts = async (pageIndex = 1) => {
 	return (
 		await instance.post<GetProductsResponse>(
-			"Shop/GetProducts?pageSize=10&pageIndex=1",
+			`Shop/GetProducts?pageSize=5&pageIndex=${pageIndex}`,
 			{
 				price: {
 					from: 0,
