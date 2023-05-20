@@ -26,8 +26,6 @@ import { DisplayError } from "Shared/ui/DisplayError"
 
 //FIXME: После добавления продукта пагинация не сразу аптейдится
 
-//FIXME: обработка если действие фейлится
-
 //FIXME: если мы отредактировали продукт, потом открыли его снова - у нас атрибуты пустые
 const ProductsPage = () => {
 	const [editProduct, setEditProduct] = useState<Product>()

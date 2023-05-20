@@ -1,9 +1,9 @@
 import { $product, getProductById } from "Entity/Product/model/product"
 
-import { Counter } from "pages/Product/ui/Counter"
-import { FullMedia } from "pages/Product/ui/FullMedia"
-import { Header } from "pages/Product/ui/Header"
-import { Slider } from "pages/Product/ui/Slider"
+import { Counter } from "./ui/Counter"
+import { FullMedia } from "./ui/FullMedia"
+import { Header } from "./ui/Header"
+import { Slider } from "./ui/Slider"
 
 import {
 	Button,

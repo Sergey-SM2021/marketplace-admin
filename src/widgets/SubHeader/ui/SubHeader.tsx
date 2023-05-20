@@ -4,7 +4,7 @@ import { ReactComponent as Expand } from "Shared/assets/expand_more_FILL0_wght40
 
 export const SubHeader = () => {
 	return (
-		<Flex p={3} align={"center"} gap={3}>
+		<Flex p={3} align={"center"} gap={5}>
 			<ThemeIcon height={"30px"} width={"30px"} />
 			<Flex align={"center"}>
 				<Text>Русский</Text>

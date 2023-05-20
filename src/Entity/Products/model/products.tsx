@@ -39,6 +39,9 @@ export const $step = productDomain
 export const $error = productDomain
 	.createStore<string | null>(null)
 	.on(createProduct.failData, () => "Не удалось создать продукт")
+	.on(removeProduct.failData, () => "Не удалось удалить продукт")
+	.on(updateProduct.failData, () => "Не удалось обновить продукт")
+	.on(getProducts.failData, () => "Не удалось получить продукты продукт")
 	.on(clearError, () => null)
 
 $error.watch(() => {
