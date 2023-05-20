@@ -1,5 +1,4 @@
 import {
-	removeCategoryParam,
 	updateCategoryParam,
 } from "../store/CategoriesTree"
 
@@ -53,18 +52,21 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 
 	const onDrop = (e: SyntheticEvent<HTMLTableRowElement>) => {
 		e.preventDefault()
-		console.log(category)
-		const payload = {
+		updateCategoryParam({
 			categoryId: category.id,
 			linkedFeatures: category.features?.map(el => el.featureId),
 			name: category.name,
-			parentCategoryId: category.parentCategoryId
-		}
-		updateCategoryParam(payload)
+			parentCategoryId: category.parentCategoryId,
+		})
 	}
 
 	const handlerRemoveParam = (id: number) => {
-		removeCategoryParam(id)
+		// updateCategoryParam({
+		// 	categoryId: category.id,
+		// 	linkedFeatures: category.features?.filter(el => el.featureId !== id),
+		// 	name: category.name,
+		// 	parentCategoryId: category.parentCategoryId,
+		// })
 	}
 
 	return (
@@ -166,17 +168,3 @@ export const RenderCategory = memo((props: IRenderCategory) => {
 })
 
 RenderCategory.displayName = "RenderCategory"
-
-await fetch("http://shopyshopy-001-site1.atempurl.com/AdminPanel/EditCategory", {
-	"credentials": "omit",
-	"headers": {
-		"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0",
-		"Accept": "application/json, text/plain, */*",
-		"Accept-Language": "en-US,en;q=0.5",
-		"Content-Type": "application/json"
-	},
-	"referrer": "http://localhost:5173/",
-	"body": "{\"categoryId\":23,\"linkedFeatures\":[30],\"name\":\"Ноутбуки\",\"parentCategoryId\":20}",
-	"method": "PUT",
-	"mode": "cors"
-})

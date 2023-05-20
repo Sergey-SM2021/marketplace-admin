@@ -33,11 +33,6 @@ export const updateCategory = categoriesDomain.createEffect<
   CategoryResponse
 >(api.editCategory)
 
-export const removeCategoryParam = categoriesDomain.createEffect<
-  number,
-  string
->(api.removeCategoryParam)
-
 interface ISetParamToCategory {
   src: Feature | null
   clk: Category

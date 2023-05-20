@@ -53,11 +53,3 @@ export const editCategory = async (category: EditCategoryCommand) => {
 	return (await instance.put<CategoryResponse>("AdminPanel/EditCategory", category))
 		.data
 }
-
-export const removeCategoryParam = async (id: number) => {
-	return await (
-		await instance.delete<CancelablePromise<string>>(
-			`AdminPanel/DeleteFeature/${id}`
-		)
-	).data
-}
