@@ -5,6 +5,7 @@ import { ProductsPage } from "pages/Products"
 
 import { Flex } from "@chakra-ui/layout"
 import { Outlet, createBrowserRouter } from "react-router-dom"
+import { Footer } from "widgets/Footer/Footer"
 import { Header } from "widgets/Header"
 import { SubHeader } from "widgets/SubHeader"
 
@@ -16,6 +17,7 @@ export const routes = createBrowserRouter([
 				<SubHeader />
 				<Header></Header>
 				<Outlet />
+				<Footer />
 			</Flex>
 		),
 		children: [
