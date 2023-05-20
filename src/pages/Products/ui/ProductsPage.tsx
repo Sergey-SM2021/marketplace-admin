@@ -1,5 +1,6 @@
 import { useProducts } from "Entity/Products/hooks/useProducts"
 import {
+	$error,
 	$step,
 	$totalProducts,
 	createProduct,
@@ -19,12 +20,13 @@ import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, useEffect, MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { v4 } from "uuid"
+import { DisplayError } from "Shared/ui/DisplayError"
 
 //FIXME: RemoveProduct вполне можно обойтись и без пропсов - вынести всё в фичу
 
 //FIXME: После добавления продукта пагинация не сразу аптейдится
 
-//FIXME: обработка ели действие фейлится
+//FIXME: обработка если действие фейлится
 
 //FIXME: если мы отредактировали продукт, потом открыли его снова - у нас атрибуты пустые
 const ProductsPage = () => {
@@ -80,8 +82,11 @@ const ProductsPage = () => {
 		setStep(step)
 	}
 
+	const error = useStore($error)
+
 	return (
 		<>
+			{error ? <DisplayError>{error}</DisplayError> : null}
 			{productsLoading ? <Pending /> : null}
 			{create.isOpen ? (
 				<CreateProduct
@@ -124,7 +129,12 @@ const ProductsPage = () => {
 				/>
 				<HStack>
 					{new Array(pageCount).fill("").map((el, i) => (
-						<Button key={v4()} colorScheme={currentStep === i+1 ? "red" : "facebook"} onClick={() => handlerStep(i + 1)}>{i + 1}</Button>
+						<Button
+							key={v4()}
+							colorScheme={currentStep === i + 1 ? "red" : "facebook"}
+							onClick={() => handlerStep(i + 1)}>
+							{i + 1}
+						</Button>
 					))}
 				</HStack>
 			</Box>

@@ -13,6 +13,7 @@ export const getProducts = productDomain.createEffect<
   GetProductsResponse
 >(api.getProducts)
 export const setStep = productDomain.createEvent<number>()
+export const clearError = productDomain.createEvent()
 
 export const $products = productDomain
 	.createStore<ProductResponseDTO[]>([])
@@ -31,10 +32,23 @@ export const $totalProducts = productDomain
 	.createStore(0)
 	.on(getProducts.doneData, (state, payload) => payload.totalItems)
 
-export const $step = productDomain.createStore(1).on(setStep, (state, payload) => payload)
+export const $step = productDomain
+	.createStore(1)
+	.on(setStep, (state, payload) => payload)
+
+export const $error = productDomain
+	.createStore<string | null>(null)
+	.on(createProduct.failData, () => "Не удалось создать продукт")
+	.on(clearError, () => null)
+
+$error.watch(() => {
+	setTimeout(() => {
+		clearError()
+	}, 3000)
+})
 
 sample({
 	clock: $step,
-	source: $step, 
-	target: getProducts
+	source: $step,
+	target: getProducts,
 })

@@ -10,9 +10,8 @@ const instance = axios.create({
 	baseURL: "http://shopyshopy-001-site1.atempurl.com/",
 })
 
-export const createProduct = async (product: CreateProductCommand) => {
-	return (await instance.post("AdminPanel/CreateProduct", product)).data
-}
+export const createProduct = async (product: CreateProductCommand) =>
+	(await instance.post("AdminPanel/CreateProduct", product)).data
 
 export const updateProduct = async (product: EditProductCommand) =>
 	(await instance.put<ProductResponse>("AdminPanel/EditProduct", product)).data
