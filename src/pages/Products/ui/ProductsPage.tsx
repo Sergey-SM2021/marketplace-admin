@@ -1,72 +1,19 @@
-import { useProducts } from "Entity/Products/hooks/useProducts"
-import {
-	createProduct,
-	removeProduct,
-	updateProduct,
-} from "Entity/Products/model/products"
+import { createProduct, updateProduct } from "Entity/Products/model/products"
 
-import {
-	Button,
-	Flex,
-	Table,
-	TableContainer,
-	Tbody,
-	Td,
-	Th,
-	Thead,
-	Tr,
-	HStack,
-	Box,
-	useDisclosure,
-	chakra,
-	Skeleton,
-	VStack,
-	Spinner,
-	Center,
-	Heading,
-} from "@chakra-ui/react"
+import { useProductsLoading } from "../hooks/Products"
+import { ProductsTable } from "./ProductsTable"
+
+import { Button, HStack, Box, useDisclosure } from "@chakra-ui/react"
 import { EditProductCommand, Product } from "Shared/types"
-import { useStore } from "effector-react"
 import { CreateProduct } from "features/createProduct"
 import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
-import { useState, type MouseEvent, useEffect } from "react"
+import { useState, useEffect, MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
-import { v4 } from "uuid"
-
-const TH = chakra(Th, {
-	baseStyle: {
-		background: "#96f",
-		color: "#fff",
-		_first: { borderRadius: "10px 0 0 10px" },
-		_last: { borderRadius: "0 10px 10px 0" },
-	},
-})
-
-const TD = chakra(Td, {
-	baseStyle: {
-		background: "#fff",
-		color: "#000",
-		_first: { borderRadius: "10px 0 0 10px" },
-		_last: { borderRadius: "0 10px 10px 0" },
-	},
-})
+import { Pending } from "Shared/ui/Pending/Pending"
 
 const ProductsPage = () => {
-	const [productIdToRemove, SetProductIdToRemove] = useState<number | null>(
-		null
-	)
-
 	const [editProduct, setEditProduct] = useState<Product>()
-
 	const nav = useNavigate()
-
-	const handlerBackClick = () => {
-		nav(-1)
-	}
-
-	const remove = useDisclosure()
-
-	const { products, isLoading } = useProducts()
 
 	const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
 		e.stopPropagation()
@@ -78,14 +25,25 @@ const ProductsPage = () => {
 		nav(`/product/${id}`)
 	}
 
-	const create = useDisclosure()
-
-	const edit = useDisclosure()
-
 	const handlerEdit = (e: MouseEvent, product: Product) => {
 		e.stopPropagation()
 		setEditProduct(product)
 	}
+
+	const productsLoading = useProductsLoading()
+	const [productIdToRemove, SetProductIdToRemove] = useState<number | null>(
+		null
+	)
+
+	const handlerBackClick = () => {
+		nav(-1)
+	}
+
+	const remove = useDisclosure()
+
+	const create = useDisclosure()
+
+	const edit = useDisclosure()
 
 	useEffect(() => {
 		if (editProduct) {
@@ -97,24 +55,9 @@ const ProductsPage = () => {
 		updateProduct({ ...product, productId: product.productId })
 	}
 
-	const actionLoading = useStore(removeProduct.pending) || useStore(createProduct.pending)
-
 	return (
 		<>
-			{actionLoading && (
-				<Center
-					h={"100vh"}
-					w={"full"}
-					sx={{ position: "absolute", background: "rgba(0,0,0,.1)" }}>
-					<Spinner
-						thickness="4px"
-						speed="0.65s"
-						emptyColor="gray.200"
-						color="blue.500"
-						size="xl"
-					/>
-				</Center>
-			)}
+			{productsLoading ? <Pending /> : null}
 			{create.isOpen ? (
 				<CreateProduct
 					action="создать"
@@ -147,65 +90,11 @@ const ProductsPage = () => {
 					<Button onClick={handlerBackClick}>Назад</Button>
 					<Button onClick={create.onOpen}>Создать продукт</Button>
 				</HStack>
-				{!isLoading ? (
-					products.length > 0 ? (
-						<TableContainer>
-							<Table
-								variant="simple"
-								style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
-								<Thead>
-									<Tr>
-										{["id", "name", "price"].map(el => (
-											<TH key={el}>{el}</TH>
-										))}
-										<TH colSpan={2}>
-											<Flex justify={"center"}>action</Flex>
-										</TH>
-									</Tr>
-								</Thead>
-								<Tbody>
-									{products.map(product => (
-										<Tr
-											key={product.id}
-											onClick={() => {
-												handlerProductClick(product.id as number)
-											}}>
-											{[product.id, product.name, product.price].map(el => (
-												<TD key={el}>{el}</TD>
-											))}
-											<TD>
-												<Button
-													onClick={e => {
-														handlerRemove(e, product.id as number)
-													}}>
-                          Delete
-												</Button>
-											</TD>
-											<TD>
-												<Button onClick={e => handlerEdit(e, product)}>
-                          Edit
-												</Button>
-											</TD>
-										</Tr>
-									))}
-								</Tbody>
-							</Table>
-						</TableContainer>
-					) : (
-						<Box mt={3}>
-							<Heading>Пока нет продуктов</Heading>
-						</Box>
-					)
-				) : (
-					<VStack gap={5} mt={3}>
-						<Skeleton w={"full"}>Header</Skeleton>
-						{new Array(10).fill("").map(el => (
-							<Skeleton key={v4()} w={"full"} h={39}>
-                Row
-							</Skeleton>
-						))}
-					</VStack>
-				)}
+				<ProductsTable
+					handlerEdit={handlerEdit}
+					handlerProductClick={handlerProductClick}
+					handlerRemove={handlerRemove}
+				/>
 			</Box>
 		</>
 	)
