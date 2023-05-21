@@ -4,6 +4,7 @@ import {
 	$step,
 	$totalProducts,
 	createProduct,
+	getProducts,
 	setStep,
 	updateProduct,
 } from "Entity/Products/model/products"
@@ -80,6 +81,10 @@ const ProductsPage = () => {
 	const handlerStep = (step: number) => {
 		setStep(step)
 	}
+
+	useEffect(() => {
+		getProducts({ pageIndex: currentStep })
+	}, [currentStep])
 
 	const error = useStore($error)
 

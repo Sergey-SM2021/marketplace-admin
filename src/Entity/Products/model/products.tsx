@@ -1,7 +1,7 @@
 import * as api from "../api/Products"
 
 import { type GetProductsResponse, type ProductResponseDTO } from "Shared/types"
-import { createDomain, sample } from "effector"
+import { attach, createDomain } from "effector"
 
 const productDomain = createDomain()
 
@@ -14,6 +14,7 @@ export const getProducts = productDomain.createEffect<
 >(api.getProducts)
 export const setStep = productDomain.createEvent<number>()
 export const clearError = productDomain.createEvent()
+export const setFilters = productDomain.createEvent<number>()
 
 export const $products = productDomain
 	.createStore<ProductResponseDTO[]>([])
@@ -44,19 +45,26 @@ export const $error = productDomain
 	.on(getProducts.failData, () => "Не удалось получить продукты продукт")
 	.on(clearError, () => null)
 
+export const $filters = productDomain
+	.createStore<number[]>([])
+	.on(setFilters, (state, payload) =>
+		state.includes(payload)
+			? state.filter(el => el !== payload)
+			: [...state, payload]
+	)
+
 $error.watch(() => {
 	setTimeout(() => {
 		clearError()
 	}, 3000)
 })
 
-sample({
-	clock: $step,
-	source: $step,
-	fn(src, clk) {
-		return {
-			pageIndex: src,
-		}
-	},
-	target: getProducts,
-})
+// $step.watch(step => getProducts({ pageIndex: step }))
+
+// export const getProductsWithProps = attach({
+// 	source: [$step, $filters],
+// 	mapParams(params, states) {
+// 		return {categoryIds:, pageIndex:}
+// 	},
+// 	effect: getProducts,
+// })

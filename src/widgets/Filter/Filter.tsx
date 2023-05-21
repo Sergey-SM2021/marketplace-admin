@@ -17,14 +17,19 @@ import {
 } from "@chakra-ui/react"
 import { useStore } from "effector-react"
 import { useEffect } from "react"
+import { setFilters } from "Entity/Products/model/products"
 
 export const Filter = () => {
 	const categoriesTree = useStore($categoriesTree)
-	
+
 	useEffect(() => {
 		getCategoriesTree()
 	}, [])
-	
+
+	const handlerChangeCategory = (categoryId:number) => {
+		setFilters(categoryId)
+	}
+
 	return (
 		<Card p={3} width={"300px"}>
 			<Text>Price</Text>
@@ -45,9 +50,7 @@ export const Filter = () => {
 			</Flex>
 			{categoriesTree.map(el => (
 				<RenderCategoryDemo
-					onChange={id => {
-						alert(id)
-					}}
+					onChange={handlerChangeCategory}
 					key={el.id}
 					category={el}
 				/>
