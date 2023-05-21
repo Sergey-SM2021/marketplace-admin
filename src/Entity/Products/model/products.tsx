@@ -53,5 +53,10 @@ $error.watch(() => {
 sample({
 	clock: $step,
 	source: $step,
+	fn(src, clk) {
+		return {
+			pageIndex: src,
+		}
+	},
 	target: getProducts,
 })
