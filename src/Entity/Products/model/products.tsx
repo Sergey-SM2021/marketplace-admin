@@ -1,7 +1,7 @@
 import * as api from "../api/Products"
 
 import { type GetProductsResponse, type ProductResponseDTO } from "Shared/types"
-import { attach, createDomain } from "effector"
+import { createDomain } from "effector"
 
 const productDomain = createDomain()
 
@@ -15,6 +15,9 @@ export const getProducts = productDomain.createEffect<
 export const setStep = productDomain.createEvent<number>()
 export const clearError = productDomain.createEvent()
 export const setFilters = productDomain.createEvent<number>()
+export const setPriceFilter = productDomain.createEvent<[number, number]>()
+export const setFromPriceFilter = productDomain.createEvent<number>()
+export const setToPriceFilter = productDomain.createEvent<number>()
 
 export const $products = productDomain
 	.createStore<ProductResponseDTO[]>([])
@@ -53,18 +56,18 @@ export const $filters = productDomain
 			: [...state, payload]
 	)
 
+export const $fromPrice = productDomain
+	.createStore(0)
+	.on(setPriceFilter, (state, payload) => payload[0])
+	.on(setFromPriceFilter, (state, payload) => payload)
+
+export const $toPrice = productDomain
+	.createStore(100000)
+	.on(setPriceFilter, (state, payload) => payload[1])
+	.on(setToPriceFilter, (state, payload) => payload)
+
 $error.watch(() => {
 	setTimeout(() => {
 		clearError()
 	}, 3000)
 })
-
-// $step.watch(step => getProducts({ pageIndex: step }))
-
-// export const getProductsWithProps = attach({
-// 	source: [$step, $filters],
-// 	mapParams(params, states) {
-// 		return {categoryIds:, pageIndex:}
-// 	},
-// 	effect: getProducts,
-// })

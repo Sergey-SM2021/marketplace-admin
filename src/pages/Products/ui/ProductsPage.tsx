@@ -1,6 +1,7 @@
 import { useProducts } from "Entity/Products/hooks/useProducts"
 import {
 	$error,
+	$filters,
 	$step,
 	$totalProducts,
 	createProduct,
@@ -32,6 +33,7 @@ import { Filter } from "widgets/Filter/Filter"
 const ProductsPage = () => {
 	const [editProduct, setEditProduct] = useState<Product>()
 	const currentStep = useStore($step)
+	const filters = useStore($filters)
 	const nav = useNavigate()
 
 	const handlerRemove = (e: MouseEvent<HTMLButtonElement>, id: number) => {
@@ -83,8 +85,8 @@ const ProductsPage = () => {
 	}
 
 	useEffect(() => {
-		getProducts({ pageIndex: currentStep })
-	}, [currentStep])
+		getProducts({ pageIndex: currentStep, categoryIds: filters })
+	}, [currentStep, filters])
 
 	const error = useStore($error)
 
