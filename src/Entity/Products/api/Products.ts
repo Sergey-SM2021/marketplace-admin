@@ -37,11 +37,11 @@ export const getProducts = async ({categoryIds = [], pageIndex = 1}:IGetProducts
 				},
 				rating: {
 					from: 0,
-					to: 0,
+					to: 10000000,
 				},
 				count: {
 					from: 0,
-					to: 0,
+					to: 10000000,
 				},
 				categoryIds
 			}

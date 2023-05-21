@@ -44,11 +44,11 @@ export const Filter = () => {
 		setPriceFilter(price)
 	}
 
-	const handlerSetFromValue = (e:FormEvent<HTMLInputElement>) => {
+	const handlerSetFromValue = (e: FormEvent<HTMLInputElement>) => {
 		setFromPriceFilter(e.currentTarget.value)
 	}
 
-	const handlerSetToValue = (e:FormEvent<HTMLInputElement>) => {
+	const handlerSetToValue = (e: FormEvent<HTMLInputElement>) => {
 		setToPriceFilter(e.currentTarget.value)
 	}
 
@@ -73,19 +73,28 @@ export const Filter = () => {
 						</RangeSliderThumb>
 					</RangeSlider>
 					<Flex justify={"space-between"}>
-						<Input width={"100px"} value={fromPrice} onChange={handlerSetFromValue}/>
-						<Input width={"100px"} value={toPrice} onChange={handlerSetToValue}/>
+						<Input
+							width={"100px"}
+							value={fromPrice}
+							onChange={handlerSetFromValue}
+						/>
+						<Input
+							width={"100px"}
+							value={toPrice}
+							onChange={handlerSetToValue}
+						/>
 					</Flex>
 				</Box>
-				<Box>
+				<Flex flexDirection={"column"} gap={5}>
 					{categoriesTree.map(el => (
-						<RenderCategoryDemo
-							onChange={handlerChangeCategory}
-							key={el.id}
-							category={el}
-						/>
+						<Box key={el.id} bg={"purple.200"} py={3} borderRadius={3}>
+							<RenderCategoryDemo
+								onChange={handlerChangeCategory}
+								category={el}
+							/>
+						</Box>
 					))}
-				</Box>
+				</Flex>
 			</Flex>
 		</Card>
 	)
