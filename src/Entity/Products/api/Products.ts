@@ -21,7 +21,12 @@ export const removeProduct = async (id: number) => {
 	return (await instance.delete(`AdminPanel/DeleteProduct/${id}`)).data
 }
 
-export const getProducts = async (pageIndex = 1) => {
+export interface IGetProducts {
+	pageIndex?: number, 
+	categoryIds?: number[]
+}
+
+export const getProducts = async ({categoryIds = [], pageIndex = 1}:IGetProducts) => {
 	return (
 		await instance.post<GetProductsResponse>(
 			`Shop/GetProducts?pageSize=5&pageIndex=${pageIndex}`,
@@ -38,7 +43,7 @@ export const getProducts = async (pageIndex = 1) => {
 					from: 0,
 					to: 0,
 				},
-				categoryIds: [],
+				categoryIds
 			}
 		)
 	).data

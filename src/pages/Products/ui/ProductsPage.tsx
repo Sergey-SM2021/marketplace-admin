@@ -11,8 +11,9 @@ import {
 import { useProductsLoading } from "../hooks/Products"
 import { ProductsTable } from "./ProductsTable"
 
-import { Button, HStack, Box, useDisclosure } from "@chakra-ui/react"
+import { Button, HStack, Box, useDisclosure, Flex } from "@chakra-ui/react"
 import { EditProductCommand, Product } from "Shared/types"
+import { DisplayError } from "Shared/ui/DisplayError"
 import { Pending } from "Shared/ui/Pending/Pending"
 import { useStore } from "effector-react"
 import { CreateProduct } from "features/createProduct"
@@ -20,7 +21,7 @@ import { RemoveProduct } from "features/removeProduct/ui/RemoveProduct"
 import { useState, useEffect, MouseEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { v4 } from "uuid"
-import { DisplayError } from "Shared/ui/DisplayError"
+import { Filter } from "widgets/Filter/Filter"
 
 //FIXME: RemoveProduct вполне можно обойтись и без пропсов - вынести всё в фичу
 
@@ -113,28 +114,33 @@ const ProductsPage = () => {
 				productId={productIdToRemove as number}
 				onClose={remove.onClose}
 			/>
-			<Box p={3}>
-				<HStack>
-					<Button onClick={handlerBackClick}>Назад</Button>
-					<Button onClick={create.onOpen}>Создать продукт</Button>
-				</HStack>
-				<ProductsTable
-					products={products}
-					isLoading={isLoading}
-					handlerEdit={handlerEdit}
-					handlerProductClick={handlerProductClick}
-					handlerRemove={handlerRemove}
-				/>
-				<HStack>
-					{new Array(pageCount).fill("").map((el, i) => (
-						<Button
-							key={v4()}
-							colorScheme={currentStep === i + 1 ? "red" : "facebook"}
-							onClick={() => handlerStep(i + 1)}>
-							{i + 1}
-						</Button>
-					))}
-				</HStack>
+			<Box p={3} h={"100%"}>
+				<Flex gap={3} h={"100%"}>
+					<Filter />
+					<Box flexGrow={1}>
+						<HStack>
+							<Button onClick={handlerBackClick}>Назад</Button>
+							<Button onClick={create.onOpen}>Создать продукт</Button>
+						</HStack>
+						<ProductsTable
+							products={products}
+							isLoading={isLoading}
+							handlerEdit={handlerEdit}
+							handlerProductClick={handlerProductClick}
+							handlerRemove={handlerRemove}
+						/>
+						<HStack>
+							{new Array(pageCount).fill("").map((el, i) => (
+								<Button
+									key={v4()}
+									colorScheme={currentStep === i + 1 ? "red" : "facebook"}
+									onClick={() => handlerStep(i + 1)}>
+									{i + 1}
+								</Button>
+							))}
+						</HStack>
+					</Box>
+				</Flex>
 			</Box>
 		</>
 	)

@@ -5,7 +5,6 @@ import {
 import {
 	Flex,
 	Td,
-	chakra,
 	Button,
 	Tag,
 	TagLabel,
@@ -15,6 +14,7 @@ import {
 } from "@chakra-ui/react"
 import { ReactComponent as Collapse } from "Shared/assets/collapse.svg"
 import { type Category } from "Shared/types"
+import { TD } from "Shared/ui/TD"
 import { type SyntheticEvent, useState, memo } from "react"
 import { v4 } from "uuid"
 
@@ -24,15 +24,6 @@ interface IRenderCategory {
   onEdit: (category: Category) => void
   deep: number
 }
-
-const TD = chakra(Td, {
-	baseStyle: {
-		background: "#fff",
-		color: "#000",
-		_first: { borderRadius: "10px 0 0 10px" },
-		_last: { borderRadius: "0 10px 10px 0" },
-	},
-})
 
 export const RenderCategory = memo((props: IRenderCategory) => {
 	const { category, onEdit, deep, onRemove } = props

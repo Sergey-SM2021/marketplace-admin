@@ -8,7 +8,7 @@ export const useProducts = () => {
 	const isLoading = useStore(getProducts.pending)
 
 	useEffect(() => {
-		getProducts()
+		getProducts({})
 	}, [])
 
 	return { products, isLoading }

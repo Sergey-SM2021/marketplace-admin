@@ -9,7 +9,7 @@ export const createProduct = productDomain.createEffect(api.createProduct)
 export const removeProduct = productDomain.createEffect(api.removeProduct)
 export const updateProduct = productDomain.createEffect(api.updateProduct)
 export const getProducts = productDomain.createEffect<
-  number,
+  api.IGetProducts,
   GetProductsResponse
 >(api.getProducts)
 export const setStep = productDomain.createEvent<number>()
