@@ -2,8 +2,10 @@ import * as api from "../api"
 import { removeNestedCat } from "../utils"
 import { addNestedCat } from "../utils/addNestedCat/addNestedCat"
 import { halper } from "../utils/addParamsRecursive/addParamsRecursive"
+import { updateCategoryHandler } from "../utils/updateCategoryHandler/updateCategoryHandler"
 import { ISetParamToCategory } from "./types/types"
 
+import "@total-typescript/ts-reset"
 import {
 	type CategoryResponse,
 	type Category,
@@ -74,23 +76,8 @@ export const $categoriesTree = categoriesDomain
 		return result
 	})
 
-	.on(updateCategory.done, (state, { params, result }) => {
-		// function rec(cat: Category) {
-		// 	if (cat.childCategories?.length) {
-		// 		cat.childCategories.forEach(element => {
-		// 			rec(element)
-		// 		})
-		// 	}
-		// 	return cat.id === result.category?.id
-		// 		? {
-		// 			...result.category,
-		// 			isOpen: false,
-		// 			childCategories: result.category?.childCategories,
-		// 		}
-		// 		: cat
-		// }
-		// const res = state.map(el => rec(el))
-		// return res
+	.on(updateCategory.doneData, (state, payload) => {
+		return state.map(el => updateCategoryHandler(el, payload.category))
 	})
 
 export const $paramToAddInToCategory = categoriesDomain

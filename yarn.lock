@@ -1719,6 +1719,11 @@
   "resolved" "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz"
   "version" "2.0.0"
 
+"@total-typescript/ts-reset@^0.4.2":
+  "integrity" "sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A=="
+  "resolved" "https://registry.npmjs.org/@total-typescript/ts-reset/-/ts-reset-0.4.2.tgz"
+  "version" "0.4.2"
+
 "@trivago/prettier-plugin-sort-imports@^4.0.0":
   "integrity" "sha512-Tyuk5ZY4a0e2MNFLdluQO9F6d1awFQYXVVujEPFfvKPPXz8DADNHzz73NMhwCSXGSuGGZcA/rKOyZBrxVNMxaA=="
   "resolved" "https://registry.npmjs.org/@trivago/prettier-plugin-sort-imports/-/prettier-plugin-sort-imports-4.0.0.tgz"
