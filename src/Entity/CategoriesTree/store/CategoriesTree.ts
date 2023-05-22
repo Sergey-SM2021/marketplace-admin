@@ -2,6 +2,7 @@ import * as api from "../api"
 import { removeNestedCat } from "../utils"
 import { addNestedCat } from "../utils/addNestedCat/addNestedCat"
 import { halper } from "../utils/addParamsRecursive/addParamsRecursive"
+import { ISetParamToCategory } from "./types/types"
 
 import {
 	type CategoryResponse,
@@ -32,11 +33,6 @@ export const updateCategory = categoriesDomain.createEffect<
   EditCategoryCommand,
   CategoryResponse
 >(api.editCategory)
-
-interface ISetParamToCategory {
-  src: Feature | null
-  clk: Category
-}
 
 export const SetParamToCategory = categoriesDomain.createEffect<
   ISetParamToCategory,
@@ -79,23 +75,22 @@ export const $categoriesTree = categoriesDomain
 	})
 
 	.on(updateCategory.done, (state, { params, result }) => {
-		function rec(cat: Category) {
-			if (cat.childCategories?.length) {
-				cat.childCategories.forEach(element => {
-					rec(element)
-				})
-			}
-			return cat.id === result.category?.id
-				? {
-					...result.category,
-					isOpen: false,
-					childCategories: result.category?.childCategories,
-				}
-				: cat
-		}
-
-		const res = state.map(el => rec(el))
-		return res
+		// function rec(cat: Category) {
+		// 	if (cat.childCategories?.length) {
+		// 		cat.childCategories.forEach(element => {
+		// 			rec(element)
+		// 		})
+		// 	}
+		// 	return cat.id === result.category?.id
+		// 		? {
+		// 			...result.category,
+		// 			isOpen: false,
+		// 			childCategories: result.category?.childCategories,
+		// 		}
+		// 		: cat
+		// }
+		// const res = state.map(el => rec(el))
+		// return res
 	})
 
 export const $paramToAddInToCategory = categoriesDomain

@@ -32,8 +32,11 @@ import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
 import { v4 } from "uuid"
 import { TH } from "Shared/ui/TD"
+import { useCategoriesPageLoading } from "../hooks/categories"
+import { Pending } from "Shared/ui/Pending/Pending"
 
 const CategoriesPage: FC = () => {
+	const isPending = useCategoriesPageLoading()
 	const create = useDisclosure()
 	const remove = useDisclosure()
 
@@ -73,7 +76,8 @@ const CategoriesPage: FC = () => {
 		create.onClose()
 	}
 
-	return (
+	return (<>
+		{isPending ? <Pending /> : null}
 		<Flex flexDirection={"column"} flex={"1 1 auto"} p={3}>
 			<RemoveCategory
 				categoryId={RemoveCategoryId as number}
@@ -137,7 +141,7 @@ const CategoriesPage: FC = () => {
 				<ParamsManager />
 			</Flex>
 		</Flex>
-	)
+	</>)
 }
 
 export default CategoriesPage
