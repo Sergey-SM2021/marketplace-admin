@@ -121,7 +121,7 @@ const ProductsPage = () => {
 				productId={productIdToRemove as number}
 				onClose={remove.onClose}
 			/>
-			<Box p={3} h={"100%"}>
+			<Box p={3} flexGrow={1}>
 				<Flex gap={3} h={"100%"}>
 					<Filter />
 					<Box flexGrow={1}>

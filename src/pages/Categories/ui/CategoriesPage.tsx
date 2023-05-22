@@ -20,11 +20,9 @@ import {
 	Table,
 	TableContainer,
 	Tbody,
-	Th,
 	Thead,
 	Tr,
 	VStack,
-	chakra,
 	useDisclosure,
 } from "@chakra-ui/react"
 import { type Category } from "Shared/types"
@@ -33,15 +31,7 @@ import { useStore } from "effector-react"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
 import { v4 } from "uuid"
-
-const TH = chakra(Th, {
-	baseStyle: {
-		background: "#96f",
-		color: "#fff",
-		_first: { borderRadius: "10px 0 0 10px" },
-		_last: { borderRadius: "0 10px 10px 0" },
-	},
-})
+import { TH } from "Shared/ui/TD"
 
 const CategoriesPage: FC = () => {
 	const create = useDisclosure()

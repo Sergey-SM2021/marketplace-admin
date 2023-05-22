@@ -13,7 +13,7 @@ export const routes = createBrowserRouter([
 	{
 		path: "/",
 		element: (
-			<Flex flexDirection={"column"} h={"100vh"} bg={"gray.300"} w={"full"}>
+			<Flex flexDirection={"column"} minH={"100vh"} h={"full"} bg={"gray.300"} w={"full"}>
 				<SubHeader />
 				<Header></Header>
 				<Outlet />
