@@ -77,7 +77,7 @@ export const $categoriesTree = categoriesDomain
 	})
 
 	.on(updateCategory.doneData, (state, payload) => {
-		return state.map(el => updateCategoryHandler(el, payload.category))
+		return state.map(el => updateCategoryHandler(el, payload.category)).filter(Boolean)
 	})
 
 export const $paramToAddInToCategory = categoriesDomain
