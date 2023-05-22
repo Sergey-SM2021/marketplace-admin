@@ -7,7 +7,7 @@ export const NotFound = () => {
 		nav(-1)
 	}
 	return (
-		<Center w={"100%"} h={"100%"} bg={"whatsapp.100"}>
+		<Center w={"100%"} h={"100%"} flexGrow={1} bg={"whatsapp.100"}>
 			<VStack>
 				<Heading>page not found</Heading>
 				<Button onClick={onBack}>Back</Button>
