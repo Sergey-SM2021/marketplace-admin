@@ -1,4 +1,3 @@
-// #FIXME: update дерева не происходит при изменении категории
 // #FIXME: Дерево сворачивается при добовлении параметра
 // #FIXME: после создания категории она не сразу попадает в лист категорий доступных быть родителем новой категории.
 // #FIXME: ТЕ я создал категорию один, создаю новую категорию но категории один нет среди доступных родителей
@@ -11,6 +10,8 @@ import {
 } from "Entity/CategoriesTree/store/CategoriesTree"
 import { RenderCategory } from "Entity/CategoriesTree/ui/RenderCategory"
 import { ParamsManager } from "Entity/Params/ui/ParamsManager/ParamsManager"
+
+import { useCategoriesPageLoading } from "../hooks/categories"
 
 import {
 	Box,
@@ -27,13 +28,13 @@ import {
 } from "@chakra-ui/react"
 import { type Category } from "Shared/types"
 import { CategoryTamplate, IForm } from "Shared/ui/CategoryTamplate/index"
+import { Pending } from "Shared/ui/Pending/Pending"
+import { TH } from "Shared/ui/TD"
 import { useStore } from "effector-react"
 import { RemoveCategory } from "features/removeCategory/ui/removeCategory"
 import { useState, type FC } from "react"
+import { useTranslation } from "react-i18next"
 import { v4 } from "uuid"
-import { TH } from "Shared/ui/TD"
-import { useCategoriesPageLoading } from "../hooks/categories"
-import { Pending } from "Shared/ui/Pending/Pending"
 
 const CategoriesPage: FC = () => {
 	const isPending = useCategoriesPageLoading()
@@ -76,72 +77,76 @@ const CategoriesPage: FC = () => {
 		create.onClose()
 	}
 
-	return (<>
-		{isPending ? <Pending /> : null}
-		<Flex flexDirection={"column"} flex={"1 1 auto"} p={3}>
-			<RemoveCategory
-				categoryId={RemoveCategoryId as number}
-				isOpen={remove.isOpen}
-				onClose={remove.onClose}
-			/>
-			{create.isOpen ? (
-				<CategoryTamplate
-					categories={categories}
-					submitHandler={handlerCreateCategory}
-					actionName={category ? "Изменить" : "Создать"}
-					isOpen={create.isOpen}
-					onClose={handlerCloseModal}
-					category={category}
+	const { t, i18n } = useTranslation()
+
+	return (
+		<>
+			{isPending ? <Pending /> : null}
+			<Flex flexDirection={"column"} flex={"1 1 auto"} p={3}>
+				<RemoveCategory
+					categoryId={RemoveCategoryId as number}
+					isOpen={remove.isOpen}
+					onClose={remove.onClose}
 				/>
-			) : null}
-			<Box>
-				<Button colorScheme="facebook" onClick={create.onOpen}>
-          Создать категорию
-				</Button>
-			</Box>
-			<Flex gap={3} flexGrow={"1"}>
-				{!isLoading ? (
-					<TableContainer flexGrow={1}>
-						<Table
-							variant="unstyled"
-							style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
-							<Thead>
-								<Tr borderRadius={3}>
-									{["", "id", "наименование", "парметры"].map(el => (
-										<TH key={el}>{el}</TH>
+				{create.isOpen ? (
+					<CategoryTamplate
+						categories={categories}
+						submitHandler={handlerCreateCategory}
+						actionName={category ? "Изменить" : "Создать"}
+						isOpen={create.isOpen}
+						onClose={handlerCloseModal}
+						category={category}
+					/>
+				) : null}
+				<Box>
+					<Button colorScheme="facebook" onClick={create.onOpen}>
+						{t("создатьКатегорию")}
+					</Button>
+				</Box>
+				<Flex gap={3} flexGrow={"1"}>
+					{!isLoading ? (
+						<TableContainer flexGrow={1}>
+							<Table
+								variant="unstyled"
+								style={{ borderCollapse: "separate", borderSpacing: "0 1em" }}>
+								<Thead>
+									<Tr borderRadius={3}>
+										{["", "id", "наименование", "парметры"].map(el => (
+											<TH key={el}>{el}</TH>
+										))}
+										<TH colSpan={2}>
+											<Flex justify={"center"}>action</Flex>
+										</TH>
+									</Tr>
+								</Thead>
+								<Tbody>
+									{categoriesTree.map(category => (
+										<RenderCategory
+											category={category}
+											onEdit={handlerEditCategory}
+											onRemove={handlerRemoveCategory}
+											deep={0}
+											key={category.id}
+										/>
 									))}
-									<TH colSpan={2}>
-										<Flex justify={"center"}>action</Flex>
-									</TH>
-								</Tr>
-							</Thead>
-							<Tbody>
-								{categoriesTree.map(category => (
-									<RenderCategory
-										category={category}
-										onEdit={handlerEditCategory}
-										onRemove={handlerRemoveCategory}
-										deep={0}
-										key={category.id}
-									/>
-								))}
-							</Tbody>
-						</Table>
-					</TableContainer>
-				) : (
-					<VStack gap={5} mt={3} flexGrow={1}>
-						<Skeleton w={"full"}>Header</Skeleton>
-						{new Array(10).fill("").map(el => (
-							<Skeleton key={v4()} w={"full"} h={39}>
-                Row
-							</Skeleton>
-						))}
-					</VStack>
-				)}
-				<ParamsManager />
+								</Tbody>
+							</Table>
+						</TableContainer>
+					) : (
+						<VStack gap={5} mt={3} flexGrow={1}>
+							<Skeleton w={"full"}>Header</Skeleton>
+							{new Array(10).fill("").map(el => (
+								<Skeleton key={v4()} w={"full"} h={39}>
+                  Row
+								</Skeleton>
+							))}
+						</VStack>
+					)}
+					<ParamsManager />
+				</Flex>
 			</Flex>
-		</Flex>
-	</>)
+		</>
+	)
 }
 
 export default CategoriesPage
